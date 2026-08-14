@@ -1,5 +1,4 @@
 export * from './evaluate'
-export * from './evaluation-explorer'
 export * from './constraints'
 export * from './frame'
 export * from './frame-rule-conflicts'

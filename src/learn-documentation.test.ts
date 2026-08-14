@@ -5,14 +5,16 @@ import learnDocumentation from '../docs/LEARN_COURSE.md?raw'
 
 describe('Learn documentation', () => {
   it('keeps the documented chapter order and totals aligned with course data', () => {
-    const documentedCourse = learnDocumentation.replace(/\s+/gu, ' ')
+    const documentation = `${readme}\n${learnDocumentation}`
+    const documentedCourse = readme.slice(readme.indexOf(`the complete ${learnCourseStats.chapterCount}-chapter`), readme.indexOf('overview and progress totals')).replace(/\s+/gu, ' ')
     let previousIndex = -1
     for (const chapter of learnCourse.chapters) {
       const index = documentedCourse.indexOf(`**${chapter.title}**`, previousIndex + 1)
       expect(index, `${chapter.title} is documented`).toBeGreaterThan(previousIndex)
       previousIndex = index
     }
-    expect(documentedCourse).toContain(`${learnCourseStats.chapterCount} chapters containing ${learnCourseStats.lessonCount} lessons`)
+    expect(documentation).toContain(`${learnCourseStats.chapterCount}-chapter`)
+    expect(documentation).toContain(`${learnCourseStats.lessonCount}-lesson`)
   })
 
   it('does not describe an available chapter as coming later', () => {
