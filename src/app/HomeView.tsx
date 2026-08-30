@@ -25,19 +25,21 @@ export function HomeView({ completed, total, nextTitle, currentSession, onResume
       </div>
     </header>
 
-    {currentSession && onResume && <button
-      type="button"
-      className="home-resume-strip"
-      aria-label={`Resume ${currentSession.kind}: ${currentSession.title}`}
-      onClick={onResume}
-    >
-      <span className="home-resume-kicker">Continue</span>
-      <span className="home-resume-session">
-        <strong>{currentSession.title}</strong>
-        {currentSession.context && <small>{currentSession.context}</small>}
-      </span>
-      <span className="home-resume-action">Resume →</span>
-    </button>}
+    {currentSession && onResume && <aside className="home-resume-region" aria-label="Continue current session">
+      <button
+        type="button"
+        className="home-resume-strip"
+        aria-label={`Resume ${currentSession.kind}: ${currentSession.title}`}
+        onClick={onResume}
+      >
+        <span className="home-resume-kicker">Continue</span>
+        <span className="home-resume-session">
+          <strong>{currentSession.title}</strong>
+          {currentSession.context && <small>{currentSession.context}</small>}
+        </span>
+        <span className="home-resume-action">Resume →</span>
+      </button>
+    </aside>}
 
     <nav className="home-actions home-primary-actions" aria-label="Main activities">
       <article className="home-destination home-destination--learn">
