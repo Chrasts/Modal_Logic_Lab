@@ -20,7 +20,7 @@ export function HomeView({ completed, total, nextTitle, currentSession, onResume
     <header className="home-hero">
       <div>
         <p className="eyebrow">Interactive Kripke semantics</p>
-        <h1 id="home-title">Modal Logic Lab</h1>
+        <h1 id="home-title" aria-label="Modal Logic Lab - Interactive Kripke Models">Modal Logic Lab</h1>
         <p>Learn modal logic, solve structured challenges, or build and test Kripke models freely.</p>
       </div>
     </header>
