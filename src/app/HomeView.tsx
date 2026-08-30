@@ -18,11 +18,8 @@ export function HomeView({ completed, total, nextTitle, currentSession, onResume
 }) {
   return <section className="content-screen home-screen home-screen--redesigned" aria-labelledby="home-title">
     <header className="home-hero">
-      <div>
-        <p className="eyebrow">Interactive Kripke semantics</p>
-        <h1 id="home-title" aria-label="Modal Logic Lab - Interactive Kripke Models">Modal Logic Lab</h1>
-        <p>Learn modal logic, solve structured challenges, or build and test Kripke models freely.</p>
-      </div>
+      <h1 id="home-title" aria-label="Modal Logic Lab - Interactive Kripke Models">Modal Logic Lab</h1>
+      <p>Learn modal logic, take on focused missions, or explore Kripke semantics freely.</p>
     </header>
 
     {currentSession && onResume && <aside className="home-resume-region" aria-label="Continue current session">
@@ -43,16 +40,12 @@ export function HomeView({ completed, total, nextTitle, currentSession, onResume
 
     <nav className="home-actions home-primary-actions" aria-label="Main activities">
       <article className="home-destination home-destination--learn">
-        <span className="home-destination-topline">
-          <span className="home-destination-kicker">Guided course</span>
-          <span className="home-destination-arrow" aria-hidden="true">→</span>
+        <span className="home-destination-heading-row">
+          <span className="home-destination-title">Learn</span>
+          <span className="home-destination-arrow" aria-hidden="true">↗</span>
         </span>
-        <span className="home-destination-title">Learn</span>
-        <span className="home-destination-copy" id="home-learn-description">
-          <span className="home-destination-summary">Modal logic step by step.</span>
-          <span className="home-destination-detail">Move from possible worlds and accessibility to modal operators, countermodels, and frame properties.</span>
-        </span>
-        <span className="home-learn-progress">
+        <span className="home-destination-summary" id="home-learn-description">Modal logic step by step.</span>
+        <span className="home-learn-progress" aria-label={`${completed}/${total} complete. ${completed === total ? 'Course complete' : `Next: ${nextTitle ?? 'Learn overview'}`}`}>
           <strong>{completed}/{total} complete</strong>
           <span>{completed === total ? 'Course complete' : `Next: ${nextTitle ?? 'Learn overview'}`}</span>
         </span>
@@ -65,16 +58,12 @@ export function HomeView({ completed, total, nextTitle, currentSession, onResume
         >LEARN</button>
       </article>
 
-      <article className="home-destination">
-        <span className="home-destination-topline">
-          <span className="home-destination-kicker">Challenges</span>
-          <span className="home-destination-arrow" aria-hidden="true">→</span>
+      <article className="home-destination home-destination--campaigns">
+        <span className="home-destination-heading-row">
+          <span className="home-destination-title">Campaigns</span>
+          <span className="home-destination-arrow" aria-hidden="true">↗</span>
         </span>
-        <span className="home-destination-title">Campaigns</span>
-        <span className="home-destination-copy" id="home-campaigns-description">
-          <span className="home-destination-summary">Structured mission sequences.</span>
-          <span className="home-destination-detail">Apply modal semantics across longer challenges that combine several skills.</span>
-        </span>
+        <span className="home-destination-summary" id="home-campaigns-description">Advanced, specialized missions.</span>
         <button
           type="button"
           className="home-destination-hitbox"
@@ -84,16 +73,12 @@ export function HomeView({ completed, total, nextTitle, currentSession, onResume
         >Open Campaigns</button>
       </article>
 
-      <article className="home-destination">
-        <span className="home-destination-topline">
-          <span className="home-destination-kicker">Free exploration</span>
-          <span className="home-destination-arrow" aria-hidden="true">→</span>
+      <article className="home-destination home-destination--lab">
+        <span className="home-destination-heading-row">
+          <span className="home-destination-title">Lab</span>
+          <span className="home-destination-arrow" aria-hidden="true">↗</span>
         </span>
-        <span className="home-destination-title">Lab</span>
-        <span className="home-destination-copy" id="home-lab-description">
-          <span className="home-destination-summary">Experiment without a fixed objective.</span>
-          <span className="home-destination-detail">Build models, test formulas, compare truth conditions, and inspect frame properties.</span>
-        </span>
+        <span className="home-destination-summary" id="home-lab-description">Full sandbox with all modeling and analysis tools.</span>
         <button
           type="button"
           className="home-destination-hitbox"
