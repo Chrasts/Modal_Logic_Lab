@@ -40,18 +40,13 @@ export function HomeView({ completed, total, nextTitle, currentSession, onResume
     </button>}
 
     <nav className="home-actions home-primary-actions" aria-label="Main activities">
-      <button
-        type="button"
-        className="home-destination home-destination--learn"
-        aria-label="Start or continue Learn Modal Logic"
-        onClick={onLearn}
-      >
+      <article className="home-destination home-destination--learn">
         <span className="home-destination-topline">
           <span className="home-destination-kicker">Guided course</span>
           <span className="home-destination-arrow" aria-hidden="true">→</span>
         </span>
         <span className="home-destination-title">Learn</span>
-        <span className="home-destination-copy">
+        <span className="home-destination-copy" id="home-learn-description">
           <span className="home-destination-summary">Modal logic step by step.</span>
           <span className="home-destination-detail">Move from possible worlds and accessibility to modal operators, countermodels, and frame properties.</span>
         </span>
@@ -59,41 +54,52 @@ export function HomeView({ completed, total, nextTitle, currentSession, onResume
           <strong>{completed}/{total} complete</strong>
           <span>{completed === total ? 'Course complete' : `Next: ${nextTitle ?? 'Learn overview'}`}</span>
         </span>
-      </button>
+        <button
+          type="button"
+          className="home-destination-hitbox"
+          aria-label="Start or continue Learn Modal Logic"
+          aria-describedby="home-learn-description"
+          onClick={onLearn}
+        >LEARN</button>
+      </article>
 
-      <button
-        type="button"
-        className="home-destination"
-        aria-label="Campaigns: longer challenges and focused practice"
-        onClick={onCampaigns}
-      >
+      <article className="home-destination">
         <span className="home-destination-topline">
           <span className="home-destination-kicker">Challenges</span>
           <span className="home-destination-arrow" aria-hidden="true">→</span>
         </span>
         <span className="home-destination-title">Campaigns</span>
-        <span className="home-destination-copy">
+        <span className="home-destination-copy" id="home-campaigns-description">
           <span className="home-destination-summary">Structured mission sequences.</span>
           <span className="home-destination-detail">Apply modal semantics across longer challenges that combine several skills.</span>
         </span>
-      </button>
+        <button
+          type="button"
+          className="home-destination-hitbox"
+          aria-label="Campaigns: longer challenges and focused practice"
+          aria-describedby="home-campaigns-description"
+          onClick={onCampaigns}
+        >Open Campaigns</button>
+      </article>
 
-      <button
-        type="button"
-        className="home-destination"
-        aria-label="Lab: experiment with models and formulas"
-        onClick={onLab}
-      >
+      <article className="home-destination">
         <span className="home-destination-topline">
           <span className="home-destination-kicker">Free exploration</span>
           <span className="home-destination-arrow" aria-hidden="true">→</span>
         </span>
         <span className="home-destination-title">Lab</span>
-        <span className="home-destination-copy">
+        <span className="home-destination-copy" id="home-lab-description">
           <span className="home-destination-summary">Experiment without a fixed objective.</span>
           <span className="home-destination-detail">Build models, test formulas, compare truth conditions, and inspect frame properties.</span>
         </span>
-      </button>
+        <button
+          type="button"
+          className="home-destination-hitbox"
+          aria-label="Lab: experiment with models and formulas"
+          aria-describedby="home-lab-description"
+          onClick={onLab}
+        >Open Lab</button>
+      </article>
     </nav>
   </section>
 }
