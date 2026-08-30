@@ -1,0 +1,1022 @@
+MODAL LOGIC LAB
+AKTUÁLNÍ STAV PRODUKTU, PRINCIPY A ROADMAPA
+===========================================
+
+Aktualizováno: 2026-08-15
+Ověřeno proti repository main HEAD: 6149abe (2026-08-14)
+Stav doplněn o P1 Evaluation Explorer bundle implementovaný 2026-08-15.
+
+Repozitář:
+https://github.com/Chrasts/Modal_Logic_Educational_Game
+
+Veřejná verze:
+https://chrasts.github.io/Modal_Logic_Educational_Game/
+
+
+0. ÚČEL DOKUMENTU A STATUSY
+===========================
+
+Tento dokument je hlavní dlouhodobý source of truth pro:
+1. co je skutečně implementované
+2. co je schválený nejbližší směr
+3. co je střednědobá roadmapa
+4. co je záměrně odložené
+
+Nahrazuje starší status/roadmap poznámky, jejichž sekce "next step" mohly po
+implementaci zůstat zastaralé.
+
+Tento dokument není jeden implementation bundle. Každý Codex/change bundle má
+mít stále úzký a jasně vymezený scope a musí pracovat proti skutečnému
+aktuálnímu main.
+
+Používané statusy:
+
+[IMPLEMENTOVÁNO]
+Funkce je v aktuálním main a má se považovat za existující součást produktu.
+
+[REFINEMENT]
+Funkce existuje, ale dává smysl dále zlepšovat UX, pedagogiku nebo technické
+provedení.
+
+[NEXT]
+Vysoce prioritní práce po aktuálním QA/hardeningu. Typicky relativně omezený
+zásah.
+
+[MAJOR NEXT]
+Větší samostatný modul, který má být vlastním milestonem.
+
+[LATER]
+Schválený směr, ale nikoli aktuální implementační cíl.
+
+[DEFERRED]
+Explicitně není současná priorita.
+
+Priority:
+
+P0 = bezprostřední hardening / release-quality práce
+P1 = vysoká hodnota v blízkém horizontu
+P2 = střednědobé rozšíření
+P3 = dlouhodobé výzkumné nebo produktové rozšíření
+
+
+1. ZÁKLADNÍ VIZE
+================
+
+Cílem je vzdělávací a experimentální aplikace/hra, ve které je formální logika
+přímo interaktivní mechanikou, ne pouze textovým nebo symbolickým cvičením.
+
+Uživatel má umět:
+- konstruovat a upravovat Kripkeho modely
+- měnit valuace, accessibility relation a evaluation world
+- zadávat nebo dostávat modální formule
+- sledovat deterministické sémantické vyhodnocení
+- řešit matematicky definované úlohy bez nutnosti trefit jeden uložený obrázek
+- volně experimentovat mimo authored mise
+- vytvářet a sdílet vlastní mise a kampaně
+
+Správnost řešení musí určovat matematický objective, ne shoda s jednou
+referenční konstrukcí.
+
+Reference solution je svědek řešitelnosti. Není jedinou akceptovanou odpovědí.
+
+Současné sémantické jádro je normální výroková modální logika nad explicitními
+konečnými Kripkeho modely.
+
+Dlouhodobě lze přidávat:
+- epistemickou logiku
+- doxastickou logiku
+- temporální logiku
+- dynamickou logiku
+- public announcement logic
+- deontickou logiku
+- proof/search systémy
+- pokročilé transformace a analýzu modelů
+
+Tyto oblasti se nemají stavět současně.
+Nevytvářet předčasně univerzální engine pro všechny budoucí logiky.
+
+
+2. SOUČASNÁ PRODUKTOVÁ STRUKTURA
+================================
+
+[IMPLEMENTOVÁNO]
+
+Primary navigation:
+
+Home | Learn | Campaigns | Lab
+
+Sekundární More:
+
+- Create
+- Modal Logic Reference
+- Help & Controls
+- Profile
+- Data
+- Settings
+- GitHub
+
+Role:
+
+LEARN
+= systematická řízená výuka modální logiky a Kripkeho sémantiky
+
+CAMPAIGNS
+= delší výzvy kombinující více dovedností
+
+PRACTICE LIBRARY
+= cílené nelineární procvičování
+
+LAB
+= volné experimentování s formálními nástroji
+
+CREATE
+= tvorba vlastních misí a kampaní
+
+REFERENCE
+= stručný matematický lookup
+
+HELP & CONTROLS
+= ovládání aplikace a workspace
+
+HOW TO PLAY / LEARN THE CONTROLS
+= krátká onboardingová vrstva uvnitř learning flow, ne samostatný peer režim
+
+
+3. SOUČASNÉ IMPLEMENTOVANÉ SCHOPNOSTI
+=====================================
+
+3.1 Logický engine a sémantika
+------------------------------
+
+[IMPLEMENTOVÁNO]
+
+- parser modálních výrokových formulí
+- deterministický evaluator
+- pointed evaluation M,w |= phi
+- model-global evaluation M |= phi
+- finite-frame validity F |= phi pomocí enumerace valuací
+- formula comparison / equivalence v podporovaných scopes
+- correspondence objectives
+- rekurzivní evaluation traces
+- semantic diagnostics a witness/counterexample informace
+- frame-property checking
+- frame constraints a relation-rule modes
+
+Aktuálně podporované vlastnosti rámce:
+- reflexive
+- symmetric
+- transitive
+- Euclidean
+- serial
+- irreflexive
+- acyclic
+
+Automatické enforcement/closure je implementované pro:
+- reflexive
+- symmetric
+- transitive
+- Euclidean
+
+Validation-only zůstávají vlastnosti, jejichž automatická oprava by vyžadovala
+mazání dat nebo arbitrární volbu.
+
+Standardní correspondence presets zahrnují:
+- T / reflexive
+- D / serial
+- B / symmetric
+- 4 / transitive
+- 5 / Euclidean
+
+Důležité omezení:
+finite testing na jednom modelu nebo rámci není důkaz obecné modal validity ani
+obecného correspondence theorem.
+
+
+3.2 Parser formulí
+------------------
+
+[IMPLEMENTOVÁNO / REFINEMENT, P1]
+
+Současný parser přijímá:
+- Unicode: ¬ ∧ ∨ → □ ◇
+- ASCII: ! & | ->
+- textové unary keywords: box, diamond
+- závorky
+- alfanumerické názvy atomů s underscore
+
+Parser už vrací přesnou pozici syntax error.
+
+Blízký refinement:
+- [] jako box
+- <> jako diamond
+- ~ jako negace
+- případně textové not, and, or, implies
+- malá explicitně dokumentovaná LaTeX-like vstupní vrstva:
+  \Box, \Diamond, \neg, \land, \lor, \to, \implies
+- normalizace aliasů před parsováním se zachováním užitečné pozice chyby
+- live validation tam, kde reálně pomůže formula entry nebo authoringu
+
+Nevytvářet plnohodnotný LaTeX parser.
+
+
+3.3 Evaluation diagnostics a rozpad podformulí
+----------------------------------------------
+
+[IMPLEMENTOVÁNO / REFINEMENT, P1]
+
+Již existuje:
+- rekurzivní evaluation tree
+- označení sémantického pravidla
+- truth values
+- kontroly successorů pro box a diamond
+- witness/counterexample diagnostics
+- strukturovaný success/failure/error result
+- detailní semantic evidence on demand
+
+[IMPLEMENTOVÁNO / REFINEMENT]
+SUBFORMULA / EVALUATION EXPLORER
+
+Cíl:
+neudělat druhý evaluator, ale dát existujícím traces prostorovou a klikací vrstvu.
+
+Požadované chování:
+- zobrazit syntaktický strom podformulí nebo ekvivalentně přehledný decomposition
+- kliknutí na podformuli zvýrazní její truth set na všech světech
+- výběr □psi nebo ◇psi v konkrétním světě zvýrazní relevantní successory
+- failure zvýrazní critical world a tam, kde to dává smysl, i konkrétní relaci
+- umožnit přepnutí mezi "formula structure" a "evaluation at this world"
+- znovu použít současný AST a evaluator
+
+Příklad:
+při vyhodnocení □p ve w1, pokud w1 -> w2 a p je ve w2 false, má zvolený krok
+zvýraznit w1, hranu w1 -> w2 a w2 jako counterexample successor.
+
+V1 je dostupná on demand v Model Sandboxu. Používá stabilní occurrence paths,
+truth-set overlay a modal witness/counterexample relations. Další zpřístupnění
+v guided obsahu zůstává optional refinement.
+
+
+3.4 Frame Property Checker a relation presentation
+--------------------------------------------------
+
+[IMPLEMENTOVÁNO / REFINEMENT]
+
+Již existuje:
+- přímá kontrola vlastností s konkrétními witnesses
+- standardní T/D/B/4/5 correspondence presets
+- enforcement podporovaných closure properties
+- rozlišení explicitních a derived relations
+- čitelné reflexivní smyčky
+- speciální zacházení s reverse/bidirectional pairs
+- routing hran
+
+Možná pozdější rozšíření:
+- confluence / Church-Rosser property, pokud vznikne konkrétní pedagogický use case
+- další pojmenované třídy rámců pouze tehdy, pokud jsou navázané na Learn,
+  Campaigns nebo specializovanou logiku
+
+Nepřidávat vlastnosti jen kvůli delšímu checklistu.
+
+
+3.5 Model editor a manipulace s grafem
+--------------------------------------
+
+[IMPLEMENTOVÁNO / REFINEMENT]
+
+Již existuje:
+- explicitní konečné světy a orientované relace
+- přejmenování světů libovolným neprázdným unikátním názvem
+- valuation editing
+- volba evaluation world
+- Undo/Redo
+- keyboard-accessible alternativy
+- deterministický Tidy layout
+- collision-aware world placement
+- resizable desktop panes
+- touchpad/mouse interaction heuristics
+- čitelné self-loops a reverse relations
+- vizualizace derived relations
+- desktop-first workspace
+- phone-class Desktop required guard
+
+Barevný systém má zůstat konzistentní s petrol / neutral brown směrem, pokud
+další vizuální revize nevede k explicitní změně design systému.
+
+Možné UX experimenty až podle user testingu:
+- přímé atom chips/toggles uvnitř world node
+- optional snap-to-grid
+- další layout strategy
+
+Force-directed layout NENÍ současná priorita.
+Pro logické diagramy je současný deterministický Tidy výhodný kvůli stabilitě a
+reprodukovatelnosti. Force-directed režim přidat pouze tehdy, pokud user testing
+ukáže reálný problém, který Tidy neřeší.
+
+
+3.6 Sdílení, import/export a lokální data
+-----------------------------------------
+
+[IMPLEMENTOVÁNO / REFINEMENT]
+
+Již existuje:
+- versioned JSON mission format
+- versioned custom campaign package
+- import/export
+- shareable #share= URL fragmenty pro custom obsah
+- client-side URL-safe Base64 serialization
+- žádný backend
+- local progress/profile
+- local educator CSV export
+
+Současný URL payload je encoded, ne compressed.
+
+[IMPLEMENTOVÁNO]
+Přímé "Share current Sandbox":
+- serializovat aktuální model
+- aktuální formuli/formule
+- evaluation world
+- scope
+- relevantní frame-rule nastavení
+- otevřít stejný stav přímo v Lab/Model Sandbox
+
+Versioned sandbox-state payload v1 obnovuje tento matematický stav přímo v
+Model Sandboxu a zachovává starší custom-content share links.
+
+Optional refinement:
+- komprese share payloadu pouze pokud reálné URL často narážejí na praktické
+  length limity
+- pokud možno zachovat backwards compatibility existujících share links
+
+[NEXT / P1-P2]
+Akademický export:
+- export konečného modelu do LaTeX/TikZ
+- world labels
+- valuace
+- orientované hrany
+- self-loops
+- optional evaluation-world marker
+- čistý copyable code block
+
+Později lze zvážit SVG export, pokud vznikne konkrétní potřeba.
+
+JSON zůstává canonical machine-readable interchange format.
+
+
+3.7 Create a educator authoring
+-------------------------------
+
+[IMPLEMENTOVÁNO / REFINEMENT, P0-P1]
+
+Create už není jen koncept.
+
+Současné schopnosti zahrnují:
+- custom mission studio
+- custom campaign packaging
+- capture starting model
+- formula/objective konfiguraci
+- edit permissions
+- construction constraints
+- frame-rule requirements
+- prediction/question interactions
+- reference-solution capture a validaci
+- mission audit/validation
+- Playtest as player
+- import/export
+- share links
+- template duplication
+
+Princip:
+reference solution je svědek řešitelnosti, nikoli jediná správná odpověď.
+
+Blízký authoring refinement:
+- méně friction ve workflow
+- jasnější volba task type
+- srozumitelnější validation/audit messages
+- lepší templates
+- přehlednější Preview/Playtest
+- explicitní learner-visible constraints
+- selective locking, kde dává smysl, například fixní svět nebo fixní relace
+- preference matematicky významných constraints před omezením click sequence
+
+"Maximum number of steps" nesmí skrytě znamenat počet kliknutí.
+Pokud má úloha edit budget, použít explicitně definovanou metriku sémantických
+změn. Současný maximumChanges je tomuto cíli bližší než raw UI interaction count.
+
+Cloud classrooms, accounts, submissions a LMS zůstávají deferred.
+
+
+3.8 Current UX, informační architektura a feedback
+--------------------------------------------------
+
+[IMPLEMENTOVÁNO / REFINEMENT]
+
+Položky, které byly ve staré roadmapě vedené jako "next", ale v current main už
+existují:
+- compact shared MissionHeader pro guided modes
+- Details & hints on demand
+- jasný success/failure/error verification summary
+- deep semantic details skryté pod disclosure místo permanentně velkého panelu
+- resizable desktop workspace panes s uložením layoutu
+- Home | Learn | Campaigns | Lab primary navigation
+- oddělené Modal Logic Reference a Help & Controls
+- Quick Help a replayable Workspace Tour
+- odstranění learner-facing Common mistake completion copy
+- phone-class Desktop required guard
+- touchpad/mouse map interaction cleanup
+- Undo/Redo jako standardní workspace součást
+- odstranění redundantního delete/undo toast patternu
+
+Tyto položky se nemají vracet do roadmapy jako neimplementované.
+Mohou se znovu objevit pouze jako konkrétní regression nebo refinement nalezený
+při QA/user testingu.
+
+
+4. SOUČASNÝ LEARNING CONTENT
+============================
+
+[IMPLEMENTOVÁNO]
+
+Onboarding:
+- Welcome
+- šestikrokový Learn the Controls / How to Play
+
+Learn:
+- Truth at a World
+- Possibility
+- Necessity
+- Box and Diamond
+- Nested Modalities
+- Countermodels
+- Local / Model-global / Frame Truth
+- Frame Properties
+
+Campaigns:
+General Challenges
+- Countermodel Hunter
+- Frame Architect
+- Formula Laboratory
+
+Practice Library:
+- nelineární cílené mission collections
+
+Lab:
+- Model Sandbox
+
+Detailní pedagogická a produktová struktura je v companion file:
+MODAL_LOGIC_LAB_LEARNING_AND_PRODUCT_ARCHITECTURE_2026-08-15.txt
+
+
+5. NOVÉ GAMEPLAY / PUZZLE SMĚRY
+===============================
+
+5.1 Axiom Breaker
+-----------------
+
+[IMPLEMENTOVÁNO]
+
+Vysoká hodnota, protože většina potřebného engine už existuje.
+
+Koncept:
+postavit model/frame/valuation, který falsifikuje cílový modal principle a přitom
+zachová zadané relation properties.
+
+Příklady:
+- falsifikovat axiom 4 při zachování reflexivity
+- najít counterexample k implikaci na serial frame
+- zachovat symmetry a porušit transitivity
+- odlišit formuli validní v jedné třídě rámců a nevalidní v jiné
+
+Použít současné:
+- semantic objectives
+- frame-property constraints
+- correspondence checks
+- countervaluation/witness feedback
+
+První Practice family obsahuje Break axiom 4 na reflexive frame a Break axiom 5
+na serial frame. Obě mise mají validovanou reference solution.
+
+
+5.2 Model Budget Challenge
+--------------------------
+
+[IMPLEMENTOVÁNO]
+
+Úlohy typu:
+- splň phi s nejvýše 3 světy
+- použij nejvýše 2 explicitní hrany
+- splň objective při zachování frame property
+- vyřeš úlohu v omezeném semantic-change budgetu
+
+Practice family obsahuje Split possibility a Two steps away s viditelnými
+world/relation bounds a validovanými reference solutions.
+
+Terminologické pravidlo:
+řešení není "minimal" jen proto, že se vešlo do malého boundu.
+
+Používat:
+- Model Budget Challenge
+- Small Model Challenge
+- within N worlds/edges
+
+Výrazy:
+- minimal model
+- shortest solution
+
+používat pouze tehdy, když aplikace optimalitu skutečně dokazuje.
+
+
+5.3 Distinguishing Formula / Formula Guessing
+---------------------------------------------
+
+[LATER / P2]
+
+Koncept:
+na konečném modelu a zvoleném target world w0 zadat formuli, jejíž truth set
+odpovídá požadované množině, často pouze {w0}.
+
+Matematická hodnota:
+- test modal expressivity
+- přímá vazba syntaxe na truth sets
+- přirozené napojení na bisimulaci
+
+Důležité:
+ne každý svět lze modální formulí odlišit. Bisimilární světy jsou základní
+counterexample k naivnímu předpokladu, že taková formule vždy existuje.
+
+První verze:
+- ověřit submitted formula na zobrazeném konečném modelu
+- vyžadovat správný truth-set condition
+- délku formule / modal depth zobrazovat deskriptivně nebo jako optional bonus
+
+Nevyžadovat "nejkratší formuli", dokud optimálnost neumíme dokázat.
+
+Ideální timing:
+po Bisimulation Lab.
+
+
+6. NOVÉ MATEMATICKÉ TOOLS A MAJOR MODULES
+=========================================
+
+6.1 Standard translation do first-order logic
+---------------------------------------------
+
+[NEXT NEBO EARLY P2]
+
+Relativně malý a matematicky hodnotný tool.
+Nevyžaduje obecný first-order theorem prover.
+
+Implementovat syntax transformer / pretty-printer:
+
+ST_x(p) = P_p(x)
+ST_x(¬phi) = ¬ST_x(phi)
+ST_x(phi ∧ psi) = ST_x(phi) ∧ ST_x(psi)
+ST_x(phi ∨ psi) = ST_x(phi) ∨ ST_x(psi)
+ST_x(phi → psi) = ST_x(phi) → ST_x(psi)
+ST_x(□phi) = ∀y (Rxy → ST_y(phi))
+ST_x(◇phi) = ∃y (Rxy ∧ ST_y(phi))
+
+Možné UI:
+- Standard Translation panel v Reference nebo Lab
+- copy Unicode
+- copy LaTeX
+
+Priorita:
+nízké architektonické riziko, vysoká výuková hodnota a přirozený most mezi
+modální sémantikou a first-order model theory.
+
+Toto není souhlas s implementací full first-order logic modulu nyní.
+
+
+6.2 Bisimulation Lab
+--------------------
+
+[MAJOR NEXT, P1]
+
+Nadále preferovaný první nový velký Lab module po PC QA a menších P1
+refinements.
+
+Doporučené fáze:
+
+V1: BISIMULATION CHECKER
+- porovnat dva pointed finite models nebo dva světy
+- spočítat/ověřit maximální bisimulation relation
+- ukázat atom mismatch
+- ukázat forth violation
+- ukázat back violation
+- vizuálně párovat related worlds
+- vysvětlit, proč dva pointed models jsou nebo nejsou bisimilar
+
+V2: BISIMULATION CONTRACTION
+- spočítat bisimilarity classes uvnitř jednoho finite modelu
+- vytvořit quotient/contracted model tam, kde je to korektní
+- ukázat mapování original worlds -> quotient classes
+- vysvětlit zachování modálních formulí
+
+V3: BISIMULATION GAME
+- Spoiler vs Duplicator
+- finite-round nebo open-ended režim
+- zvýraznění legal replies
+- napojení na modal indistinguishability a modal depth
+
+Pro finite models preferovat relation refinement / greatest fixed-point
+algoritmus před brute force.
+
+
+6.3 Generated submodels a modal depth
+-------------------------------------
+
+[LATER / P2]
+
+Cíle:
+- generated submodel z vybraného světa
+- zobrazení unreachable a lokálně irrelevantní struktury
+- depth-n neighborhood
+- napojení modal depth formule na část finitely branching modelu relevantní pro
+  local evaluation
+
+Nezobecňovat příliš:
+modal depth neznamená, že každý problém s nekonečným nebo infinitely branching
+modelem je tím automaticky konečný.
+
+
+6.4 Filtration Lab
+------------------
+
+[LATER / P2]
+
+Didaktický workflow:
+1. vybrat model
+2. zvolit nebo odvodit konečnou množinu Gamma vhodně uzavřenou pod subformulemi
+3. spočítat world equivalence podle shody na Gamma
+4. vizualizovat equivalence classes
+5. vytvořit filtered quotient
+6. porovnat truth formulí z Gamma před a po filtraci
+7. vysvětlit truth-preservation theorem
+
+Staging:
+- V1 může fungovat nad explicitním finite modelem
+- V2 lze později propojit se symbolic/generated infinite models
+
+Netvrdit, že UI "zredukuje libovolný nekonečný model", pokud umí pracovat pouze
+s explicitním finite inputem.
+
+
+6.5 Tableaux a countermodel generation
+--------------------------------------
+
+[LATER / P2-P3]
+
+Schválený směr, ale jde o větší subsystém než evaluator feature.
+
+Doporučené fáze:
+
+V1:
+- analytic semantic tableaux pro K
+- explicitní branch expansion
+- open/closed branch visualization
+- countermodel extraction z open branch
+
+V2:
+- kontrolované rozšíření pro T, D, K4, S4 a S5
+- explicitní vizualizace frame-condition propagation
+
+V3:
+- optional automatic search
+- vložení generated countermodelu do běžného model workspace
+
+Kritické pravidlo:
+tableau-generated countermodel není automaticky minimal countermodel.
+
+Tlačítko "Find minimal countermodel" použít pouze tehdy, pokud máme algoritmus,
+který dokáže minimalitu v přesně popsaném finite search space, například
+exhaustive search podle rostoucího world count a jasně definované sekundární
+metriky.
+
+Jinak používat:
+- Find countermodel
+- Generate countermodel
+- Search up to N worlds
+
+
+6.6 Symbolic / generated infinite models
+----------------------------------------
+
+[LATER / P3]
+
+Současný editor má zůstat explicitně finite.
+
+Budoucí infinite support má používat symbolic generators:
+- natural-number chain
+- bi-infinite chain
+- infinite binary tree
+- periodic valuations
+- regular/generated transition structures
+
+UI:
+- konečné viewport/window
+- continuation markers
+- expand on demand
+- explicitní indikace, že struktura pokračuje
+
+Evaluaci povolit pouze tam, kde symbolic engine soundly pracuje s celou relevantní
+strukturou.
+
+Nikdy nevyhodnotit □ nebo ◇ jen na náhodném zobrazeném finite prefixu a
+neprezentovat to jako truth v infinite modelu.
+
+
+7. SPECIALIZOVANÉ MODÁLNÍ LOGIKY
+================================
+
+7.1 Multi-agentní epistemická logika
+------------------------------------
+
+[LATER / P3]
+
+Pravděpodobný první velký specialized logic module po dozrání normal-modal
+toolsetu.
+
+Potřebná architektura:
+- agent-indexed relations R_a, R_b, ...
+- indexed modalities K_a phi
+- vizuálně odlišitelné relation layers
+- agent/group selection
+- frame constraints per agent tam, kde dávají smysl
+
+Group operators:
+E_G phi = everyone in group G knows phi
+C_G phi = common knowledge in group G
+
+Common knowledge vyžaduje reachability přes reflexive-transitive closure unionu
+relevantních agent relations, ne pouze další lokální unary operator.
+
+
+7.2 Public Announcement Logic
+-----------------------------
+
+[LATER / P3]
+
+Přirozené rozšíření po epistemic models.
+
+Podpora:
+- jednotná syntax announcementu
+- restriction/update modelu na worlds satisfying announcement
+- before/after model comparison
+- úlohy o změně informace a znalosti
+
+Musí jít o skutečný dynamický model update, ne pouze nový label formule.
+
+
+7.3 Další budoucí logiky
+------------------------
+
+[LATER / P3]
+
+Možné:
+- temporal
+- dynamic
+- doxastic
+- deontic
+- další modal systems s konkrétním pedagogickým use case
+
+Nerozvíjet několik specializovaných logik současně.
+
+
+8. UX A EDITOR ROADMAPA
+=======================
+
+P0: současný hardening
+----------------------
+
+- manual desktop QA celého produktu
+- fyzický mouse/touchpad test na Windows/Edge a Chrome
+- end-to-end průchod Learn, Campaigns, Lab a Create
+- sběr reálných regression bugs
+- testování s uživateli bez předchozí znalosti modal logic
+- sledovat comprehension relation direction, valuation, evaluation world,
+  semantic scopes a verification feedback
+- zkontrolovat podporovaná desktop resolutions
+- manual accessibility checks držet oddělené od automated checks
+
+P1: malé high-value refinements
+-------------------------------
+
+Kandidáti vybíraní podle QA a user evidence:
+- Create workflow refinement
+- TikZ export
+- direct valuation chips, pokud současné editing zůstane friction-heavy
+- naming/branding consistency napříč public UI/docs, pokud zůstává nejednotná
+
+P2:
+- optional snap-to-grid
+- optional další graph layout
+- compressed share payload při reálném URL-size problému
+- další frame properties navázané na konkrétní content
+
+
+9. ARCHITEKTURA A MATEMATICKÁ KOREKTNOST
+========================================
+
+Základní pravidla:
+
+- deterministic logic engine oddělit od React/UI
+- GPT nerozhoduje matematickou správnost
+- používat jeden workspace/evaluator napříč Learn, Campaigns, Lab a Create
+- authored content držet data-driven, kde je to praktické
+- semantic state oddělit od presentation/layout state
+- nedělat full rewrite App.tsx
+- extrahovat focused modules postupně
+- zachovat import/export/share a local data compatibility
+- nové logic engines přidávat až pro konkrétní modul
+
+Každá built-in authored mise má mít:
+- valid initial model
+- parseable formulas, pokud je vyžaduje objective
+- reachable objective
+- kompatibilní a viditelné constraints
+- verified reference solution nebo jiný reprodukovatelný důkaz řešitelnosti
+- matematicky správný feedback
+- regression test nebo reprodukovatelnou kontrolu
+
+Nikdy nezaměňovat:
+- M,w |= phi
+- M |= phi
+- F |= phi
+- validitu na jednom finite frame
+- validitu v třídě frames
+- theoremhood v modální logice
+
+Minimalita:
+- world count, edge count a edit metrics lze zobrazovat deskriptivně
+- matematickou minimalitu nelze tvrdit bez důkazu
+
+
+10. RELEASE A DEVELOPMENT PROCESS
+=================================
+
+Pro každý významný change bundle:
+
+1. zkontrolovat skutečný current main
+2. přesně vymezit scope
+3. implementovat pouze tento scope
+4. spustit tests
+5. spustit build
+6. spustit smoke a relevantní E2E
+7. uvést changed files
+8. uvést co bylo ověřeno
+9. uvést co zůstává nejisté
+
+GitHub Actions mají být zelené před považováním změny za hotovou.
+
+Po implementaci roadmap itemu:
+- odstranit ho z NEXT
+- přesunout popis mezi current capabilities
+- v roadmapě ponechat pouze unresolved refinement
+
+Roadmapa nesmí znovu popisovat hotové funkce jako budoucí práci.
+
+
+11. PRIORITIZOVANÁ ROADMAPA
+===========================
+
+FÁZE 0: PC QA A HARDENING
+[P0, NYNÍ]
+
+- manual full-product QA
+- real touchpad/mouse pass
+- novice user testing
+- accessibility manual pass
+- regression fixes
+- Create usability pass
+- synchronizace dokumentace se skutečným stavem
+
+Exit condition:
+současný finite-model desktop produkt je dostatečně stabilní, aby nový major
+mathematical module neodváděl pozornost od unresolved core UX problems.
+
+
+FÁZE 1: MALÁ HIGH-VALUE CORE ROZŠÍŘENÍ
+[P1]
+
+Dokončený batch:
+
+1. Subformula / Evaluation Explorer
+2. parser syntax expansion a lepší live feedback
+3. Share current Sandbox state
+4. Axiom Breaker a Model Budget content
+
+Zbývající kandidáti:
+
+1. Create / educator workflow refinement
+2. TikZ export
+3. Standard Translation do first-order logic
+
+Jde převážně o rozšíření existující architektury, ne nové sémantické platformy.
+
+
+FÁZE 2: BISIMULATION
+[P1 MAJOR]
+
+- Bisimulation Checker
+- visual violation witnesses
+- optional contraction/quotient
+- později Spoiler vs Duplicator game
+- navazující Learn/Practice/Campaign content
+
+
+FÁZE 3: LOCAL STRUCTURE A EXPRESSIVITY
+[P2]
+
+- generated submodels
+- modal-depth neighborhoods
+- Distinguishing Formula challenges
+- hlubší propojení bisimulace a expressivity
+
+
+FÁZE 4: FILTRATION
+[P2]
+
+- equivalence classes podle subformula set
+- quotient visualization
+- truth preservation
+- později napojení na symbolic infinite models
+
+
+FÁZE 5: TABLEAUX A COUNTERMODEL SEARCH
+[P2-P3]
+
+- K tableaux
+- countermodel extraction
+- frame-conditioned extensions
+- optional bounded finite countermodel search
+- žádné neprokázané minimality claims
+
+
+FÁZE 6: SYMBOLIC INFINITE MODELS
+[P3]
+
+- generated regular infinite structures
+- sound symbolic/local reasoning
+- žádný arbitrary infinite graph editor
+
+
+FÁZE 7: SPECIALIZOVANÉ LOGIKY
+[P3]
+
+Pořadí k pozdějšímu přehodnocení:
+1. multi-agent epistemic logic
+2. Public Announcement Logic
+3. temporal/dynamic/doxastic/deontic podle konkrétní hodnoty
+
+
+FÁZE 8: DISTRIBUCE
+[LATER]
+
+Až po stabilizaci web produktu:
+- PWA jako levný installable mezikrok
+- optional desktop wrapper/release
+- native/mobile packaging až po skutečné mobile UX práci
+
+
+12. EXPLICITNĚ ODLOŽENO
+=======================
+
+Nyní neprioritizovat:
+- full mobile version
+- arbitrary infinite graph editor
+- cloud accounts
+- multiplayer
+- teacher dashboard
+- LMS integration
+- rozsáhlý backend
+- GPT-generated grading
+- leaderboard
+- achievement system
+- několik nových mathematical modules současně
+- full first-order logic environment
+- algebraic semantics jako core feature
+- kompletní application rewrite
+- native packaging před stabilitou webu
+
+Vrátit se k nim pouze při konkrétním use case a po dostatečné stabilizaci
+předchozí roadmapy.
+
+
+13. AKTUÁLNÍ NEXT ACTION
+========================
+
+Starý PC UX refinement bundle už není současný roadmap milestone.
+Většina jeho pojmenovaných položek je implementovaná.
+
+Aktuální next action:
+
+1. udělat fresh manual desktop QA proti current main
+2. provést několik novice-user tests
+3. převést konkrétní problémy na malé repair bundles
+4. podle výsledků refinovat Create
+5. udělat manual QA dokončeného P1 Evaluation Explorer bundle
+6. jako default candidate dalšího major mathematical milestone použít
+   Bisimulation Lab, pokud testing nepřinese důvod prioritu změnit
+
+Roadmapu znovu přehodnotit po každém větším Lab modulu, místo fixního závazku ke
+všem pozdějším fázím.

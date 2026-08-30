@@ -35,6 +35,16 @@ describe('sandbox user interface', () => {
     expect(screen.queryByLabelText('Model overview')).not.toBeInTheDocument()
   })
 
+  it('persists the global interface language without exposing a color-theme switch', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+    expect(screen.queryByRole('button', { name: /dark mode|tmavý režim/i })).not.toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Interface language' }))
+    await user.click(screen.getByRole('menuitemradio', { name: 'CZ Čeština' }))
+    expect(document.documentElement).toHaveAttribute('lang', 'cs')
+    await waitFor(() => expect(JSON.parse(localStorage.getItem('logic-game:interface-settings:v1') ?? '{}')).toMatchObject({ language: 'cs' }))
+  })
+
   it('provides a keyboard skip link and a focusable main landmark', () => {
     render(<App initialView="workspace" />)
     expect(screen.getByRole('link', { name: 'Skip to main content' })).toHaveAttribute('href', '#main-content')

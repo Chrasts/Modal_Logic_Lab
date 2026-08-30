@@ -1,0 +1,1057 @@
+MODAL LOGIC LAB
+LEARNING A PRODUKTOVÁ ARCHITEKTURA
+=================================
+
+Aktualizováno: 2026-08-15
+Companion file:
+MODAL_LOGIC_LAB_STATE_AND_ROADMAP_2026-08-15.txt
+
+Repozitář:
+https://github.com/Chrasts/Modal_Logic_Educational_Game
+
+
+0. ÚČEL
+=======
+
+Tento dokument definuje pedagogické a produktové hranice mezi:
+
+- Welcome
+- Learn the Controls / How to Play
+- Learn
+- Campaigns
+- Practice Library
+- Lab
+- Create
+- Modal Logic Reference
+- Help & Controls
+
+Nahrazuje starší dokument "tutorial a struktura kampaní".
+
+Tento file řeší hlavně:
+- k čemu jednotlivé produktové vrstvy slouží
+- kam mají patřit nové matematické funkce
+- jak vrstvit learning content
+- kam zařadit budoucí game mechanics
+
+Implementation status a priority jsou v companion roadmap file.
+
+
+1. PRODUKTOVÉ VRSTVY
+====================
+
+A) WELCOME
+Velmi krátká orientace v produktu a intuice possible worlds.
+
+B) HOW TO PLAY / LEARN THE CONTROLS
+Krátký čistě UI tutorial.
+
+C) LEARN
+Systematická výuka modal logic a Kripke semantics.
+
+D) CAMPAIGNS
+Delší structured challenges kombinující více dovedností.
+
+E) PRACTICE LIBRARY
+Nelineární cílené procvičování konkrétních skill families.
+
+F) LAB
+Volné experimentování s mathematical tools a modely.
+
+G) CREATE
+Authoring vlastních misí a kampaní.
+
+H) MODAL LOGIC REFERENCE
+Formální matematický lookup.
+
+I) HELP & CONTROLS
+Ovládání aplikace a workspace.
+
+Klíčové rozlišení:
+
+How to Play učí OVLÁDÁNÍ.
+Learn učí MODÁLNÍ LOGIKU.
+Campaigns dávají STRUKTUROVANÉ VÝZVY.
+Practice dává CÍLENÉ OPAKOVÁNÍ.
+Lab umožňuje VOLNĚ EXPERIMENTOVAT.
+Create umožňuje TVOŘIT OBSAH.
+Reference DEFINUJE.
+Help VYSVĚTLUJE APLIKACI.
+
+
+2. SOUČASNÁ NAVIGACE
+====================
+
+Primary navigation:
+
+Home | Learn | Campaigns | Lab
+
+Sekundární More:
+
+- Create
+- Modal Logic Reference
+- Help & Controls
+- Profile
+- Data
+- Settings
+- GitHub
+
+Toto je implementovaná current structure, ne future navigation proposal.
+
+How to Play není peer režim vedle Learn/Campaigns/Lab.
+Patří do onboarding/replay flow.
+
+Create lze později povýšit na primary pillar pouze tehdy, pokud educator
+authoring skutečně začne být dominantní use case.
+
+
+3. WELCOME
+==========
+
+Welcome má zůstat krátké.
+
+Má:
+- intuitivně představit possible worlds a accessibility
+- stručně preview □ a ◇
+- vysvětlit, že nejprve přijde krátký controls tutorial
+- potom přejít do systematického Learn
+
+Nemá:
+- suplovat první Learn chapter
+- front-loadovat formální sémantiku
+- zavádět komplikovaný countermodel dříve, než uživatel zná workspace
+
+Dobrá úvodní kontrastní dvojice:
+- ◇p: stačí alespoň jeden accessible p-world
+- □p: každý accessible world musí splňovat p
+
+Po preview explicitně říct:
+1. nejprve se uživatel naučí controls
+2. potom Learn systematicky zavede modal logic
+
+
+4. HOW TO PLAY / LEARN THE CONTROLS
+===================================
+
+Účel:
+učit workspace, ne modální sémantiku.
+
+Obecné principy:
+- šest krátkých kroků
+- jedna hlavní interakce na krok
+- nerelevantní controls skryté nebo locked
+- žádná zbytečná modal theory
+- žádná povinná prediction gate pro construction tasks
+- explicitní objective
+- krátký completion feedback
+- poslední krok vede do prvního Learn chapter
+
+
+MISSION 1: CHOOSE THE EVALUATION WORLD
+--------------------------------------
+
+Initial model:
+- w0 bez atomů
+- w1 obsahuje p
+- bez hran
+- evaluation world = w0
+
+Task:
+Select w1 and make it the evaluation world.
+
+Unlocked:
+- selection
+- Set as evaluation world
+
+Completion:
+- evaluation world = w1
+
+Feedback:
+Formulas are evaluated relative to a selected world.
+
+
+MISSION 2: EDIT A WORLD VALUATION
+---------------------------------
+
+Initial model:
+- jeden world w0
+- bez atomů
+
+Task:
+Add the requested atom to w0.
+
+Unlocked:
+- valuation editor
+
+Completion:
+- requested atom je true at w0
+
+Feedback:
+Atoms written inside a world are true at that world.
+
+
+MISSION 3: DRAW AN ACCESSIBILITY RELATION
+-----------------------------------------
+
+Initial model:
+- w0
+- w1
+- bez hran
+
+Task:
+Draw w0 -> w1.
+
+Unlocked:
+- relations
+
+Instruction:
+Drag from w0 to w1. Connection-handle position does not determine direction.
+
+Completion:
+- w0 -> w1 exists
+
+Feedback:
+Accessibility is directional. w0 -> w1 differs from w1 -> w0.
+
+
+MISSION 4: CORRECT A RELATION
+-----------------------------
+
+Initial model:
+- w0
+- w1
+- w1 -> w0
+
+Task:
+Replace w1 -> w0 with w0 -> w1.
+
+Unlocked:
+- relation selection/delete
+- relation drawing
+
+Completion:
+- w1 -> w0 není explicitně přítomná
+- w0 -> w1 je explicitně přítomná
+
+Exact edge count vynucovat pouze tehdy, když je count skutečnou součástí
+learning objective.
+
+Feedback:
+Select a relation to edit or delete it.
+
+
+MISSION 5: ADD A WORLD
+----------------------
+
+Initial model:
+- pouze w0
+
+Task:
+Add one new world and make p true there.
+
+Unlocked:
+- + World
+- valuations
+
+Completion:
+- existuje nově přidaný world s p
+
+V této controls lesson může být přesně jeden nový world rozumnou interpretací
+"Add one world". Podobné size restrictions nepřenášet mechanicky do jiných
+lessons.
+
+Feedback:
+Models can be extended by adding worlds and assigning their valuations.
+
+
+MISSION 6: BUILD A SMALL MODEL
+------------------------------
+
+Initial model:
+- pouze w0
+- bez atomů
+- bez hran
+
+Task:
+Create w1, make p true there and draw w0 -> w1.
+
+Unlocked:
+- worlds
+- valuations
+- relations
+- Undo/Redo
+
+Completion:
+- w1 exists
+- p is true at w1
+- w0 -> w1 exists
+
+Důležité:
+extra irrelevant world nesmí sám způsobit failure. Cílem je zkombinovat controls,
+ne testovat minimalitu.
+
+Feedback:
+You can now build the basic parts of a Kripke model: worlds, valuations and
+accessibility relations.
+
+Potom:
+Continue to the first Learn chapter.
+
+
+5. CO NEPATŘÍ DO HOW TO PLAY
+============================
+
+Do controls tutorialu nedávat systematickou matematiku.
+
+Nezařazovat:
+- plnou □/◇ semantics
+- local vs model-global vs frame validity
+- frame properties
+- correspondence
+- formula comparison
+- countervaluations
+- bisimulation
+- filtration
+- standard translation
+- tableaux
+- authoring concepts
+- detailní semantic debugger
+- specializované modal logics
+
+Tyto věci patří podle účelu do Learn, Campaigns, Lab nebo Reference.
+
+
+6. LEARN
+========
+
+Learn je systematická teaching path.
+
+Současné základní chapters:
+
+LEARN
+├── Truth at a World
+├── Possibility
+├── Necessity
+├── Box and Diamond
+├── Nested Modalities
+├── Countermodels
+├── Local / Model-global / Frame Truth
+└── Frame Properties
+
+Terminologie:
+- Chapter = tematická část
+- Lesson = jednotlivá guided výuková jednotka
+- Task = practical nebo answer objective uvnitř lesson
+
+Chapter může obsahovat:
+- concept intro
+- learning objective
+- static/ worked example
+- guided task
+- hints
+- success explanation
+- recap
+- optional transfer task
+
+Pedagogický směr:
+- podle potřeby od intuitivního k formálnímu
+- postupně snižovat scaffolding
+- explicitně rozlišovat M,w |= phi, M |= phi a F |= phi
+- nechat visual model nést podstatnou část vysvětlení
+- nedělat z Learn dlouhou textovou učebnici
+- feedback stavět na deterministic semantic evidence
+
+
+7. LEARN: UMÍSTĚNÍ BUDOUCÍCH KONCEPTŮ
+=====================================
+
+Ne každá nová matematická funkce potřebuje full Learn chapter.
+Nový Learn obsah přidávat pouze tehdy, pokud je koncept dostatečně základní nebo
+pedagogicky důležitý.
+
+
+7.1 Bisimulation
+----------------
+
+Po vzniku Bisimulation Lab může Learn unit zavést:
+- atomic harmony
+- forth
+- back
+- modal indistinguishability
+- proč bisimulation zachovává modal formulas
+
+Lab má zůstat hlavní experimentální tool.
+Learn vysvětluje koncept a první guided použití.
+
+
+7.2 Generated submodels a modal depth
+-------------------------------------
+
+Možný Learn content:
+- relevantní reachable část z pointed world
+- modal depth
+- depth-n neighborhoods
+- proč unreachable structure může být pro local evaluation irelevantní
+- omezení této intuice u infinite branching
+
+
+7.3 Filtration
+--------------
+
+Pozdější advanced Learn unit:
+- subformula closure
+- equivalence podle agreement na Gamma
+- quotient worlds
+- filtered relation
+- truth preservation
+- finite model property motivation
+
+Nevysvětlovat filtration pouze jako "merge podobných worldů".
+
+
+7.4 Standard Translation
+------------------------
+
+Nemusí být součástí raného core Learn.
+
+První vhodné umístění:
+- Reference
+- optional Lab tool
+- později advanced Learn side unit
+
+Má ukázat compositional translation a vztah modal semantics k first-order
+relational language.
+
+
+7.5 Tableaux
+------------
+
+Tableaux nedávat do základního Learn dříve, než existuje funkční interactive
+tableau module.
+
+Možný pozdější chapter:
+- semantic/sign expansion intuition
+- branch closure
+- open branch
+- countermodel extraction
+- vztah proof search a model construction
+
+
+8. CAMPAIGNS
+============
+
+Campaigns zůstávají oddělené od Learn i Lab.
+
+Current General Challenges:
+- Countermodel Hunter
+- Frame Architect
+- Formula Laboratory
+
+Campaign:
+- delší sequence
+- kombinuje více skills
+- může předpokládat Learn prerequisites
+- může mít theme/scenario
+- má authored objectives
+
+Campaigns nenahrazují systematickou výuku.
+
+
+9. PRACTICE LIBRARY
+===================
+
+Practice je nelineární a targeted.
+
+Vhodné Practice families:
+- evaluate at a world
+- construct a witness for ◇
+- construct/repair □ conditions
+- countermodel tasks
+- scope distinction
+- frame-property recognition
+- correspondence
+- model editing pod explicitními bounds
+
+Practice má umožnit opakovat jeden skill bez replay celé campaign.
+
+
+10. NOVÉ CAMPAIGN / PRACTICE FAMILIES
+=====================================
+
+10.1 Axiom Breaker
+------------------
+
+Implementovaná Practice family nyní obsahuje první dvě mise pro axiom 4 na
+reflexive frame a axiom 5 na serial frame.
+
+Příklady:
+- falsifikuj axiom 4 při zachování reflexivity
+- zachovej seriality a najdi countermodel k zadanému principu
+- vytvoř symmetric non-transitive frame
+- vytvoř valuation witnessing failure correspondence-related formule
+
+Placement:
+- Practice pro izolované úlohy
+- Campaign pro tematickou sérii
+
+První verze nepotřebuje nový Lab module.
+
+
+10.2 Model Budget / Small Model Challenges
+------------------------------------------
+
+Implementovaná Practice family nyní obsahuje Split possibility a Two steps
+away s explicitními world/relation bounds.
+
+Používat explicitní constraints:
+- at most N worlds
+- at most N explicit edges
+- required/forbidden relation properties
+- semantic-change budget
+- optional bonuses
+
+Placement:
+- Practice
+- Campaigns
+- Create templates
+
+Terminologie:
+bounded solution není automaticky minimal.
+
+Neříkat "minimal model", pokud optimálnost nedokazuje solver/search.
+
+
+10.3 Distinguishing Formula Challenges
+--------------------------------------
+
+Koncept:
+na finite modelu a target world zadat formuli s požadovaným truth setem, často
+jen target world.
+
+Výuková hodnota:
+- propojuje syntax a truth sets
+- ukazuje limity modal expressivity
+- vytváří přirozený bridge k bisimulation
+
+Placement:
+- advanced Practice
+- rozšíření Formula Laboratory
+- possible dedicated mini-campaign po Bisimulation
+
+Důležité:
+bisimilar worlds nemusí být žádnou modal formula rozlišitelné.
+
+Formula length a modal depth mohou být metric/bonus.
+"Shortest" nevyžadovat bez proof of optimality.
+
+
+10.4 Bisimulation Game Campaign
+-------------------------------
+
+Po vzniku Lab toolu:
+- identify legal Spoiler move
+- choose Duplicator response
+- find atomic mismatch
+- find forth/back failure
+- decide bisimilarity
+
+Interactive game patří primárně do Lab.
+Campaigns ho mohou obalit structured challenges.
+
+
+10.5 Filtration Challenges
+--------------------------
+
+Po vzniku Filtration Lab:
+- vybrat relevantní Gamma
+- klasifikovat worlds do equivalence classes
+- predikovat quotient structure
+- ověřit truth preservation
+- diagnostikovat chybnou filtraci
+
+Neimplementovat jako statická textová cvičení před použitelným Lab interaction.
+
+
+10.6 Tableaux / Countermodel Challenges
+---------------------------------------
+
+Po vzniku tableau engine:
+- zvolit další expansion
+- identifikovat closed branch
+- dokončit open branch
+- extrahovat countermodel
+- porovnat generated countermodels
+
+První verze má preferovat correctness a explainability před rychlostí.
+
+
+11. LAB
+======
+
+Lab je experimentální tool layer.
+
+Current:
+
+LAB
+└── Model Sandbox
+
+Model Sandbox umožňuje:
+- finite Kripke model construction
+- world/valuation/relation editing
+- evaluation world
+- formula evaluation
+- formula comparison
+- frame properties
+- semantic traces
+- free work bez fixed mission objective
+
+
+12. LAB: SCHVÁLENÁ TRAJEKTORIE MODULŮ
+=====================================
+
+Pořadí je priority guide, ne rigidní závazek.
+
+
+12.1 Model Sandbox refinements
+------------------------------
+
+Před samostatným major Lab modulem lze zlepšit existing Sandbox:
+
+SUBFORMULA / EVALUATION EXPLORER
+- formula decomposition tree
+- klik na subformuli
+- truth values přes všechny worlds
+- witness/counterexample highlights
+- critical relation highlight, kde dává smysl
+
+STANDARD TRANSLATION
+- zobrazit ST_x(phi)
+- copy Unicode
+- copy LaTeX
+
+Tyto funkce mají být uvnitř/vedle existing Sandbox nebo Reference.
+Neduplikovat celý workspace.
+
+
+12.2 Bisimulation Lab
+---------------------
+
+Preferovaný první major new Lab module.
+
+V1:
+- compare two pointed finite models/worlds
+- maximal bisimulation relation
+- atom/forth/back witnesses
+- clear visual relation pairing
+
+V2:
+- bisimilarity classes
+- quotient/contraction
+
+V3:
+- Spoiler vs Duplicator game
+
+Associated Learn/Campaign content přidat až po stabilizaci underlying tool.
+
+
+12.3 Generated Submodels / Modal Depth
+--------------------------------------
+
+Tools:
+- generated submodel z selected world
+- reachable/unreachable structure
+- depth-n neighborhood
+- formula modal-depth overlay
+
+
+12.4 Filtration Lab
+-------------------
+
+Tools:
+- zvolit Gamma
+- compute equivalence classes
+- display quotient
+- compare source/filtered model
+- truth-preservation checks
+
+
+12.5 Tableaux / Countermodel Construction
+-----------------------------------------
+
+Tools:
+- branch tree
+- expansion steps
+- closure status
+- open branch
+- extracted countermodel
+- optional automatic search
+
+Začít K.
+T/D/K4/S4/S5 přidávat až po spolehlivém core tableau engine.
+
+
+12.6 Symbolic / Infinite Models Lab
+-----------------------------------
+
+Future only.
+
+Representovat regular/generated structures:
+- infinite chains
+- trees
+- periodic valuations
+- další generator-defined models
+
+Nevytvářet arbitrary infinite node editor.
+
+
+13. FRAME PROPERTIES A CORRESPONDENCE
+====================================
+
+Frame property checking je už core capability, ne future Lab module.
+
+Current important properties:
+- reflexivity
+- symmetry
+- transitivity
+- Euclideanity
+- seriality
+- irreflexivity
+- acyclicity
+
+Standard correspondence presets:
+- T
+- D
+- B
+- 4
+- 5
+
+Možný later property:
+- confluence / Church-Rosser condition
+
+Přidat pouze s konkrétním teaching nebo logic use case.
+
+Reference má jasně odlišovat:
+- relational definition
+- formuli validní na frame class
+- check current finite frame
+- general correspondence theorem
+
+
+14. CREATE / EDUCATOR AUTHORING
+===============================
+
+Create je už implementovaná product area.
+
+Cíl:
+učitel/autor má vytvářet useful tasks bez editace JSON.
+
+Current / near-current workflow:
+1. vybrat nebo začít task
+2. definovat metadata
+3. capture starting model
+4. configure objective/formula
+5. configure allowed edits
+6. add explicit constraints
+7. add prediction/question interaction, pokud dává smysl
+8. capture a validate reference solution
+9. audit mission
+10. Playtest as player
+11. export/share
+12. optional package into custom campaign
+
+Další refinement:
+- jasnější task-type templates
+- méně ambiguous fields
+- learner-visible constraints
+- selective fixed/locked model elements
+- dobré defaults
+- lepší error explanations
+- snadná duplicace built-in patterns
+
+
+15. PRINCIPY AUTHORING CONSTRAINTS
+=================================
+
+Používat constraints pouze tehdy, pokud vyjadřují skutečný objective.
+
+Dobré:
+- at most 3 worlds
+- exactly one required relation, pokud je count součást úlohy
+- frame must be reflexive
+- learner může editovat valuations, ne relations
+- konkrétní edge musí zůstat fixed
+- solve within a defined semantic-change budget
+
+Špatné:
+- hidden restrictions
+- reject extra irrelevant world, pokud minimality není objective
+- vyžadovat přesný click order autora
+- vyžadovat equality s reference solution
+- nazývat bounded answer "minimal"
+
+Pokud future task používá "steps", metriku explicitně definovat.
+Preferovat semantic edits/change budget před UI clicks.
+
+
+16. MODAL LOGIC REFERENCE
+=========================
+
+Reference je mathematical lookup, ne druhý Learn course.
+
+Current/desired sections:
+- syntax
+- Kripke frames/models
+- satisfaction
+- □ a ◇
+- vacuous truth
+- nested modalities
+- semantic scopes
+- frame properties
+- modal axioms
+- correspondence caveats
+- glossary
+
+Dobré future additions:
+- Standard Translation ST_x
+- compact bisimulation definition po vzniku modulu
+- filtration definition po vzniku modulu
+- tableau notation po vzniku modulu
+
+Reference má zůstat stručná a formální.
+
+
+17. HELP & CONTROLS
+===================
+
+Help je operational.
+
+Má obsahovat:
+- workspace navigation
+- mouse/touchpad map gestures
+- model editing
+- valuations
+- relation creation/deletion
+- evaluation world
+- objectives a constraints
+- verification/result interface
+- Undo/Redo
+- persistence/local data
+- import/export/share
+- workspace tour
+- replay Learn the Controls
+
+Quick Help:
+krátká context help uvnitř workspace.
+
+Neduplikovat matematické definice z Reference krom minima nutného pro vysvětlení
+control.
+
+
+18. PARSER A FORMULA ENTRY
+==========================
+
+Formula entry je global infrastructure, ne feature jediné product layer.
+
+Current input:
+- Unicode ¬ ∧ ∨ → □ ◇
+- ASCII ! & | ->
+- box / diamond keywords
+- parentheses
+- position-aware syntax errors
+
+Approved refinement:
+- [] a <>
+- ~
+- optional textual operators
+- small LaTeX-like alias layer
+- live validation tam, kde pomůže
+
+Všechny notation aliases mají normalizovat do stejného AST a evaluatoru.
+
+
+19. GRAPH UX A VALUATION UX
+===========================
+
+Existing important behavior:
+- deterministic Tidy
+- readable self-loops
+- readable reverse/bidirectional relations
+- explicit vs derived relations
+- relation enforcement
+- resizable panes
+- keyboard paths
+- world renaming
+- Undo/Redo
+
+Possible future experiments:
+- inline atom chips na world nodes
+- snap-to-grid
+- alternative layout modes
+
+Neprioritizovat force-directed algorithm jen proto, že je běžný v graph tools.
+Logical diagrams těží z deterministic stable layoutu.
+
+
+20. EXPORT A SDÍLENÍ
+====================
+
+Current:
+- JSON mission/campaign formats
+- import/export
+- zero-backend share URLs pro custom obsah
+- versioned Share current Sandbox payload v1
+
+Implemented utility:
+SHARE CURRENT SANDBOX
+- model + formulas + evaluation state + scope do share linku
+- přímé sdílení counterexample/experimentu
+
+Near-term academic utility:
+LATEX / TIKZ EXPORT
+
+Cíl:
+umožnit vložit finite Kripke model do:
+- thesis
+- lecture notes
+- homework
+- article/slides
+
+Export má zahrnout:
+- world names
+- valuations
+- directed edges
+- reflexive loops
+- optional evaluation-world marker
+
+Jde o utility feature, ne samostatný Lab module.
+
+
+21. SPECIALIZOVANÉ LOGIKY
+=========================
+
+Jde o future product modules, ne immediate additions do core Learn.
+
+
+21.1 Multi-agentní epistemická logika
+-------------------------------------
+
+Expected capabilities:
+- relation per agent
+- K_a / K_b / ...
+- E_G
+- C_G
+- agent-colored/filtered relation layers
+- group knowledge visualization
+
+Vyžaduje skutečné semantic extension.
+Nestačí obarvit několik kopií současných hran.
+
+
+21.2 Public Announcement Logic
+------------------------------
+
+Po epistemic logic:
+- announcement formula
+- model restriction/update
+- before/after visualization
+- exercises o changed knowledge
+
+
+21.3 Další pozdější logiky
+--------------------------
+
+Potential:
+- temporal
+- dynamic
+- doxastic
+- deontic
+
+Každý nový module má mít:
+- clear semantic engine
+- meaningful interaction
+- alespoň jeden standalone Lab use case
+- Learn/Campaign content jen tam, kde dává smysl
+
+
+22. DESKTOP-FIRST POLICY
+========================
+
+Current supported product:
+desktop/laptop.
+
+Phone-class devices:
+jasný Desktop required / mobile not supported notice.
+
+Nespotřebovávat current roadmap capacity na full mobile layout.
+
+Responsive code může zůstat pro future work, ale mobile support se stane skutečným
+product target až v samostatné pozdější fázi.
+
+
+23. CONTENT DESIGN RULES
+========================
+
+Pro Learn/Campaign/Practice/Create content:
+
+- mathematical objective musí být explicitní
+- accepted solutions definovat sémanticky
+- hidden restrictions eliminovat
+- každé visible restriction musí mít pedagogický důvod
+- hints mají progresivně odkrývat strukturu, ne pouze dát answer
+- feedback má vysvětlit relevantní witness/counterexample
+- detailní semantic evidence má být dostupná on demand
+- visual model má zůstat po completion viditelný, kde je to užitečné
+- lesson/challenge má být replayable
+- difficulty má růst podle konceptu a samostatnosti, ne podle UI friction
+
+Nepřidávat scoring/gamification jen proto, aby produkt působil více "game-like".
+
+
+24. PRIORITY SUMMARY PRO PRODUCT LAYERS
+======================================
+
+NYNÍ:
+- QA všech existujících layers
+- novice user testing
+- regression fixes
+- Create refinement
+- manual QA Evaluation Explorer, parser aliases, Sandbox share a nového Practice obsahu
+
+NEAR TERM:
+- TikZ export
+- Standard Translation tool
+
+PRVNÍ MAJOR NEW LAB:
+- Bisimulation Lab
+
+PO BISIMULATION:
+- Generated Submodels / Modal Depth
+- Distinguishing Formula challenges
+
+POTOM:
+- Filtration Lab
+- Tableaux / Countermodel tools
+- Symbolic Infinite Models
+
+LONG TERM:
+- multi-agent epistemic logic
+- Public Announcement Logic
+- další specialized modal logics
+- pozdější distribution/mobile work
+
+
+25. PRAVIDLO ÚDRŽBY DOKUMENTŮ
+=============================
+
+Tento architecture file má popisovat stabilní product roles a approved
+pedagogical directions.
+
+Companion roadmap má popisovat implementation status a priority.
+
+Když se plánovaná funkce implementuje:
+- roadmap status aktualizovat
+- nenechat ji dál mezi future milestones
+- tento file měnit pouze tehdy, pokud se mění product role nebo pedagogické
+  umístění
+
+Smyslem je zabránit starému problému, kdy dokument stále říkal "implement X" i
+poté, co X už bylo v current main.
