@@ -8,7 +8,7 @@ import { HomeView } from './HomeView'
 afterEach(cleanup)
 
 describe('HomeView', () => {
-  it('shows data-driven progress and makes each primary destination a single action', async () => {
+  it('keeps progress available on the Learn destination and makes each primary destination a single action', async () => {
     const onLearn = vi.fn()
     const onCampaigns = vi.fn()
     const onLab = vi.fn()
@@ -16,8 +16,10 @@ describe('HomeView', () => {
 
     render(<HomeView completed={4} total={53} nextTitle="Necessity" onLearn={onLearn} onCampaigns={onCampaigns} onLab={onLab} />)
 
-    expect(screen.getByText('4/53 complete')).toBeVisible()
-    expect(screen.getByText('Next: Necessity')).toBeVisible()
+    expect(screen.getByText('4/53 complete')).toBeInTheDocument()
+    expect(screen.getByText('Next: Necessity')).toBeInTheDocument()
+    expect(screen.getByText('Advanced, specialized missions.')).toBeVisible()
+    expect(screen.getByText('Full sandbox with all modeling and analysis tools.')).toBeVisible()
 
     const mainActivities = screen.getByRole('navigation', { name: 'Main activities' })
     expect(within(mainActivities).getAllByRole('button')).toHaveLength(3)
