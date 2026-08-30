@@ -31,8 +31,12 @@
   line-height: 1.65;
 }
 
-.home-screen--redesigned .home-resume-strip {
+.home-screen--redesigned .home-resume-region {
   width: min(100%, 1120px);
+}
+
+.home-screen--redesigned .home-resume-strip {
+  width: 100%;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
