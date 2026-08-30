@@ -50,7 +50,7 @@ export function HomeView({ completed, total, nextTitle, currentSession, onResume
           <span className="home-destination-kicker">Guided course</span>
           <span className="home-destination-arrow" aria-hidden="true">→</span>
         </span>
-        <h2>Learn</h2>
+        <span className="home-destination-title">Learn</span>
         <span className="home-destination-copy">
           <span className="home-destination-summary">Modal logic step by step.</span>
           <span className="home-destination-detail">Move from possible worlds and accessibility to modal operators, countermodels, and frame properties.</span>
@@ -71,7 +71,7 @@ export function HomeView({ completed, total, nextTitle, currentSession, onResume
           <span className="home-destination-kicker">Challenges</span>
           <span className="home-destination-arrow" aria-hidden="true">→</span>
         </span>
-        <h2>Campaigns</h2>
+        <span className="home-destination-title">Campaigns</span>
         <span className="home-destination-copy">
           <span className="home-destination-summary">Structured mission sequences.</span>
           <span className="home-destination-detail">Apply modal semantics across longer challenges that combine several skills.</span>
@@ -88,7 +88,7 @@ export function HomeView({ completed, total, nextTitle, currentSession, onResume
           <span className="home-destination-kicker">Free exploration</span>
           <span className="home-destination-arrow" aria-hidden="true">→</span>
         </span>
-        <h2>Lab</h2>
+        <span className="home-destination-title">Lab</span>
         <span className="home-destination-copy">
           <span className="home-destination-summary">Experiment without a fixed objective.</span>
           <span className="home-destination-detail">Build models, test formulas, compare truth conditions, and inspect frame properties.</span>
