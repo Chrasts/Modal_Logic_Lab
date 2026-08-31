@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { ReactFlowInstance } from '@xyflow/react'
+import { announceMobileVerification } from '../workspace/mobile-workspace-events'
 
 interface WorkspaceToolbarProps {
   readonly sandbox: boolean
@@ -68,6 +69,10 @@ export function WorkspaceToolbar(props: WorkspaceToolbarProps) {
     action()
     setMobileMoreOpen(false)
   }
+  const runMobileVerify = () => {
+    onVerify()
+    announceMobileVerification()
+  }
 
   const derivedLabel = `${showDerivedRelations ? 'Hide' : 'Show'} derived`
 
@@ -100,7 +105,7 @@ export function WorkspaceToolbar(props: WorkspaceToolbarProps) {
         {selectedRelation && <button type="button" className="delete-edge-button" disabled={!canEditRelations} onClick={onDeleteRelation}>Delete relation</button>}
       </div>
       {canUseHistory && <div className="map-toolbar-group toolbar-primary-history" aria-label="Undo action"><button type="button" onClick={onUndo} disabled={!undoAvailable} aria-label="Undo" title="Undo">↶</button></div>}
-      {editorMode === 'evaluate' && <button type="button" className="toolbar-verify workspace-primary-verify" onClick={onVerify}>Verify</button>}
+      {editorMode === 'evaluate' && <button type="button" className="toolbar-verify workspace-primary-verify" onClick={runMobileVerify}>Verify</button>}
       <button type="button" className="mobile-toolbar-more-button" aria-label="More model tools" aria-expanded={mobileMoreOpen} onClick={() => setMobileMoreOpen((open) => !open)}>•••</button>
 
       <div className={`workspace-toolbar-secondary ${mobileMoreOpen ? 'open' : ''}`}>
