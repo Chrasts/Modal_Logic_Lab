@@ -1,0 +1,46 @@
+/* Final phone-layer fixes for stacking contexts, hit areas, and guided reflow. */
+@media (max-width: 760px) {
+  /* backdrop-filter creates a containing block for fixed descendants in Chromium.
+     The global bottom nav lives inside the topbar in the DOM, so keep the mobile
+     topbar opaque enough without trapping that fixed nav over the header actions. */
+  .topbar {
+    background: color-mix(in srgb, var(--paper) 96%, transparent);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .topbar .product-nav {
+    position: fixed;
+  }
+
+  /* React Flow's pane must never sit above controls expanded from its Panel. */
+  .graph-canvas .map-toolbar {
+    z-index: calc(var(--z-popover) + 3) !important;
+    overflow: visible !important;
+  }
+
+  .workspace-toolbar-secondary {
+    z-index: calc(var(--z-popover) + 4);
+    isolation: isolate;
+  }
+
+  /* On phones, lesson details are part of the document flow rather than a
+     desktop popover. This also prevents the popover width from widening the page. */
+  .mission-header-details > div {
+    position: static;
+    inset: auto;
+    width: 100%;
+    max-width: 100%;
+    max-height: min(46dvh, 420px);
+    margin-top: .35rem;
+    overflow: auto;
+    box-shadow: none;
+  }
+
+  .mission-header-details,
+  .mission-header-details > div,
+  .mission-header-details > div > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
