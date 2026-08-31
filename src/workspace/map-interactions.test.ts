@@ -2,13 +2,14 @@ import { describe, expect, it } from 'vitest'
 import { applyMapWheelGesture, classifyMapWheelGesture, MAP_MAX_ZOOM, MAP_MIN_ZOOM, modelMapInteractionProps, PINCH_ZOOM_MULTIPLIER, resolveMapWheelHandling } from './map-interactions'
 
 describe('model map gesture contract', () => {
-  it('leaves pointer drag-pan to React Flow and disables every competing wheel path', () => {
+  it('keeps desktop wheel handling custom while enabling native touch pinch and click-to-connect', () => {
     expect(modelMapInteractionProps).toEqual({
       panOnScroll: false,
       zoomOnScroll: false,
       zoomOnDoubleClick: false,
-      zoomOnPinch: false,
+      zoomOnPinch: true,
       panOnDrag: true,
+      connectOnClick: true,
     })
   })
 
