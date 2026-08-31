@@ -1,0 +1,227 @@
+/* Phone presentation for non-workspace screens and modal surfaces. */
+@media (max-width: 760px) {
+  /* Forms should never require horizontal scrolling or trigger iOS input zoom. */
+  .content-screen input:not([type='checkbox']):not([type='radio']),
+  .content-screen select,
+  .content-screen textarea,
+  .help-dialog input:not([type='checkbox']):not([type='radio']),
+  .help-dialog select,
+  .help-dialog textarea {
+    max-width: 100%;
+    font-size: max(16px, 1em);
+  }
+
+  .content-screen button,
+  .content-screen [role='button'] {
+    min-height: 44px;
+  }
+
+  /* Settings becomes a clear stack with full touch rows. */
+  .settings-grid {
+    grid-template-columns: 1fr;
+    gap: .55rem;
+  }
+
+  .settings-grid article {
+    gap: .55rem;
+    padding: .85rem;
+  }
+
+  .settings-choice {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .35rem;
+  }
+
+  .settings-choice button {
+    min-width: 0;
+    min-height: 48px;
+    white-space: normal;
+  }
+
+  .settings-grid label {
+    min-height: 44px;
+    align-items: center;
+    border-radius: 8px;
+    padding: .35rem .15rem;
+    touch-action: manipulation;
+  }
+
+  .settings-grid label input[type='checkbox'] {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 22px;
+    margin: 0;
+  }
+
+  .settings-grid .secondary-button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  /* Create is supported on phone even though large-scale authoring still benefits from desktop. */
+  .create-screen .play-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .create-screen .home-actions article {
+    gap: .55rem;
+  }
+
+  .create-screen select,
+  .create-screen button,
+  .create-import-card button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .create-import-card {
+    width: 100%;
+    max-width: none;
+    gap: .65rem;
+    margin-top: .6rem;
+    padding: .85rem;
+  }
+
+  .create-import-card textarea {
+    width: 100%;
+    min-height: 180px;
+  }
+
+  /* General dialogs become bottom sheets. This avoids tiny centered modals behind the keyboard. */
+  .dialog-backdrop {
+    place-items: end stretch;
+    padding: .5rem .5rem calc(.5rem + env(safe-area-inset-bottom));
+  }
+
+  .help-dialog,
+  .data-dialog,
+  .introduction-dialog,
+  .frame-rules-dialog,
+  .workspace-quick-help {
+    width: 100%;
+    max-width: none;
+    max-height: calc(100dvh - 1rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    border-radius: 16px 16px 12px 12px;
+    padding: .9rem;
+    overscroll-behavior: contain;
+  }
+
+  .dialog-heading {
+    position: sticky;
+    z-index: 4;
+    top: -.9rem;
+    align-items: center;
+    gap: .7rem;
+    margin: -.1rem -.1rem .8rem;
+    background: color-mix(in srgb, var(--paper) 96%, transparent);
+    padding: .7rem .1rem .45rem;
+    backdrop-filter: blur(12px);
+  }
+
+  .dialog-heading h2 {
+    font-size: clamp(1.35rem, 7vw, 1.8rem);
+    line-height: 1.15;
+  }
+
+  .dialog-close {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    flex: 0 0 44px;
+  }
+
+  .dialog-intro {
+    margin: 0 0 .85rem;
+  }
+
+  .quick-help-grid,
+  .data-actions,
+  .data-actions .data-reset-card {
+    grid-template-columns: 1fr;
+  }
+
+  .data-actions {
+    gap: .55rem;
+  }
+
+  .data-actions .data-reset-card {
+    grid-column: auto;
+  }
+
+  .data-actions article {
+    min-width: 0;
+    padding: .8rem;
+  }
+
+  .data-actions textarea {
+    width: 100%;
+    min-height: 160px;
+  }
+
+  .data-actions article > div {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .35rem;
+  }
+
+  .data-actions button {
+    width: 100%;
+    min-height: 48px;
+    white-space: normal;
+  }
+
+  /* Horizontal tab bars remain scrollable and each target stays finger-sized. */
+  .guide-tabs,
+  .campaign-section-tabs {
+    margin-inline: -.25rem;
+    padding-inline: .25rem;
+    scroll-padding-inline: .25rem;
+    scrollbar-width: none;
+  }
+
+  .guide-tabs::-webkit-scrollbar,
+  .campaign-section-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .guide-tabs button,
+  .campaign-section-tabs button {
+    min-height: 44px;
+  }
+
+  /* Tables are useful reference material, so keep them intact and scroll the table rather than the page. */
+  .reference-grid {
+    min-width: 0;
+  }
+
+  .reference-grid table,
+  .model-table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Learn/Campaign cards must reflow their action area rather than squeeze copy beside buttons. */
+  .learn-chapter-list article,
+  .level-browser article,
+  .history-list article {
+    align-items: stretch;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .learn-chapter-list article button,
+  .level-browser article button {
+    width: 100%;
+    min-height: 48px;
+  }
+}
+
+@media (max-width: 380px) {
+  .settings-choice {
+    grid-template-columns: 1fr;
+  }
+}
