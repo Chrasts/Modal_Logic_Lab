@@ -1,0 +1,47 @@
+/* Phone workspace composition that keeps persistent controls out of the model hit area. */
+@media (max-width: 760px) {
+  .workspace,
+  .workspace.left-collapsed,
+  .workspace.right-collapsed,
+  .workspace.left-collapsed.right-collapsed,
+  .workspace.guided-workspace {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .workspace .graph-panel {
+    order: 1;
+  }
+
+  .mobile-workspace-tabs {
+    position: sticky;
+    order: 2;
+    left: auto;
+    right: auto;
+    bottom: calc(.5rem + env(safe-area-inset-bottom));
+    width: 100%;
+    margin: .45rem 0 0;
+    flex: 0 0 auto;
+  }
+
+  .workspace .formula-panel,
+  .workspace .verify-panel,
+  .workspace .model-panel,
+  .workspace .edge-panel {
+    order: 3;
+  }
+
+  .page-shell:has(.workspace),
+  .main-content:has(.workspace) {
+    scroll-padding-bottom: calc(var(--mobile-nav-height) + 1rem + env(safe-area-inset-bottom));
+  }
+
+  .graph-canvas .react-flow__node {
+    scroll-margin-block: 5rem calc(var(--mobile-nav-height) + 1rem);
+  }
+
+  .guided-workspace .graph-canvas {
+    height: min(52dvh, 520px);
+    min-height: 360px;
+  }
+}
