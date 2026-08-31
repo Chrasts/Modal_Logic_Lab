@@ -29,11 +29,11 @@ A free **Model Sandbox** for constructing finite Kripke models, evaluating and c
 
 Tools for creating, testing, importing, exporting, and sharing custom missions and campaigns.
 
-The application also includes a modal logic reference, controls and help, local progress tracking, and browser-local data export.
+The application also includes a modal logic reference, controls and help, local progress tracking, browser-local data export, and adaptive desktop and mobile layouts.
 
 ## Planned direction
 
-The immediate focus is on stabilizing and refining the desktop experience, improving educational authoring, and testing the application with users.
+The immediate focus is on stabilizing the adaptive workspace, refining the educational experience and authoring tools, and testing the application with users across desktop and touch devices.
 
 Later extensions may include dedicated interactive tools for:
 
@@ -45,7 +45,7 @@ Later extensions may include dedicated interactive tools for:
 
 In the longer term, the platform may expand beyond basic normal modal logic to areas such as epistemic, temporal, dynamic, public announcement, and other modal logics.
 
-The project currently targets **desktop and laptop browsers** and uses finite Kripke models as its primary semantic environment.
+The project uses finite Kripke models as its primary semantic environment and supports desktop, tablet, and phone-class browser layouts.
 
 ---
 
