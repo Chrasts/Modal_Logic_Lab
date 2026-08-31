@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { ReactFlowInstance } from '@xyflow/react'
 
 interface WorkspaceToolbarProps {
@@ -35,6 +35,23 @@ interface WorkspaceToolbarProps {
   readonly onVerify: () => void
 }
 
+const mobileToolbarMediaQuery = '(max-width: 760px)'
+
+function useMobileToolbar() {
+  const [mobile, setMobile] = useState(() => typeof window !== 'undefined' && window.matchMedia(mobileToolbarMediaQuery).matches)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const media = window.matchMedia(mobileToolbarMediaQuery)
+    const sync = () => setMobile(media.matches)
+    sync()
+    media.addEventListener('change', sync)
+    return () => media.removeEventListener('change', sync)
+  }, [])
+
+  return mobile
+}
+
 export function WorkspaceToolbar(props: WorkspaceToolbarProps) {
   const {
     sandbox, editorMode, rightPanelOpen, showWorldPanel, showEdgePanel, leftPanelOpen,
@@ -45,6 +62,7 @@ export function WorkspaceToolbar(props: WorkspaceToolbarProps) {
     onToggleModelPanel, onUndo, onRedo, onTidy, onToggleDerived,
     onOpenFrameRules, onVerify,
   } = props
+  const mobileToolbar = useMobileToolbar()
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false)
   const runSecondary = (action: () => void) => {
     action()
@@ -54,7 +72,7 @@ export function WorkspaceToolbar(props: WorkspaceToolbarProps) {
   const derivedLabel = `${showDerivedRelations ? 'Hide' : 'Show'} derived`
 
   return <div className="workspace-toolbar-content" data-tour-target="map-toolbar">
-    <div className="workspace-toolbar-desktop">
+    {!mobileToolbar ? <div className="workspace-toolbar-desktop">
       {sandbox && <div className="workspace-presets" aria-label="Workspace presets"><button type="button" className={editorMode === 'edit' && rightPanelOpen ? 'active' : ''} onClick={() => onApplyPreset('build')}>◇ Model · Build</button><button type="button" className={editorMode === 'evaluate' ? 'active' : ''} onClick={() => onApplyPreset('evaluate')}>φ Formula · Evaluate</button><button type="button" onClick={() => onApplyPreset('frame')}>R Frame rules</button></div>}
       <div className="map-toolbar-group" aria-label="Model actions">
         {canAddWorld && <button type="button" onClick={onAddWorld} disabled={!canEditWorlds}>+ World</button>}
@@ -76,9 +94,7 @@ export function WorkspaceToolbar(props: WorkspaceToolbarProps) {
         {!focusedIntro && <button type="button" className="frame-rules-button" onClick={onOpenFrameRules}>Frame rules{frameRuleCount ? ` (${frameRuleCount})` : ''}</button>}
         {editorMode === 'evaluate' && <button type="button" className="toolbar-verify" onClick={onVerify}>Verify</button>}
       </div>
-    </div>
-
-    <div className="workspace-toolbar-mobile">
+    </div> : <div className="workspace-toolbar-mobile">
       <div className="map-toolbar-group toolbar-primary-actions" aria-label="Model actions">
         {canAddWorld && <button type="button" onClick={onAddWorld} disabled={!canEditWorlds}>+ World</button>}
         {selectedRelation && <button type="button" className="delete-edge-button" disabled={!canEditRelations} onClick={onDeleteRelation}>Delete relation</button>}
@@ -105,6 +121,6 @@ export function WorkspaceToolbar(props: WorkspaceToolbarProps) {
           {!focusedIntro && <button type="button" className="frame-rules-button" onClick={() => runSecondary(onOpenFrameRules)}>Frame rules{frameRuleCount ? ` (${frameRuleCount})` : ''}</button>}
         </div>
       </div>
-    </div>
+    </div>}
   </div>
 }
