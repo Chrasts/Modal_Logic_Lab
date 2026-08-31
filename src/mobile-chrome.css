@@ -1,0 +1,58 @@
+/* Phone-only topbar and utility-menu behavior. */
+@media (max-width: 760px) {
+  .utility-menu > .text-button {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: .45rem .55rem;
+  }
+
+  .utility-menu-popover {
+    position: fixed;
+    z-index: var(--z-popover);
+    top: 3.85rem;
+    right: .5rem;
+    left: .5rem;
+    width: auto;
+    min-width: 0;
+    max-height: calc(100dvh - 4.35rem - env(safe-area-inset-bottom));
+    overflow-y: auto;
+    border-radius: 12px;
+    padding: .35rem;
+    overscroll-behavior: contain;
+  }
+
+  .utility-menu-popover > * {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: .6rem .7rem;
+    touch-action: manipulation;
+  }
+
+  .language-menu-popover {
+    position: fixed;
+    top: 3.85rem;
+    right: .5rem;
+    left: .5rem;
+    width: auto;
+    min-width: 0;
+    max-height: calc(100dvh - 4.35rem - env(safe-area-inset-bottom));
+    overflow-y: auto;
+  }
+
+  .language-menu-popover button {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 760px) and (max-height: 480px) {
+  .utility-menu-popover,
+  .language-menu-popover {
+    top: 3.35rem;
+    max-height: calc(100dvh - 3.75rem);
+  }
+}
