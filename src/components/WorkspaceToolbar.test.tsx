@@ -2,12 +2,24 @@
 
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { mobileVerificationRequestedEvent } from '../workspace/mobile-workspace-events'
 import { WorkspaceToolbar } from './WorkspaceToolbar'
 
 afterEach(() => {
   cleanup()
   vi.restoreAllMocks()
 })
+
+const mockMobileMedia = () => vi.spyOn(window, 'matchMedia').mockImplementation((query: string) => ({
+  matches: query === '(max-width: 760px)',
+  media: query,
+  onchange: null,
+  addListener: vi.fn(),
+  removeListener: vi.fn(),
+  addEventListener: vi.fn(),
+  removeEventListener: vi.fn(),
+  dispatchEvent: vi.fn(() => false),
+}))
 
 const renderToolbar = (overrides: Partial<Parameters<typeof WorkspaceToolbar>[0]> = {}) => {
   const actions = {
@@ -37,21 +49,22 @@ describe('WorkspaceToolbar', () => {
   })
 
   it('renders only the compact toolbar shell at the phone breakpoint', () => {
-    vi.spyOn(window, 'matchMedia').mockImplementation((query: string) => ({
-      matches: query === '(max-width: 760px)',
-      media: query,
-      onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      dispatchEvent: vi.fn(() => false),
-    }))
-
+    mockMobileMedia()
     const { container } = renderToolbar()
     expect(container.querySelector('.workspace-toolbar-mobile')).toBeInTheDocument()
     expect(container.querySelector('.workspace-toolbar-desktop')).not.toBeInTheDocument()
     expect(screen.getAllByLabelText('Model actions')).toHaveLength(1)
     expect(screen.getByRole('button', { name: 'More model tools' })).toBeInTheDocument()
+  })
+
+  it('announces a result transition when mobile verification runs', () => {
+    mockMobileMedia()
+    const verificationRequested = vi.fn()
+    window.addEventListener(mobileVerificationRequestedEvent, verificationRequested)
+    const { actions } = renderToolbar({ editorMode: 'evaluate' })
+    fireEvent.click(screen.getByRole('button', { name: 'Verify' }))
+    expect(actions.onVerify).toHaveBeenCalledOnce()
+    expect(verificationRequested).toHaveBeenCalledOnce()
+    window.removeEventListener(mobileVerificationRequestedEvent, verificationRequested)
   })
 })
