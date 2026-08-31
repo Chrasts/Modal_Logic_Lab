@@ -6,6 +6,7 @@ import './mobile.css'
 import './mobile-workspace.css'
 import './mobile-guided.css'
 import './mobile-surfaces.css'
+import './mobile-chrome.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
