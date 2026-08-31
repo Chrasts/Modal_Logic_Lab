@@ -99,4 +99,58 @@ test.describe('phone-class public use', () => {
     await expect(rows.nth(1)).toContainText('w0')
     await expect(rows.nth(1)).toContainText('explicit')
   })
+
+  test('keeps guided Learn instructions, hints, and actions usable on a phone', async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem('logic-game:campaign-progress:v2', JSON.stringify(['tutorial-v2-evaluation-world', 'tutorial-v2-valuation', 'tutorial-v2-draw-edge', 'tutorial-v2-correct-edge', 'tutorial-v2-add-world', 'tutorial-v2-build-model']))
+      localStorage.setItem('logic-game:campaign-content-revision:v1', '2')
+      localStorage.setItem('logic-game:learn-progress:v1', JSON.stringify({ version: 1, contentRevision: 3, welcomeViewed: true, completedLessonIds: [], completedChapterIds: [], highestStageByLesson: {}, attemptsByLesson: {}, successfulAttemptsByLesson: {}, predictionAnswers: {}, predictionCorrectness: {}, hintsUsed: {}, transferCompletedLessonIds: [], completedAt: {} }))
+    })
+    await page.goto('./')
+    await page.getByRole('button', { name: 'Learn', exact: true }).click()
+    const possibilityChapter = page.getByRole('heading', { name: 'Possibility', exact: true }).locator('xpath=ancestor::article')
+    await possibilityChapter.getByRole('button', { name: 'Start', exact: true }).click()
+    const dialog = page.getByRole('dialog', { name: 'A possible alternative' })
+    await expect(dialog).toBeVisible()
+    await dialog.getByRole('button', { name: 'Start task' }).click()
+
+    const mission = page.getByRole('region', { name: 'Current lesson' })
+    await expect(mission).toBeVisible()
+    await expect(page.getByLabel('Kripke model editor')).toBeVisible()
+    await expect(page.getByRole('tablist', { name: 'Workspace sections' })).toBeVisible()
+    await expect(page.getByRole('navigation', { name: 'Global navigation' })).toBeHidden()
+
+    await mission.getByText('Details & hints').click()
+    const revealHint = page.getByRole('button', { name: 'Reveal hint 1' })
+    await expect(revealHint).toBeVisible()
+    expect((await revealHint.boundingBox())?.height).toBeGreaterThanOrEqual(44)
+
+    const action = mission.locator('.mission-header-actions button').first()
+    await expect(action).toBeVisible()
+    expect((await action.boundingBox())?.height).toBeGreaterThanOrEqual(44)
+
+    const dimensions = await page.evaluate(() => ({ viewport: document.documentElement.clientWidth, content: document.documentElement.scrollWidth }))
+    expect(dimensions.content).toBeLessThanOrEqual(dimensions.viewport)
+  })
+
+  test('keeps the workspace operable on a short phone viewport', async ({ page }) => {
+    await page.setViewportSize({ width: 740, height: 390 })
+    await page.goto('./')
+    await page.getByRole('button', { name: 'Lab', exact: true }).click()
+    await page.getByRole('button', { name: 'Open Model Sandbox' }).click()
+
+    const graph = page.locator('.graph-canvas')
+    await expect(graph).toBeVisible()
+    const graphBox = await graph.boundingBox()
+    expect(graphBox?.height).toBeGreaterThanOrEqual(280)
+    expect(graphBox?.height).toBeLessThanOrEqual(320)
+    await expect(page.getByRole('tablist', { name: 'Workspace sections' })).toBeVisible()
+
+    await page.getByRole('tab', { name: 'formula' }).click()
+    await expect(page.getByLabel('Modal formula')).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Visual model' })).toBeVisible()
+
+    const dimensions = await page.evaluate(() => ({ viewport: document.documentElement.clientWidth, content: document.documentElement.scrollWidth }))
+    expect(dimensions.content).toBeLessThanOrEqual(dimensions.viewport)
+  })
 })
