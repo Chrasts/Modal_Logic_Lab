@@ -1,3 +1,12 @@
+/* Keep the original desktop toolbar as the default shell. */
+.workspace-toolbar-desktop {
+  display: contents;
+}
+
+.workspace-toolbar-mobile {
+  display: none;
+}
+
 /* Phone workspace composition that keeps persistent controls out of the model hit area. */
 @media (max-width: 760px) {
   .workspace,
@@ -13,6 +22,24 @@
     order: 1;
   }
 
+  .workspace-toolbar-desktop {
+    display: none;
+  }
+
+  .workspace-toolbar-mobile {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .28rem;
+  }
+
+  .workspace-toolbar-mobile > .map-toolbar-group button {
+    min-width: 44px;
+    min-height: 44px;
+    white-space: nowrap;
+  }
+
   .mobile-workspace-tabs {
     position: sticky;
     order: 2;
@@ -22,7 +49,9 @@
     width: 100%;
     margin: .45rem 0 0;
     flex: 0 0 auto;
-    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
   }
 
   .workspace .formula-panel,
