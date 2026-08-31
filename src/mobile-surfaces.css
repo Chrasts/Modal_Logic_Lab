@@ -88,6 +88,130 @@
     min-height: 180px;
   }
 
+  /* The multi-step mission studio remains fully navigable on a phone. */
+  .authoring-screen .screen-hero.compact {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    gap: .65rem;
+  }
+
+  .authoring-screen .screen-hero.compact > button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .authoring-studio,
+  .mission-author-stepper,
+  .author-step,
+  .author-step-fields,
+  .author-export-step,
+  .campaign-packager,
+  .mission-audit {
+    min-width: 0;
+  }
+
+  .author-step-navigation,
+  .author-workflow {
+    grid-template-columns: 1fr;
+  }
+
+  .author-step-navigation button {
+    min-height: 48px;
+  }
+
+  .author-step {
+    padding: .8rem;
+  }
+
+  .author-step-fields,
+  .author-bounds,
+  .author-pairs {
+    grid-template-columns: 1fr;
+  }
+
+  .author-step-fields label,
+  .author-bounds label,
+  .author-pairs label,
+  .campaign-packager label,
+  .share-link-output label {
+    min-width: 0;
+  }
+
+  .author-step-fields input,
+  .author-step-fields select,
+  .author-step-fields textarea,
+  .author-bounds input,
+  .author-pairs input,
+  .campaign-packager input,
+  .share-link-output input {
+    width: 100%;
+  }
+
+  .level-author fieldset {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .35rem;
+  }
+
+  .level-author fieldset label {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+  }
+
+  .level-author fieldset input[type='checkbox'],
+  .level-author fieldset input[type='radio'] {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 22px;
+  }
+
+  .author-step-actions {
+    position: sticky;
+    z-index: 3;
+    bottom: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .4rem;
+    margin: .8rem -.25rem -.25rem;
+    border-top: 1px solid rgba(20, 100, 122, .14);
+    background: color-mix(in srgb, var(--paper) 96%, transparent);
+    padding: .55rem .25rem .25rem;
+    backdrop-filter: blur(12px);
+  }
+
+  .author-step-actions button {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+  }
+
+  .author-final-actions,
+  .campaign-packager > div,
+  .share-link-output {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .4rem;
+  }
+
+  .author-final-actions button,
+  .campaign-packager button,
+  .share-link-output button,
+  .mission-audit button {
+    width: 100%;
+    min-height: 48px;
+    white-space: normal;
+  }
+
+  .campaign-packager li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: .4rem;
+  }
+
   /* General dialogs become bottom sheets. This avoids tiny centered modals behind the keyboard. */
   .dialog-backdrop {
     place-items: end stretch;
@@ -221,7 +345,8 @@
 }
 
 @media (max-width: 380px) {
-  .settings-choice {
+  .settings-choice,
+  .author-step-actions {
     grid-template-columns: 1fr;
   }
 }
