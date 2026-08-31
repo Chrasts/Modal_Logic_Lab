@@ -1,0 +1,280 @@
+/* Phone-specific guided learning refinements.
+   This layer intentionally sits after the general mobile workspace rules. */
+@media (max-width: 760px) {
+  /* Guided content must remain readable even though the ordinary mission summary is compact. */
+  .mission-header-rich .mission-header-objective {
+    display: grid;
+    gap: .45rem;
+  }
+
+  .mission-header-rich .mission-header-objective p,
+  .mission-header .question-feedback,
+  .mission-header .progressive-hints p,
+  .mission-header .reference-solution p {
+    display: block;
+    overflow: visible;
+    -webkit-line-clamp: unset;
+    -webkit-box-orient: initial;
+  }
+
+  .mission-header-objective > ol {
+    display: grid;
+    gap: .25rem;
+  }
+
+  .mission-header-controls {
+    min-width: 0;
+  }
+
+  .mission-header-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .35rem;
+    overflow: visible;
+  }
+
+  .mission-header-actions > button,
+  .mission-header-actions > a {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    white-space: normal;
+  }
+
+  .mission-header-actions > :only-child {
+    grid-column: 1 / -1;
+  }
+
+  .mission-header-details {
+    min-width: 0;
+    border-top: 1px solid rgba(20, 100, 122, .14);
+    padding-top: .2rem;
+  }
+
+  .mission-header-details > summary,
+  .semantic-result-details > summary {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  .mission-header-details > div,
+  .semantic-result-details > div {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  /* Question and prediction tasks become one-column, thumb-sized controls. */
+  .question-task-panel {
+    display: grid;
+    gap: .55rem;
+    min-width: 0;
+  }
+
+  .question-task-panel > strong {
+    font-size: .82rem;
+    line-height: 1.45;
+  }
+
+  .question-choice-row,
+  .prediction-choice,
+  .statement-choice-grid,
+  .countervaluation-choices,
+  .model-choice-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .4rem;
+    min-width: 0;
+  }
+
+  .question-choice-row.prediction-choice {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .question-choice-row button,
+  .statement-choice-grid button,
+  .countervaluation-choices button,
+  .model-choice-grid button {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    touch-action: manipulation;
+  }
+
+  .scope-prediction,
+  .question-scope-choice {
+    display: grid;
+    gap: .4rem;
+  }
+
+  .scope-prediction > div,
+  .question-scope-choice > div {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) repeat(2, minmax(64px, auto));
+    align-items: center;
+    gap: .3rem;
+  }
+
+  .scope-prediction button,
+  .question-scope-choice button {
+    min-width: 64px;
+    min-height: 44px;
+  }
+
+  .map-answer-status {
+    display: grid;
+    gap: .2rem;
+    min-width: 0;
+    border-radius: 9px;
+    background: var(--petrol-soft);
+    padding: .55rem .65rem;
+  }
+
+  .map-answer-status span,
+  .map-answer-status b {
+    overflow-wrap: anywhere;
+  }
+
+  .question-feedback {
+    margin: 0;
+    padding: .6rem .7rem;
+    border-radius: 9px;
+    line-height: 1.45;
+  }
+
+  .countervaluation-choices button {
+    display: grid;
+    justify-items: start;
+    gap: .25rem;
+    text-align: left;
+  }
+
+  .countervaluation-choices code,
+  .reference-solution code {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .model-choice-grid button {
+    display: grid;
+    gap: .35rem;
+    text-align: left;
+  }
+
+  .model-choice-grid svg,
+  .model-choice-grid .static-kripke-diagram {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Hints and worked guidance should scroll naturally inside the mission details panel. */
+  .progressive-hints {
+    display: grid;
+    gap: .45rem;
+    min-width: 0;
+  }
+
+  .progressive-hints p {
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .progressive-hints button,
+  .reference-solution button {
+    width: 100%;
+    min-height: 44px;
+    white-space: normal;
+  }
+
+  .reference-solution {
+    min-width: 0;
+  }
+
+  /* Result actions are kept above the workspace switcher and remain thumb-sized. */
+  .verification-summary {
+    align-items: flex-start;
+    gap: .55rem;
+  }
+
+  .verification-summary p {
+    overflow-wrap: anywhere;
+  }
+
+  .verification-summary-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .4rem;
+  }
+
+  .verification-summary-actions > button,
+  .verification-summary-actions > a {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    white-space: normal;
+  }
+
+  .verification-summary-actions > :only-child {
+    grid-column: 1 / -1;
+  }
+
+  .semantic-result-details {
+    margin-top: .45rem;
+  }
+
+  /* Inputs remain visible when mobile browsers raise the software keyboard. */
+  .formula-panel input,
+  .formula-panel select,
+  .world-inspector input,
+  .world-inspector select,
+  .question-task-panel select {
+    scroll-margin-block: 4.5rem calc(var(--mobile-nav-height) + 1rem);
+    font-size: max(16px, 1em);
+  }
+}
+
+/* Short screens cover both landscape phones and viewports reduced by a software keyboard. */
+@media (max-width: 760px) and (max-height: 600px) {
+  .guided-workspace .graph-canvas {
+    height: 300px;
+    min-height: 300px;
+  }
+
+  .workspace.mobile-tab-formula .formula-panel,
+  .workspace.mobile-tab-result .verify-panel,
+  .workspace.mobile-tab-result.left-collapsed .verify-panel,
+  .workspace.mobile-tab-formula.left-collapsed .formula-panel {
+    max-height: calc(100dvh - var(--mobile-nav-height) - 1.5rem);
+  }
+
+  .graph-canvas .world-inspector {
+    max-height: min(62%, 300px);
+  }
+}
+
+@media (max-width: 380px) {
+  .mission-header-actions,
+  .verification-summary-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .mission-header-actions > :only-child,
+  .verification-summary-actions > :only-child {
+    grid-column: auto;
+  }
+
+  .scope-prediction > div,
+  .question-scope-choice > div {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .scope-prediction > div > span,
+  .question-scope-choice > div > span {
+    grid-column: 1 / -1;
+  }
+}
