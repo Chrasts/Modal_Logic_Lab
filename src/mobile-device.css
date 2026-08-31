@@ -1,4 +1,15 @@
 /* Device-level mobile hardening: safe areas, dynamic viewport, and focused controls. */
+
+/* viewport-fit=cover can expose display cutouts above the phone breakpoint too,
+   notably on landscape iPhones. Match the normal desktop padding when safe-area
+   insets are zero, while keeping content out of notches when they are present. */
+.page-shell {
+  padding-top: calc(.75rem + env(safe-area-inset-top));
+  padding-right: calc(.75rem + env(safe-area-inset-right));
+  padding-bottom: calc(.75rem + env(safe-area-inset-bottom));
+  padding-left: calc(.75rem + env(safe-area-inset-left));
+}
+
 @media (max-width: 760px) {
   html,
   body,
