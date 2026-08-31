@@ -3,10 +3,10 @@
   "private": true,
   "version": "0.1.0",
   "author": "Chrasts (https://github.com/Chrasts)",
-  "homepage": "https://chrasts.github.io/Modal_Logic_Educational_Game/",
+  "homepage": "https://chrasts.github.io/Modal_Logic_Lab/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Chrasts/Modal_Logic_Educational_Game.git"
+    "url": "https://github.com/Chrasts/Modal_Logic_Lab.git"
   },
   "type": "module",
   "scripts": {
