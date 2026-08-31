@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { mobileVerificationRequestedEvent } from '../workspace/mobile-workspace-events'
 import { WorkspaceToolbar } from './WorkspaceToolbar'
@@ -61,8 +61,10 @@ describe('WorkspaceToolbar', () => {
     mockMobileMedia()
     const verificationRequested = vi.fn()
     window.addEventListener(mobileVerificationRequestedEvent, verificationRequested)
-    const { actions } = renderToolbar({ editorMode: 'evaluate' })
-    fireEvent.click(screen.getByRole('button', { name: 'Verify' }))
+    const { actions, container } = renderToolbar({ editorMode: 'evaluate' })
+    const mobileToolbar = container.querySelector('.workspace-toolbar-mobile')
+    expect(mobileToolbar).not.toBeNull()
+    fireEvent.click(within(mobileToolbar as HTMLElement).getByRole('button', { name: 'Verify' }))
     expect(actions.onVerify).toHaveBeenCalledOnce()
     expect(verificationRequested).toHaveBeenCalledOnce()
     window.removeEventListener(mobileVerificationRequestedEvent, verificationRequested)
