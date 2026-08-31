@@ -1,0 +1,111 @@
+/* Device-level mobile hardening: safe areas, dynamic viewport, and focused controls. */
+@media (max-width: 760px) {
+  html,
+  body,
+  #root {
+    max-width: 100%;
+  }
+
+  body {
+    min-height: 100dvh;
+    min-height: 100svh;
+  }
+
+  /* Keep ordinary content outside display cutouts while still allowing the page
+     background to extend edge-to-edge with viewport-fit=cover. */
+  .page-shell {
+    padding-top: calc(.5rem + env(safe-area-inset-top));
+    padding-right: calc(.5rem + env(safe-area-inset-right));
+    padding-bottom: calc(var(--mobile-nav-height) + 1rem + env(safe-area-inset-bottom));
+    padding-left: calc(.5rem + env(safe-area-inset-left));
+  }
+
+  .page-shell:has(.workspace) {
+    padding-bottom: calc(.5rem + env(safe-area-inset-bottom));
+  }
+
+  /* A sticky header can otherwise slide under a notch after the document scrolls. */
+  .topbar {
+    top: calc(.35rem + env(safe-area-inset-top));
+  }
+
+  /* Fixed thumb controls must honor both landscape side cutouts and the home indicator. */
+  .product-nav,
+  .mobile-workspace-tabs {
+    left: calc(var(--mobile-edge-gap) + env(safe-area-inset-left));
+    right: calc(var(--mobile-edge-gap) + env(safe-area-inset-right));
+    bottom: calc(var(--mobile-edge-gap) + env(safe-area-inset-bottom));
+  }
+
+  .workspace.mobile-tab-formula .formula-panel,
+  .workspace.mobile-tab-result .verify-panel,
+  .workspace.mobile-tab-result.left-collapsed .verify-panel,
+  .workspace.mobile-tab-formula.left-collapsed .formula-panel {
+    left: calc(var(--mobile-edge-gap) + env(safe-area-inset-left));
+    right: calc(var(--mobile-edge-gap) + env(safe-area-inset-right));
+    bottom: calc(var(--mobile-nav-height) + 1rem + env(safe-area-inset-bottom));
+    max-height: min(68dvh, 640px);
+  }
+
+  .utility-menu-popover,
+  .language-menu-popover {
+    top: calc(3.85rem + env(safe-area-inset-top));
+    right: calc(.5rem + env(safe-area-inset-right));
+    left: calc(.5rem + env(safe-area-inset-left));
+    max-height: calc(100dvh - 4.35rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+
+  .dialog-backdrop {
+    padding-top: calc(.5rem + env(safe-area-inset-top));
+    padding-right: calc(.5rem + env(safe-area-inset-right));
+    padding-bottom: calc(.5rem + env(safe-area-inset-bottom));
+    padding-left: calc(.5rem + env(safe-area-inset-left));
+  }
+
+  /* Give browser auto-scroll enough breathing room when a software keyboard
+     focuses a field near a sticky/fixed control surface. */
+  .content-screen,
+  .formula-panel,
+  .verify-panel,
+  .world-inspector,
+  .help-dialog,
+  .data-dialog,
+  .introduction-dialog,
+  .frame-rules-dialog,
+  .workspace-quick-help {
+    scroll-padding-top: calc(4rem + env(safe-area-inset-top));
+    scroll-padding-bottom: calc(var(--mobile-nav-height) + 2rem + env(safe-area-inset-bottom));
+  }
+
+  :where(.content-screen, .formula-panel, .world-inspector, .help-dialog, .data-dialog) :where(input, select, textarea) {
+    scroll-margin-top: calc(4rem + env(safe-area-inset-top));
+    scroll-margin-bottom: calc(var(--mobile-nav-height) + 2rem + env(safe-area-inset-bottom));
+  }
+}
+
+/* Landscape phones and keyboard-reduced viewports need vertical efficiency more
+   than large canvas height. The graph remains usable while contextual sheets fit. */
+@media (max-width: 760px) and (max-height: 520px) {
+  .topbar {
+    top: calc(.2rem + env(safe-area-inset-top));
+    margin-bottom: .3rem;
+  }
+
+  .graph-canvas {
+    height: 280px;
+    min-height: 280px;
+  }
+
+  .workspace.mobile-tab-formula .formula-panel,
+  .workspace.mobile-tab-result .verify-panel,
+  .workspace.mobile-tab-result.left-collapsed .verify-panel,
+  .workspace.mobile-tab-formula.left-collapsed .formula-panel {
+    max-height: calc(100dvh - var(--mobile-nav-height) - 1rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+
+  .utility-menu-popover,
+  .language-menu-popover {
+    top: calc(3.35rem + env(safe-area-inset-top));
+    max-height: calc(100dvh - 3.75rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+}
