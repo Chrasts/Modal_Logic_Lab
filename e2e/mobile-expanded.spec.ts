@@ -37,7 +37,11 @@ test.describe('expanded phone workflows', () => {
 
     await page.getByRole('tab', { name: 'formula' }).click()
     await expect(page.getByLabel('Modal formula')).toBeVisible()
-    await toolbar.getByRole('button', { name: 'Verify', exact: true }).click()
+    await expect(toolbar.getByRole('button', { name: 'Verify', exact: true })).toBeHidden()
+    const formulaVerify = page.locator('.mobile-formula-verify-fab')
+    await expect(formulaVerify).toBeVisible()
+    expect((await formulaVerify.boundingBox())?.height).toBeGreaterThanOrEqual(44)
+    await formulaVerify.click()
 
     await expect(page.getByRole('tab', { name: 'result' })).toHaveAttribute('aria-selected', 'true')
     await expect(page.getByRole('heading', { name: 'Verification' })).toBeVisible()
