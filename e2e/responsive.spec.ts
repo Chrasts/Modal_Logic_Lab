@@ -65,6 +65,36 @@ test.describe('phone-class public use', () => {
     expect(dimensions.content).toBeLessThanOrEqual(dimensions.viewport)
   })
 
+  test('supports Create, Settings, and data management as mobile surfaces', async ({ page }) => {
+    await page.goto('./')
+    await page.getByRole('button', { name: 'More', exact: true }).click()
+    await page.getByRole('menuitem', { name: 'Create', exact: true }).click()
+    await expect(page.getByRole('heading', { name: 'Create', exact: true })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'New custom mission' })).toBeVisible()
+    const createTextarea = page.getByRole('textbox', { name: 'Custom content JSON' })
+    await expect(createTextarea).toBeVisible()
+    expect((await createTextarea.boundingBox())?.width).toBeLessThanOrEqual(370)
+
+    await page.getByRole('button', { name: 'More', exact: true }).click()
+    await page.getByRole('menuitem', { name: 'Settings', exact: true }).click()
+    await expect(page.getByRole('heading', { name: 'Settings', exact: true })).toBeVisible()
+    const manageData = page.getByRole('button', { name: 'Manage local data' })
+    await expect(manageData).toBeVisible()
+    expect((await manageData.boundingBox())?.height).toBeGreaterThanOrEqual(44)
+    await manageData.click()
+
+    const dialog = page.getByRole('dialog', { name: 'Data management' })
+    await expect(dialog).toBeVisible()
+    const dialogBox = await dialog.boundingBox()
+    expect(dialogBox?.width).toBeLessThanOrEqual(380)
+    expect(dialogBox?.height).toBeLessThanOrEqual(834)
+    const close = page.getByRole('button', { name: 'Close data manager' })
+    expect((await close.boundingBox())?.height).toBeGreaterThanOrEqual(44)
+
+    const dimensions = await page.evaluate(() => ({ viewport: document.documentElement.clientWidth, content: document.documentElement.scrollWidth }))
+    expect(dimensions.content).toBeLessThanOrEqual(dimensions.viewport)
+  })
+
   test('keeps the model visible while formula and result open as workspace sheets', async ({ page }) => {
     await page.goto('./')
     await page.getByRole('button', { name: 'Lab', exact: true }).click()
