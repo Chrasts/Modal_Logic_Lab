@@ -50,10 +50,50 @@ test('Home Continue card resumes a live lesson without clipping its heading', as
 test.describe('phone-class public use', () => {
   test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true })
 
-  test('displays the unsupported notice', async ({ page }) => {
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(() => localStorage.setItem('logic-game:workspace-tour:v1', 'seen'))
+  })
+
+  test('supports the public home and bottom navigation without horizontal overflow', async ({ page }) => {
     await page.goto('./')
-    await expect(page.getByRole('heading', { name: 'Desktop required' })).toBeVisible()
-    await expect(page.getByText(/Mobile devices are not supported yet/)).toBeVisible()
-    await expect(page.getByRole('button', { name: 'Learn', exact: true })).toHaveCount(0)
+    await expect(page.getByRole('heading', { name: 'Modal Logic Lab - Interactive Kripke Models' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Desktop required' })).toHaveCount(0)
+    const navigation = page.getByRole('navigation', { name: 'Global navigation' })
+    await expect(navigation).toBeVisible()
+    await expect(navigation.getByRole('button')).toHaveCount(4)
+    const dimensions = await page.evaluate(() => ({ viewport: document.documentElement.clientWidth, content: document.documentElement.scrollWidth }))
+    expect(dimensions.content).toBeLessThanOrEqual(dimensions.viewport)
+  })
+
+  test('keeps the model visible while formula and result open as workspace sheets', async ({ page }) => {
+    await page.goto('./')
+    await page.getByRole('button', { name: 'Lab', exact: true }).click()
+    await page.getByRole('button', { name: 'Open Model Sandbox' }).click()
+
+    const workspace = page.getByLabel('Kripke model editor')
+    await expect(workspace).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Visual model' })).toBeVisible()
+    await expect(page.getByRole('navigation', { name: 'Global navigation' })).toBeHidden()
+    await expect(page.getByRole('navigation', { name: 'Workspace sections' })).toBeVisible()
+    await expect(page.getByRole('button', { name: '+ World' })).toBeVisible()
+
+    await page.getByRole('tab', { name: 'formula' }).click()
+    await expect(page.getByLabel('Modal formula')).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Visual model' })).toBeVisible()
+
+    await page.getByRole('tab', { name: 'result' }).click()
+    await expect(page.getByRole('heading', { name: 'Verification' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Visual model' })).toBeVisible()
+  })
+
+  test('provides a non-drag relation path from the selected-world inspector', async ({ page }) => {
+    await page.goto('./')
+    await page.getByRole('button', { name: 'Lab', exact: true }).click()
+    await page.getByRole('button', { name: 'Open Model Sandbox' }).click()
+    await page.getByLabel(/World w0, atoms/).click()
+    const connect = page.getByRole('combobox', { name: 'Connect w0 to world' })
+    await expect(connect).toBeVisible()
+    await connect.selectOption('w1')
+    await expect(page.getByText(/w0 → w1/).first()).toBeVisible()
   })
 })
