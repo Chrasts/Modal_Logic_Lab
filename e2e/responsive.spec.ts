@@ -74,7 +74,7 @@ test.describe('phone-class public use', () => {
     await expect(workspace).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Visual model' })).toBeVisible()
     await expect(page.getByRole('navigation', { name: 'Global navigation' })).toBeHidden()
-    await expect(page.getByRole('navigation', { name: 'Workspace sections' })).toBeVisible()
+    await expect(page.getByRole('tablist', { name: 'Workspace sections' })).toBeVisible()
     await expect(page.getByRole('button', { name: '+ World' })).toBeVisible()
 
     await page.getByRole('tab', { name: 'formula' }).click()
