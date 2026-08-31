@@ -43,4 +43,20 @@ test.describe('expanded phone workflows', () => {
     await expect(page.getByRole('heading', { name: 'Verification' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Visual model' })).toBeVisible()
   })
+
+  test('browses Campaigns on a 360px phone without page overflow', async ({ page }) => {
+    await page.setViewportSize({ width: 360, height: 740 })
+    await page.goto('./')
+    await page.getByRole('button', { name: 'Campaigns', exact: true }).click()
+    await expect(page.getByRole('heading', { name: 'Campaigns', exact: true })).toBeVisible()
+
+    await page.getByRole('tab', { name: 'Practice Library' }).click()
+    await expect(page.getByRole('heading', { name: 'Practice Library', exact: true })).toBeVisible()
+    const collections = page.getByRole('complementary', { name: 'Practice collection list' })
+    await expect(collections).toBeVisible()
+    await expect(collections.getByRole('button').first()).toBeVisible()
+
+    const dimensions = await page.evaluate(() => ({ viewport: document.documentElement.clientWidth, content: document.documentElement.scrollWidth }))
+    expect(dimensions.content).toBeLessThanOrEqual(dimensions.viewport)
+  })
 })
