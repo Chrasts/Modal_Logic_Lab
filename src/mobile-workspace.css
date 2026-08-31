@@ -22,6 +22,7 @@
     width: 100%;
     margin: .45rem 0 0;
     flex: 0 0 auto;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
   }
 
   .workspace .formula-panel,
