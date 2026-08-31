@@ -1,10 +1,11 @@
 // @vitest-environment jsdom
 
-import { cleanup, render, screen } from '@testing-library/react'
+import { act, cleanup, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import { afterEach, describe, expect, it } from 'vitest'
 import { MobileWorkspaceTabs, type MobileWorkspaceTab } from './MobileWorkspaceTabs'
+import { mobileVerificationRequestedEvent } from './mobile-workspace-events'
 
 afterEach(cleanup)
 
@@ -25,5 +26,11 @@ describe('MobileWorkspaceTabs', () => {
     expect(screen.getByRole('tab', { name: 'result' })).toHaveAttribute('aria-selected', 'true')
     await user.keyboard('{Home}')
     expect(model).toHaveAttribute('aria-selected', 'true')
+  })
+
+  it('opens the result tab after a mobile verification request', () => {
+    render(<Harness />)
+    act(() => window.dispatchEvent(new Event(mobileVerificationRequestedEvent)))
+    expect(screen.getByRole('tab', { name: 'result' })).toHaveAttribute('aria-selected', 'true')
   })
 })
