@@ -1,0 +1,484 @@
+/* Compact/mobile presentation layer. Desktop semantics and state stay shared. */
+.mobile-toolbar-more-button { display: none; }
+.workspace-toolbar-secondary { display: contents; }
+
+@media (max-width: 760px) {
+  :root {
+    --mobile-nav-height: 64px;
+    --mobile-edge-gap: .5rem;
+  }
+
+  html { overscroll-behavior-y: none; }
+  body { min-width: 320px; }
+
+  .page-shell {
+    min-height: 100dvh;
+    height: auto;
+    overflow: visible;
+    padding: .5rem .5rem calc(var(--mobile-nav-height) + 1rem + env(safe-area-inset-bottom));
+  }
+
+  .page-shell:has(.workspace) {
+    padding-bottom: .5rem;
+  }
+
+  .content-screen {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  /* Four top-level destinations become thumb-reachable bottom navigation. */
+  .topbar {
+    position: sticky;
+    top: .35rem;
+    z-index: var(--z-topbar);
+    min-height: 3rem;
+    margin-bottom: .45rem;
+    flex-direction: row;
+    align-items: center;
+    gap: .45rem;
+    padding: .38rem .45rem;
+  }
+
+  .brand {
+    width: auto;
+    min-width: 0;
+    flex: 1 1 auto;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: .45rem;
+  }
+
+  .brand > strong {
+    min-width: 0;
+    overflow: hidden;
+    font-size: .82rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .brand-mark { flex: 0 0 auto; }
+  .back-button { min-width: 44px; min-height: 44px; justify-content: center; }
+  .back-button span { display: none; }
+
+  .topbar-actions {
+    width: auto;
+    min-width: 0;
+    flex: 0 0 auto;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    gap: .2rem;
+  }
+
+  .topbar-actions > button,
+  .language-picker-button,
+  .icon-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .product-nav {
+    position: fixed;
+    z-index: calc(var(--z-popover) - 1);
+    left: var(--mobile-edge-gap);
+    right: var(--mobile-edge-gap);
+    bottom: calc(var(--mobile-edge-gap) + env(safe-area-inset-bottom));
+    width: auto;
+    max-width: none;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: .2rem;
+    overflow: visible;
+    border: 1px solid rgba(20,100,122,.2);
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--paper) 94%, transparent);
+    padding: .3rem;
+    box-shadow: 0 12px 34px rgba(20,45,52,.2);
+    backdrop-filter: blur(18px);
+  }
+
+  .product-nav button {
+    min-height: 48px;
+    padding: .35rem .2rem;
+    font-size: .68rem;
+    white-space: nowrap;
+  }
+
+  .page-shell:has(.workspace) .product-nav { display: none; }
+
+  /* Ordinary screens reflow instead of shrinking desktop cards. */
+  .screen-hero,
+  .home-hero { gap: .8rem; }
+  .screen-hero h1,
+  .home-hero h1 { font-size: clamp(2rem, 10vw, 3.25rem); }
+  .home-actions,
+  .home-primary-actions,
+  .play-actions,
+  .home-secondary { grid-template-columns: 1fr; }
+  .home-menu-tile,
+  .home-actions article { min-height: 0; padding: 1rem; }
+
+  /* Mission information is compact, but the check action remains immediately available. */
+  .mission-header,
+  .mission-header-rich {
+    position: relative;
+    grid-template-columns: minmax(0, 1fr);
+    gap: .4rem;
+    margin-bottom: .45rem;
+    padding: .58rem .65rem;
+    border-radius: 11px;
+  }
+
+  .mission-header-context { min-width: 0; }
+  .mission-header-context > span { font-size: .55rem; }
+  .mission-header-context > strong {
+    display: block;
+    overflow: hidden;
+    font-size: .86rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mission-header-objective > span { display: none; }
+  .mission-header-objective p {
+    display: -webkit-box;
+    margin: 0;
+    overflow: hidden;
+    font-size: .72rem;
+    line-height: 1.4;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .mission-header-objective ol {
+    margin: .2rem 0 0;
+    padding-left: 1.2rem;
+    font-size: .7rem;
+  }
+
+  .mission-header-controls { display: grid; gap: .35rem; }
+  .mission-header-actions {
+    display: flex;
+    gap: .35rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .mission-header-actions::-webkit-scrollbar { display: none; }
+  .mission-header-actions button { min-height: 44px; flex: 0 0 auto; }
+  .mission-header-details summary { min-height: 40px; display: flex; align-items: center; }
+
+  /* The graph is the persistent mobile workspace. */
+  .workspace,
+  .workspace.left-collapsed,
+  .workspace.right-collapsed,
+  .workspace.left-collapsed.right-collapsed,
+  .workspace.guided-workspace {
+    display: block;
+    min-height: 0;
+    overflow: visible;
+    padding: .3rem;
+    border-radius: 12px;
+  }
+
+  .workspace-resize-handle,
+  .workspace .model-panel,
+  .workspace .edge-panel { display: none !important; }
+
+  .workspace .graph-panel,
+  .workspace.mobile-tab-formula .graph-panel,
+  .workspace.mobile-tab-result .graph-panel {
+    display: block !important;
+    overflow: hidden;
+    padding: .45rem;
+    border-radius: 11px;
+  }
+
+  .graph-panel > .panel-heading {
+    min-height: 44px;
+    align-items: center;
+    gap: .5rem;
+  }
+  .graph-panel > .panel-heading p { display: none; }
+  .graph-panel > .panel-heading h2 { font-size: .9rem; }
+  .model-view-switch button { min-height: 42px; min-width: 64px; }
+
+  .graph-canvas {
+    height: min(64dvh, 620px);
+    min-height: 410px;
+    border-radius: 9px;
+    touch-action: none;
+  }
+  .graph-canvas .react-flow__pane { touch-action: none; }
+  .graph-canvas .react-flow__minimap { display: none !important; }
+  .graph-canvas .trace-legend { display: none; }
+  .graph-canvas .derived-hidden-note {
+    right: .45rem !important;
+    bottom: 4.4rem !important;
+    max-width: min(68vw, 240px);
+    font-size: .6rem;
+  }
+
+  /* Model / Formula / Result is a mobile workspace switcher, not three pages. */
+  .mobile-workspace-tabs {
+    position: fixed;
+    z-index: calc(var(--z-popover) + 5);
+    left: var(--mobile-edge-gap);
+    right: var(--mobile-edge-gap);
+    bottom: calc(var(--mobile-edge-gap) + env(safe-area-inset-bottom));
+    width: auto;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: .2rem;
+    border: 1px solid rgba(20,100,122,.22);
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--paper) 95%, transparent);
+    padding: .3rem;
+    box-shadow: 0 12px 34px rgba(20,45,52,.22);
+    backdrop-filter: blur(18px);
+  }
+
+  .mobile-workspace-tabs button {
+    min-height: 52px;
+    display: grid;
+    grid-template-rows: auto auto;
+    place-items: center;
+    gap: .05rem;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--petrol-dark);
+    padding: .25rem;
+    text-transform: none;
+  }
+  .mobile-workspace-tabs button > span { font: 700 1rem DM Mono, monospace; line-height: 1; }
+  .mobile-workspace-tabs button > small { font-size: .62rem; font-weight: 800; }
+  .mobile-workspace-tabs button.active { background: var(--petrol); color: #fff; }
+
+  /* Formula and verification become contextual bottom sheets over the model. */
+  .workspace .formula-panel,
+  .workspace .verify-panel,
+  .workspace.left-collapsed .formula-panel,
+  .workspace.left-collapsed .verify-panel { display: none !important; }
+
+  .workspace.mobile-tab-formula .formula-panel,
+  .workspace.mobile-tab-result .verify-panel,
+  .workspace.mobile-tab-result.left-collapsed .verify-panel,
+  .workspace.mobile-tab-formula.left-collapsed .formula-panel {
+    position: fixed;
+    z-index: calc(var(--z-popover) + 2);
+    left: var(--mobile-edge-gap);
+    right: var(--mobile-edge-gap);
+    bottom: calc(var(--mobile-nav-height) + 1rem + env(safe-area-inset-bottom));
+    width: auto;
+    max-height: min(68dvh, 640px);
+    display: block !important;
+    overflow: auto;
+    border: 1px solid rgba(20,100,122,.24);
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--paper) 97%, transparent);
+    padding: .85rem;
+    box-shadow: 0 22px 56px rgba(14,35,42,.28);
+    backdrop-filter: blur(18px);
+  }
+
+  .workspace.mobile-tab-formula::after,
+  .workspace.mobile-tab-result::after {
+    content: '';
+    position: fixed;
+    z-index: calc(var(--z-popover) + 1);
+    inset: 0;
+    pointer-events: none;
+    background: rgba(10,28,34,.14);
+  }
+
+  .formula-panel .panel-heading,
+  .verify-panel .panel-heading { position: sticky; top: -.85rem; z-index: 3; background: var(--paper); padding-top: .25rem; }
+
+  .formula-panel input,
+  .formula-panel select,
+  .formula-panel button,
+  .verify-panel input,
+  .verify-panel select,
+  .verify-panel button { min-height: 44px; }
+
+  .formula-panel .symbol-row {
+    position: sticky;
+    z-index: 4;
+    bottom: -.85rem;
+    grid-template-columns: repeat(6, minmax(44px, 1fr));
+    gap: .3rem;
+    margin-inline: -.2rem;
+    background: color-mix(in srgb, var(--paper) 96%, transparent);
+    padding: .45rem .2rem calc(.45rem + env(safe-area-inset-bottom));
+    backdrop-filter: blur(12px);
+  }
+  .formula-panel .symbol-button { min-width: 44px; min-height: 48px; font-size: 1rem; }
+  .formula-panel .notation { font-size: .62rem; }
+  .workspace.mobile-tab-result .verify-button { position: static; min-height: 48px; }
+
+  /* Mobile toolbar: +World / Undo / Verify stay direct. Everything else is one tap away. */
+  .graph-canvas .map-toolbar {
+    top: auto !important;
+    right: auto !important;
+    bottom: .55rem !important;
+    left: 50% !important;
+    width: auto;
+    max-width: calc(100% - 1rem);
+    margin: 0 !important;
+    transform: translateX(-50%);
+    border: 1px solid rgba(20,100,122,.2);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--paper) 94%, transparent);
+    padding: .28rem;
+    box-shadow: 0 9px 28px rgba(20,45,52,.18);
+    backdrop-filter: blur(14px);
+  }
+
+  .workspace-toolbar-content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .28rem;
+  }
+
+  .toolbar-primary-actions,
+  .toolbar-primary-history { display: flex; gap: .28rem; }
+  .workspace-toolbar-content > .map-toolbar-group button,
+  .workspace-primary-verify,
+  .mobile-toolbar-more-button {
+    min-width: 44px;
+    min-height: 44px;
+    white-space: nowrap;
+  }
+  .toolbar-primary-history button { font-size: 1.1rem; }
+  .workspace-primary-verify { padding-inline: .8rem; }
+  .mobile-toolbar-more-button {
+    display: inline-grid;
+    place-items: center;
+    border: 1px solid rgba(20,100,122,.2);
+    border-radius: 8px;
+    background: var(--paper);
+    color: var(--petrol-dark);
+    font-weight: 900;
+    letter-spacing: .08em;
+  }
+  .mobile-toolbar-more-button[aria-expanded='true'] { background: var(--petrol-soft); }
+
+  .workspace-toolbar-secondary {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + .45rem);
+    width: min(82vw, 310px);
+    max-height: min(58dvh, 520px);
+    display: none;
+    overflow: auto;
+    gap: .45rem;
+    border: 1px solid rgba(20,100,122,.22);
+    border-radius: 12px;
+    background: var(--paper);
+    padding: .55rem;
+    box-shadow: 0 15px 42px rgba(14,35,42,.25);
+  }
+  .workspace-toolbar-secondary.open { display: grid; }
+  .workspace-toolbar-secondary .workspace-presets,
+  .workspace-toolbar-secondary .map-toolbar-group {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .35rem;
+  }
+  .workspace-toolbar-secondary .workspace-presets { grid-template-columns: 1fr; }
+  .workspace-toolbar-secondary button { min-height: 44px; white-space: normal; }
+
+  /* Tapping a world opens a real touch-sized inspector over the canvas. */
+  .graph-canvas .world-inspector {
+    top: auto !important;
+    right: .5rem !important;
+    bottom: 4.35rem !important;
+    left: .5rem !important;
+    width: auto;
+    max-width: none;
+    max-height: 48%;
+    overflow: auto;
+    border: 1px solid rgba(20,100,122,.24);
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--paper) 96%, transparent);
+    padding: .7rem;
+    box-shadow: 0 14px 38px rgba(14,35,42,.24);
+    backdrop-filter: blur(14px);
+  }
+  .world-inspector input,
+  .world-inspector select,
+  .world-inspector button { min-height: 44px; }
+  .world-inspector .inspector-heading button { min-width: 44px; }
+  .world-inspector .inspector-actions { display: grid; grid-template-columns: 1fr auto; gap: .35rem; }
+
+  /* Table remains the non-spatial alternative, presented as readable cards on phones. */
+  .model-table-wrap { overflow: visible; }
+  .model-table,
+  .model-table tbody,
+  .model-table tr,
+  .model-table td { display: block; width: 100%; }
+  .model-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .model-table tr {
+    margin-bottom: .55rem;
+    border: 1px solid rgba(92,96,87,.15);
+    border-radius: 10px;
+    background: var(--paper);
+    padding: .65rem;
+  }
+  .model-table td {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    align-items: center;
+    gap: .5rem;
+    border: 0;
+    padding: .3rem 0;
+  }
+  .model-table td::before { color: #687068; font-size: .62rem; font-weight: 800; text-transform: uppercase; }
+  .model-table td:nth-child(1)::before { content: 'World'; }
+  .model-table td:nth-child(2)::before { content: 'Atoms'; }
+  .model-table td:nth-child(3)::before { content: 'Successors'; }
+  .model-table td:nth-child(4)::before { content: 'Actions'; }
+  .model-table input,
+  .model-table button { min-height: 44px; }
+
+  /* Touch targets: visual handles stay small while their hit regions meet mobile guidance. */
+  .graph-canvas .react-flow__edge-interaction { stroke-width: 28px; }
+}
+
+@media (max-width: 760px) and (pointer: coarse) {
+  .graph-canvas .react-flow__handle {
+    width: 44px !important;
+    height: 44px !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+  .graph-canvas .react-flow__handle > i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    border: 2px solid var(--paper);
+    border-radius: 999px;
+    background: var(--petrol);
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 0 1px rgba(20,100,122,.35);
+  }
+}
+
+/* Small tablets and landscape phones retain a two-pane working rhythm. */
+@media (min-width: 761px) and (max-width: 1050px) {
+  .graph-canvas { min-height: 500px; }
+  .workspace-toolbar-content button { min-height: 40px; }
+}
