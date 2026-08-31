@@ -1,4 +1,5 @@
-import type { KeyboardEvent } from 'react'
+import { useEffect, type KeyboardEvent } from 'react'
+import { mobileVerificationRequestedEvent } from './mobile-workspace-events'
 
 export type MobileWorkspaceTab = 'model' | 'formula' | 'result'
 
@@ -10,6 +11,13 @@ const tabPresentation: Record<MobileWorkspaceTab, { readonly icon: string; reado
 
 export function MobileWorkspaceTabs({ activeTab, showFormula, onChange }: { readonly activeTab: MobileWorkspaceTab; readonly showFormula: boolean; readonly onChange: (tab: MobileWorkspaceTab) => void }) {
   const tabs: readonly MobileWorkspaceTab[] = showFormula ? ['model', 'formula', 'result'] : ['model', 'result']
+
+  useEffect(() => {
+    const showResult = () => onChange('result')
+    window.addEventListener(mobileVerificationRequestedEvent, showResult)
+    return () => window.removeEventListener(mobileVerificationRequestedEvent, showResult)
+  }, [onChange])
+
   const move = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
     if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return
     event.preventDefault()
