@@ -240,7 +240,7 @@
 
 /* Short screens cover both landscape phones and viewports reduced by a software keyboard. */
 @media (max-width: 760px) and (max-height: 600px) {
-  .guided-workspace .graph-canvas {
+  .graph-canvas {
     height: 300px;
     min-height: 300px;
   }
