@@ -1,4 +1,6 @@
 /* Final phone-layer fixes for stacking contexts, hit areas, and guided reflow. */
+.mobile-formula-verify-fab { display: none; }
+
 @media (max-width: 760px) {
   /* backdrop-filter creates a containing block for fixed descendants in Chromium.
      The global bottom nav lives inside the topbar in the DOM, so keep the mobile
@@ -22,6 +24,36 @@
   .workspace-toolbar-secondary {
     z-index: calc(var(--z-popover) + 4);
     isolation: isolate;
+  }
+
+  /* Formula is a sheet over the graph. Put its primary action in the root
+     stacking context so it cannot be trapped under React Flow or the sheet. */
+  body:has(.workspace.mobile-tab-formula) .workspace-primary-verify {
+    display: none;
+  }
+
+  body:has(.workspace.mobile-tab-formula) .mobile-formula-verify-fab {
+    position: fixed;
+    z-index: calc(var(--z-popover) + 8);
+    right: calc(1rem + env(safe-area-inset-right));
+    bottom: calc(var(--mobile-nav-height) + 1.35rem + env(safe-area-inset-bottom));
+    min-width: 92px;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--petrol-dark);
+    border-radius: 10px;
+    background: var(--petrol);
+    color: #fff;
+    padding: .7rem 1rem;
+    box-shadow: 0 10px 28px rgba(14, 35, 42, .28);
+    font-weight: 800;
+    touch-action: manipulation;
+  }
+
+  .workspace.mobile-tab-formula .formula-panel {
+    padding-bottom: 5rem;
   }
 
   /* On phones, lesson details are part of the document flow rather than a
