@@ -65,16 +65,10 @@
     padding-bottom: 5rem;
   }
 
-  /* Guided headers are bounded by the page content box. Inner controls already
-     reflow, so clipping here only prevents decorative/intrinsic overflow from
-     creating a document-level horizontal scroll area. */
+  /* Guided content should reflow inside the page rather than rely on clipping.
+     The dedicated mobile overflow test guards against regressions at document level. */
   .mission-header,
-  .mission-header-rich {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: clip;
-  }
-
+  .mission-header-rich,
   .mission-header-controls,
   .mission-header-objective,
   .progressive-hints {
