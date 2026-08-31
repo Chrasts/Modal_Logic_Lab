@@ -56,6 +56,23 @@
     padding-bottom: 5rem;
   }
 
+  /* Guided headers are bounded by the page content box. Inner controls already
+     reflow, so clipping here only prevents decorative/intrinsic overflow from
+     creating a document-level horizontal scroll area. */
+  .mission-header,
+  .mission-header-rich {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  .mission-header-controls,
+  .mission-header-objective,
+  .progressive-hints {
+    min-width: 0;
+    max-width: 100%;
+  }
+
   /* On phones, lesson details are part of the document flow rather than a
      desktop popover. This also prevents the popover width from widening the page. */
   .mission-header-details > div {
