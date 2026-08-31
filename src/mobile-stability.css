@@ -15,6 +15,15 @@
     position: fixed;
   }
 
+  /* The base phone layout puts header actions on their own flex row. `width: 100%`
+     measures wider than the topbar content box once padding is included, so let
+     flex stretching size the row instead of forcing the percentage width. */
+  .topbar-actions {
+    width: auto;
+    max-width: 100%;
+    align-self: stretch;
+  }
+
   /* React Flow's pane must never sit above controls expanded from its Panel. */
   .graph-canvas .map-toolbar {
     z-index: calc(var(--z-popover) + 3) !important;
