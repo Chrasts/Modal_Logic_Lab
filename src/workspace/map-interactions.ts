@@ -74,11 +74,16 @@ export function resolveMapWheelHandling(event: MapWheelInput, viewport: MapViewp
   return applyMapWheelGesture(event, viewport, pointer)
 }
 
-/** React Flow owns pointer drag-pan only. A non-passive DOM listener owns every wheel/pinch gesture. */
+/**
+ * Pointer drag owns panning, the custom listener owns wheel/trackpad gestures,
+ * and React Flow owns native two-finger touch pinch. connectOnClick provides a
+ * non-drag relation workflow for touch and accessibility users.
+ */
 export const modelMapInteractionProps = Object.freeze({
   panOnScroll: false,
   zoomOnScroll: false,
   zoomOnDoubleClick: false,
-  zoomOnPinch: false,
+  zoomOnPinch: true,
   panOnDrag: true,
+  connectOnClick: true,
 })
