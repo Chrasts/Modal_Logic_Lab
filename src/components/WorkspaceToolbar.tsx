@@ -75,9 +75,49 @@ export function WorkspaceToolbar(props: WorkspaceToolbarProps) {
     announceMobileVerification()
   }
 
+  useEffect(() => {
+    if (!mobileMoreOpen) return
+    const close = (event: globalThis.KeyboardEvent) => {
+      if (event.key === 'Escape') setMobileMoreOpen(false)
+    }
+    window.addEventListener('keydown', close)
+    return () => window.removeEventListener('keydown', close)
+  }, [mobileMoreOpen])
+
   const derivedLabel = `${showDerivedRelations ? 'Hide' : 'Show'} derived`
   const mobileFormulaVerify = mobileToolbar && editorMode === 'evaluate' && typeof document !== 'undefined'
     ? createPortal(<button type="button" className="mobile-formula-verify-fab" onClick={runMobileVerify}>Verify</button>, document.body)
+    : null
+
+  const mobileSecondaryControls = <>
+    {sandbox && <div className="workspace-presets" aria-label="Workspace presets"><button type="button" className={editorMode === 'edit' && rightPanelOpen ? 'active' : ''} onClick={() => runSecondary(() => onApplyPreset('build'))}>◇ Model · Build</button><button type="button" className={editorMode === 'evaluate' ? 'active' : ''} onClick={() => runSecondary(() => onApplyPreset('evaluate'))}>φ Formula · Evaluate</button><button type="button" onClick={() => runSecondary(() => onApplyPreset('frame'))}>R Frame rules</button></div>}
+    <div className="map-toolbar-group" aria-label="Panels and history">
+      <button type="button" className={!leftPanelOpen ? 'panel-toggle active' : 'panel-toggle'} onClick={() => runSecondary(onToggleEvaluationPanel)} aria-label="Toggle Evaluation panel" aria-pressed={leftPanelOpen} title="Toggle Evaluation panel">◧ Evaluation</button>
+      {(showWorldPanel || showEdgePanel) && <button type="button" className={!rightPanelOpen ? 'panel-toggle active' : 'panel-toggle'} onClick={() => runSecondary(onToggleModelPanel)} aria-label="Toggle Model panel" aria-pressed={rightPanelOpen} title="Toggle Model panel">◨ Model</button>}
+      {canUseHistory && <button type="button" onClick={() => runSecondary(onRedo)} disabled={!redoAvailable} aria-label="Redo" title="Redo">↷ Redo</button>}
+    </div>
+    <div className="map-toolbar-group" aria-label="Viewport actions">
+      <button type="button" onClick={() => runSecondary(() => { void flowInstance?.zoomIn() })} disabled={!flowInstance} aria-label="Zoom in" title="Zoom in">+ Zoom</button>
+      <button type="button" onClick={() => runSecondary(() => { void flowInstance?.zoomOut() })} disabled={!flowInstance} aria-label="Zoom out" title="Zoom out">− Zoom</button>
+      <button type="button" onClick={() => runSecondary(() => { void flowInstance?.fitView({ padding: 0.25 }) })} disabled={!flowInstance || worldCount === 0}>Fit model</button>
+      <button type="button" onClick={() => runSecondary(onTidy)} disabled={worldCount < 2 || (!sandbox && !canRepositionWorlds)}>Tidy model</button>
+    </div>
+    <div className="map-toolbar-group" aria-label="Analysis actions">
+      {!focusedIntro && <button type="button" aria-label={derivedLabel} className={!showDerivedRelations ? 'muted' : ''} onClick={() => runSecondary(onToggleDerived)}>{derivedLabel} ({derivedRelationCount})</button>}
+      {!focusedIntro && <button type="button" className="frame-rules-button" onClick={() => runSecondary(onOpenFrameRules)}>Frame rules{frameRuleCount ? ` (${frameRuleCount})` : ''}</button>}
+    </div>
+  </>
+
+  const mobileToolSheet = mobileToolbar && mobileMoreOpen && typeof document !== 'undefined'
+    ? createPortal(
+      <div className="mobile-model-tools-backdrop" onClick={() => setMobileMoreOpen(false)}>
+        <section className="mobile-model-tools-sheet" role="dialog" aria-modal="true" aria-label="Model tools" onClick={(event) => event.stopPropagation()}>
+          <header><strong>Model tools</strong><button type="button" className="mobile-model-tools-close" aria-label="Close model tools" onClick={() => setMobileMoreOpen(false)}>×</button></header>
+          <div className="workspace-toolbar-secondary open">{mobileSecondaryControls}</div>
+        </section>
+      </div>,
+      document.body,
+    )
     : null
 
   return <>
@@ -105,34 +145,16 @@ export function WorkspaceToolbar(props: WorkspaceToolbarProps) {
           {editorMode === 'evaluate' && <button type="button" className="toolbar-verify" onClick={onVerify}>Verify</button>}
         </div>
       </div> : <div className="workspace-toolbar-mobile">
-        <div className="map-toolbar-group toolbar-primary-actions" aria-label="Model actions">
+        {(canAddWorld || selectedRelation) && <div className="map-toolbar-group toolbar-primary-actions" aria-label="Model actions">
           {canAddWorld && <button type="button" onClick={onAddWorld} disabled={!canEditWorlds}>+ World</button>}
           {selectedRelation && <button type="button" className="delete-edge-button" disabled={!canEditRelations} onClick={onDeleteRelation}>Delete relation</button>}
-        </div>
+        </div>}
         {canUseHistory && <div className="map-toolbar-group toolbar-primary-history" aria-label="Undo action"><button type="button" onClick={onUndo} disabled={!undoAvailable} aria-label="Undo" title="Undo">↶</button></div>}
         {editorMode === 'evaluate' && <button type="button" className="toolbar-verify workspace-primary-verify" onClick={runMobileVerify}>Verify</button>}
-        <button type="button" className="mobile-toolbar-more-button" aria-label="More model tools" aria-expanded={mobileMoreOpen} onClick={() => setMobileMoreOpen((open) => !open)}>•••</button>
-
-        <div className={`workspace-toolbar-secondary ${mobileMoreOpen ? 'open' : ''}`}>
-          {sandbox && <div className="workspace-presets" aria-label="Workspace presets"><button type="button" className={editorMode === 'edit' && rightPanelOpen ? 'active' : ''} onClick={() => runSecondary(() => onApplyPreset('build'))}>◇ Model · Build</button><button type="button" className={editorMode === 'evaluate' ? 'active' : ''} onClick={() => runSecondary(() => onApplyPreset('evaluate'))}>φ Formula · Evaluate</button><button type="button" onClick={() => runSecondary(() => onApplyPreset('frame'))}>R Frame rules</button></div>}
-          <div className="map-toolbar-group" aria-label="Panels and history">
-            <button type="button" className={!leftPanelOpen ? 'panel-toggle active' : 'panel-toggle'} onClick={() => runSecondary(onToggleEvaluationPanel)} aria-label="Toggle Evaluation panel" aria-pressed={leftPanelOpen} title="Toggle Evaluation panel">◧ Evaluation</button>
-            {(showWorldPanel || showEdgePanel) && <button type="button" className={!rightPanelOpen ? 'panel-toggle active' : 'panel-toggle'} onClick={() => runSecondary(onToggleModelPanel)} aria-label="Toggle Model panel" aria-pressed={rightPanelOpen} title="Toggle Model panel">◨ Model</button>}
-            {canUseHistory && <button type="button" onClick={() => runSecondary(onRedo)} disabled={!redoAvailable} aria-label="Redo" title="Redo">↷ Redo</button>}
-          </div>
-          <div className="map-toolbar-group" aria-label="Viewport actions">
-            <button type="button" onClick={() => runSecondary(() => { void flowInstance?.zoomIn() })} disabled={!flowInstance} aria-label="Zoom in" title="Zoom in">+ Zoom</button>
-            <button type="button" onClick={() => runSecondary(() => { void flowInstance?.zoomOut() })} disabled={!flowInstance} aria-label="Zoom out" title="Zoom out">− Zoom</button>
-            <button type="button" onClick={() => runSecondary(() => { void flowInstance?.fitView({ padding: 0.25 }) })} disabled={!flowInstance || worldCount === 0}>Fit model</button>
-            <button type="button" onClick={() => runSecondary(onTidy)} disabled={worldCount < 2 || (!sandbox && !canRepositionWorlds)}>Tidy model</button>
-          </div>
-          <div className="map-toolbar-group" aria-label="Analysis actions">
-            {!focusedIntro && <button type="button" aria-label={derivedLabel} className={!showDerivedRelations ? 'muted' : ''} onClick={() => runSecondary(onToggleDerived)}>{derivedLabel} ({derivedRelationCount})</button>}
-            {!focusedIntro && <button type="button" className="frame-rules-button" onClick={() => runSecondary(onOpenFrameRules)}>Frame rules{frameRuleCount ? ` (${frameRuleCount})` : ''}</button>}
-          </div>
-        </div>
+        <button type="button" className="mobile-toolbar-more-button" aria-label="More model tools" aria-expanded={mobileMoreOpen} onClick={() => setMobileMoreOpen((open) => !open)}>⋯</button>
       </div>}
     </div>
     {mobileFormulaVerify}
+    {mobileToolSheet}
   </>
 }
