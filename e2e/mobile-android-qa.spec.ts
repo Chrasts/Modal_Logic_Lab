@@ -31,12 +31,26 @@ test.describe('Android phone QA regressions', () => {
     const topbar = page.locator('.topbar')
     const navigation = page.getByRole('navigation', { name: 'Global navigation' })
     const language = page.getByRole('button', { name: 'Interface language' })
-    const [topbarBox, navigationBox, languageBox] = await Promise.all([topbar.boundingBox(), navigation.boundingBox(), language.boundingBox()])
+    const learnCard = page.getByRole('button', { name: 'Start or continue Learn Modal Logic' })
+    const campaignsCard = page.getByRole('button', { name: /Campaigns: longer challenges/ })
+    const labCard = page.getByRole('button', { name: /Lab: experiment with models and formulas/ })
+    await expect(learnCard).toBeVisible()
+    await expect(campaignsCard).toBeVisible()
+    await expect(labCard).toBeVisible()
+
+    const [topbarBox, navigationBox, languageBox, learnBox, campaignsBox, labBox] = await Promise.all([
+      topbar.boundingBox(), navigation.boundingBox(), language.boundingBox(), learnCard.boundingBox(), campaignsCard.boundingBox(), labCard.boundingBox(),
+    ])
     expect(topbarBox).not.toBeNull()
     expect(navigationBox).not.toBeNull()
     expect(languageBox).not.toBeNull()
     expect(navigationBox!.y).toBeGreaterThan(topbarBox!.y + topbarBox!.height)
     expect(languageBox!.y + languageBox!.height).toBeLessThan(navigationBox!.y)
+    for (const box of [learnBox, campaignsBox, labBox]) {
+      expect(box).not.toBeNull()
+      expect(box!.y).toBeGreaterThanOrEqual(0)
+      expect(box!.y + box!.height).toBeLessThanOrEqual(navigationBox!.y)
+    }
 
     await page.getByRole('button', { name: 'Learn', exact: true }).click()
     const learnNavBox = await navigation.boundingBox()
