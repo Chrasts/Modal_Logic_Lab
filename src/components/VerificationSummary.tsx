@@ -1,4 +1,5 @@
-import { forwardRef, type ReactNode } from 'react'
+import { forwardRef, useEffect, type ReactNode } from 'react'
+import { announceMobileVerification } from '../workspace/mobile-workspace-events'
 
 export type VerificationSummaryState = 'idle' | 'success' | 'failure' | 'error'
 
@@ -17,6 +18,12 @@ const headings: Record<Exclude<VerificationSummaryState, 'idle'>, string> = {
 
 export const VerificationSummary = forwardRef<HTMLDivElement, VerificationSummaryProps>(function VerificationSummary({ state, summary, actions, children }, ref) {
   const active = state !== 'idle'
+
+  useEffect(() => {
+    if (!active || typeof window === 'undefined' || !window.matchMedia('(max-width: 760px)').matches) return
+    announceMobileVerification()
+  }, [active, state, summary])
+
   return <div
     ref={ref}
     data-tour-target="result-area"
