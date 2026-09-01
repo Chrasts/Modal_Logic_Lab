@@ -1,10 +1,14 @@
 // @vitest-environment jsdom
 
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import { mobileVerificationRequestedEvent } from '../workspace/mobile-workspace-events'
 import { VerificationSummary } from './VerificationSummary'
 
-afterEach(cleanup)
+afterEach(() => {
+  cleanup()
+  vi.restoreAllMocks()
+})
 
 describe('VerificationSummary', () => {
   it('announces an unmistakable concise success with semantic evidence collapsed', () => {
@@ -30,5 +34,23 @@ describe('VerificationSummary', () => {
     render(<VerificationSummary state="idle" />)
     expect(screen.queryByRole('status')).not.toBeInTheDocument()
     expect(screen.getByText('The verification result will appear here.')).toBeVisible()
+  })
+
+  it('requests the Result sheet when a verification result appears on a phone', () => {
+    vi.spyOn(window, 'matchMedia').mockReturnValue({
+      matches: true,
+      media: '(max-width: 760px)',
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(() => false),
+    })
+    const requested = vi.fn()
+    window.addEventListener(mobileVerificationRequestedEvent, requested)
+    render(<VerificationSummary state="failure" summary="Try again." />)
+    expect(requested).toHaveBeenCalledOnce()
+    window.removeEventListener(mobileVerificationRequestedEvent, requested)
   })
 })
