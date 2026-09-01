@@ -39,7 +39,9 @@ test.describe('expanded phone workflows', () => {
 
     const toolbar = page.locator('.workspace-toolbar-mobile')
     await toolbar.getByRole('button', { name: 'More model tools' }).click()
-    await toolbar.getByRole('button', { name: /Formula · Evaluate/ }).click()
+    const tools = page.getByRole('dialog', { name: 'Model tools' })
+    await expect(tools).toBeVisible()
+    await tools.getByRole('button', { name: /Formula · Evaluate/ }).click()
     await expect(toolbar.getByRole('button', { name: 'Verify', exact: true })).toBeVisible()
 
     await page.getByRole('tab', { name: 'formula' }).click()
@@ -62,7 +64,9 @@ test.describe('expanded phone workflows', () => {
 
     const toolbar = page.locator('.workspace-toolbar-mobile')
     await toolbar.getByRole('button', { name: 'More model tools' }).click()
-    await toolbar.getByRole('button', { name: /Formula · Evaluate/ }).click()
+    const tools = page.getByRole('dialog', { name: 'Model tools' })
+    await expect(tools).toBeVisible()
+    await tools.getByRole('button', { name: /Formula · Evaluate/ }).click()
     await page.getByRole('tab', { name: 'formula' }).click()
 
     const input = page.getByLabel('Modal formula')
