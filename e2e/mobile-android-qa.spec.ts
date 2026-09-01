@@ -138,7 +138,7 @@ test.describe('Android phone QA regressions', () => {
     await expect(page.getByRole('button', { name: 'Interface language' })).toBeHidden()
 
     await page.getByLabel(/World w0, atoms/).click()
-    const atoms = page.getByLabel('True atoms')
+    const atoms = page.locator('.world-inspector').getByLabel('True atoms')
     await expect(atoms).toBeVisible()
     await atoms.fill('q')
     await page.getByRole('button', { name: 'Check task', exact: true }).click()
