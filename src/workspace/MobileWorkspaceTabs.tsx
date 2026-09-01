@@ -36,7 +36,7 @@ export function MobileWorkspaceTabs({ activeTab, showFormula, onChange }: { read
     event.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>('[role="tab"]')[nextIndex]?.focus()
   }
 
-  return <nav className="mobile-workspace-tabs" aria-label="Workspace panels" role="tablist">
+  return <nav className="mobile-workspace-tabs" aria-label="Workspace sections" role="tablist">
     {tabs.map((tab, index) => <button key={tab} type="button" role="tab" aria-label={tab} className={activeTab === tab ? 'active' : ''} aria-selected={activeTab === tab} aria-pressed={activeTab === tab} tabIndex={activeTab === tab || (activeTab === 'model' && index === 0) ? 0 : -1} onClick={() => activate(tab)} onKeyDown={(event) => move(event, index)}><span aria-hidden="true">{tabPresentation[tab].icon}</span><small>{tabPresentation[tab].label}</small></button>)}
   </nav>
 }
