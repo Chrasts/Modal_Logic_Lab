@@ -33,4 +33,14 @@ describe('MobileWorkspaceTabs', () => {
     act(() => window.dispatchEvent(new Event(mobileVerificationRequestedEvent)))
     expect(screen.getByRole('tab', { name: 'result' })).toHaveAttribute('aria-selected', 'true')
   })
+
+  it('closes an already open result sheet when Result is tapped again', async () => {
+    const user = userEvent.setup()
+    render(<Harness />)
+    const result = screen.getByRole('tab', { name: 'result' })
+    await user.click(result)
+    expect(result).toHaveAttribute('aria-selected', 'true')
+    await user.click(result)
+    expect(screen.getByRole('tab', { name: 'model' })).toHaveAttribute('aria-selected', 'true')
+  })
 })
