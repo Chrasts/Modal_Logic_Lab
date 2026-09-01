@@ -1,29 +1,31 @@
 import { useEffect, type KeyboardEvent } from 'react'
-import { mobileVerificationRequestedEvent } from './mobile-workspace-events'
+import { mobileVerificationRequestedEvent, mobileWorkspaceResetEvent } from './mobile-workspace-events'
 
 export type MobileWorkspaceTab = 'model' | 'formula' | 'result'
 
-const tabPresentation: Record<MobileWorkspaceTab, { readonly icon: string; readonly label: string }> = {
-  model: { icon: '◇', label: 'Model' },
+type VisibleMobileWorkspaceTab = Exclude<MobileWorkspaceTab, 'model'>
+
+const tabPresentation: Record<VisibleMobileWorkspaceTab, { readonly icon: string; readonly label: string }> = {
   formula: { icon: 'φ', label: 'Formula' },
   result: { icon: '✓', label: 'Result' },
 }
 
 export function MobileWorkspaceTabs({ activeTab, showFormula, onChange }: { readonly activeTab: MobileWorkspaceTab; readonly showFormula: boolean; readonly onChange: (tab: MobileWorkspaceTab) => void }) {
-  const tabs: readonly MobileWorkspaceTab[] = showFormula ? ['model', 'formula', 'result'] : ['model', 'result']
+  const tabs: readonly VisibleMobileWorkspaceTab[] = showFormula ? ['formula', 'result'] : ['result']
 
   useEffect(() => {
     const showResult = () => onChange('result')
+    const reset = () => onChange('model')
     window.addEventListener(mobileVerificationRequestedEvent, showResult)
-    return () => window.removeEventListener(mobileVerificationRequestedEvent, showResult)
+    window.addEventListener(mobileWorkspaceResetEvent, reset)
+    return () => {
+      window.removeEventListener(mobileVerificationRequestedEvent, showResult)
+      window.removeEventListener(mobileWorkspaceResetEvent, reset)
+    }
   }, [onChange])
 
-  const activate = (tab: MobileWorkspaceTab) => {
-    if (tab === 'result' && activeTab === 'result') {
-      onChange('model')
-      return
-    }
-    onChange(tab)
+  const activate = (tab: VisibleMobileWorkspaceTab) => {
+    onChange(activeTab === tab ? 'model' : tab)
   }
 
   const move = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
@@ -33,7 +35,8 @@ export function MobileWorkspaceTabs({ activeTab, showFormula, onChange }: { read
     onChange(tabs[nextIndex])
     event.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>('[role="tab"]')[nextIndex]?.focus()
   }
-  return <nav className="mobile-workspace-tabs" aria-label="Workspace sections" role="tablist">
-    {tabs.map((tab, index) => <button key={tab} type="button" role="tab" aria-label={tab} className={activeTab === tab ? 'active' : ''} aria-selected={activeTab === tab} aria-pressed={tab === 'result' ? activeTab === 'result' : undefined} tabIndex={activeTab === tab ? 0 : -1} onClick={() => activate(tab)} onKeyDown={(event) => move(event, index)}><span aria-hidden="true">{tabPresentation[tab].icon}</span><small>{tabPresentation[tab].label}</small></button>)}
+
+  return <nav className="mobile-workspace-tabs" aria-label="Workspace panels" role="tablist">
+    {tabs.map((tab, index) => <button key={tab} type="button" role="tab" aria-label={tab} className={activeTab === tab ? 'active' : ''} aria-selected={activeTab === tab} aria-pressed={activeTab === tab} tabIndex={activeTab === tab || (activeTab === 'model' && index === 0) ? 0 : -1} onClick={() => activate(tab)} onKeyDown={(event) => move(event, index)}><span aria-hidden="true">{tabPresentation[tab].icon}</span><small>{tabPresentation[tab].label}</small></button>)}
   </nav>
 }
