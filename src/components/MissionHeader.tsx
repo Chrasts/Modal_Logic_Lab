@@ -1,5 +1,5 @@
-import { useEffect, useRef, type ReactNode } from 'react'
-import { resetMobileWorkspaceView } from '../workspace/mobile-workspace-events'
+import { useEffect, useRef, type MouseEvent, type ReactNode } from 'react'
+import { announceMobileVerification, resetMobileWorkspaceView } from '../workspace/mobile-workspace-events'
 
 export type MissionHeaderMode = 'learn' | 'campaign' | 'practice' | 'custom'
 
@@ -35,6 +35,15 @@ export function MissionHeader({
   useEffect(() => {
     if (state === 'completed') headerRef.current?.focus()
   }, [state])
+
+  const handleActionClick = (event: MouseEvent<HTMLDivElement>) => {
+    if (state === 'completed') {
+      resetMobileWorkspaceView()
+      return
+    }
+    if ((event.target as HTMLElement).closest('.verify-button')) announceMobileVerification()
+  }
+
   return (
     <section ref={headerRef} data-tour-target="mission-header" data-state={state} tabIndex={state === 'completed' ? -1 : undefined} className={`mission-header mission-header-${mode} ${content ? 'mission-header-rich' : ''} mission-header-${state}`} aria-label={`Current ${unit}`}>
       <div className="mission-header-context">
@@ -48,7 +57,7 @@ export function MissionHeader({
         {taskSteps && taskSteps.length > 0 && <ol aria-label="Action checklist">{taskSteps.map((step) => <li key={step}>{step}</li>)}</ol>}
       </div>
       <div className="mission-header-controls">
-        <div className="mission-header-actions" data-tour-target="check-task" onClickCapture={state === 'completed' ? resetMobileWorkspaceView : undefined}>{actions}</div>
+        <div className="mission-header-actions" data-tour-target="check-task" onClickCapture={handleActionClick}>{actions}</div>
         {details && <details className="mission-header-details"><summary>Details &amp; hints</summary><div>{details}</div></details>}
       </div>
     </section>
