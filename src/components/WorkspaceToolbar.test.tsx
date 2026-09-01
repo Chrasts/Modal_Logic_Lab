@@ -57,6 +57,18 @@ describe('WorkspaceToolbar', () => {
     expect(screen.getByRole('button', { name: 'More model tools' })).toBeInTheDocument()
   })
 
+  it('opens mobile secondary controls in a root-level dialog', () => {
+    mockMobileMedia()
+    renderToolbar()
+    fireEvent.click(screen.getByRole('button', { name: 'More model tools' }))
+    const dialog = screen.getByRole('dialog', { name: 'Model tools' })
+    expect(dialog).toBeInTheDocument()
+    expect(within(dialog).getByRole('button', { name: 'Zoom in' })).toBeInTheDocument()
+    expect(within(dialog).getByRole('button', { name: 'Tidy model' })).toBeInTheDocument()
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Close model tools' }))
+    expect(screen.queryByRole('dialog', { name: 'Model tools' })).not.toBeInTheDocument()
+  })
+
   it('announces a result transition when mobile verification runs', () => {
     mockMobileMedia()
     const verificationRequested = vi.fn()
