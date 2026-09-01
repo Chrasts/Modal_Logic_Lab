@@ -9,6 +9,7 @@ import './mobile-surfaces.css'
 import './mobile-chrome.css'
 import './mobile-stability.css'
 import './mobile-device.css'
+import './mobile-mission-redesign.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
