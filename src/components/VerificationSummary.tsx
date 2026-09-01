@@ -20,7 +20,7 @@ export const VerificationSummary = forwardRef<HTMLDivElement, VerificationSummar
   const active = state !== 'idle'
 
   useEffect(() => {
-    if (!active || typeof window === 'undefined' || !window.matchMedia('(max-width: 760px)').matches) return
+    if (!active || typeof window === 'undefined' || typeof window.matchMedia !== 'function' || !window.matchMedia('(max-width: 760px)').matches) return
     announceMobileVerification()
   }, [active, state, summary])
 
