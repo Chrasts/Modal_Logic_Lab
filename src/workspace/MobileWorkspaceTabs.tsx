@@ -18,6 +18,14 @@ export function MobileWorkspaceTabs({ activeTab, showFormula, onChange }: { read
     return () => window.removeEventListener(mobileVerificationRequestedEvent, showResult)
   }, [onChange])
 
+  const activate = (tab: MobileWorkspaceTab) => {
+    if (tab === 'result' && activeTab === 'result') {
+      onChange('model')
+      return
+    }
+    onChange(tab)
+  }
+
   const move = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
     if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return
     event.preventDefault()
@@ -26,6 +34,6 @@ export function MobileWorkspaceTabs({ activeTab, showFormula, onChange }: { read
     event.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>('[role="tab"]')[nextIndex]?.focus()
   }
   return <nav className="mobile-workspace-tabs" aria-label="Workspace sections" role="tablist">
-    {tabs.map((tab, index) => <button key={tab} type="button" role="tab" aria-label={tab} className={activeTab === tab ? 'active' : ''} aria-selected={activeTab === tab} tabIndex={activeTab === tab ? 0 : -1} onClick={() => onChange(tab)} onKeyDown={(event) => move(event, index)}><span aria-hidden="true">{tabPresentation[tab].icon}</span><small>{tabPresentation[tab].label}</small></button>)}
+    {tabs.map((tab, index) => <button key={tab} type="button" role="tab" aria-label={tab} className={activeTab === tab ? 'active' : ''} aria-selected={activeTab === tab} aria-pressed={tab === 'result' ? activeTab === 'result' : undefined} tabIndex={activeTab === tab ? 0 : -1} onClick={() => activate(tab)} onKeyDown={(event) => move(event, index)}><span aria-hidden="true">{tabPresentation[tab].icon}</span><small>{tabPresentation[tab].label}</small></button>)}
   </nav>
 }
