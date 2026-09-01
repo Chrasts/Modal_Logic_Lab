@@ -15,17 +15,20 @@ function Harness() {
 }
 
 describe('MobileWorkspaceTabs', () => {
-  it('switches all workspace tabs by keyboard, including arrow navigation', async () => {
+  it('switches the visible Formula and Result panels by keyboard while Model stays implicit', async () => {
     const user = userEvent.setup()
     render(<Harness />)
-    const model = screen.getByRole('tab', { name: 'model' })
-    model.focus()
-    await user.keyboard('{ArrowRight}')
-    expect(screen.getByRole('tab', { name: 'formula' })).toHaveAttribute('aria-selected', 'true')
+    expect(screen.queryByRole('tab', { name: 'model' })).toBeNull()
+
+    const formula = screen.getByRole('tab', { name: 'formula' })
+    formula.focus()
     await user.keyboard('{ArrowRight}')
     expect(screen.getByRole('tab', { name: 'result' })).toHaveAttribute('aria-selected', 'true')
-    await user.keyboard('{Home}')
-    expect(model).toHaveAttribute('aria-selected', 'true')
+    await user.keyboard('{ArrowLeft}')
+    expect(formula).toHaveAttribute('aria-selected', 'true')
+    await user.click(formula)
+    expect(formula).toHaveAttribute('aria-selected', 'false')
+    expect(screen.getByRole('tab', { name: 'result' })).toHaveAttribute('aria-selected', 'false')
   })
 
   it('opens the result tab after a mobile verification request', () => {
@@ -41,6 +44,8 @@ describe('MobileWorkspaceTabs', () => {
     await user.click(result)
     expect(result).toHaveAttribute('aria-selected', 'true')
     await user.click(result)
-    expect(screen.getByRole('tab', { name: 'model' })).toHaveAttribute('aria-selected', 'true')
+    expect(result).toHaveAttribute('aria-selected', 'false')
+    expect(screen.getByRole('tab', { name: 'formula' })).toHaveAttribute('aria-selected', 'false')
+    expect(screen.queryByRole('tab', { name: 'model' })).toBeNull()
   })
 })
