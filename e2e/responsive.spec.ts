@@ -172,15 +172,23 @@ test.describe('phone-class public use', () => {
     const graph = page.locator('.graph-canvas')
     await expect(graph).toBeVisible()
     const graphBox = await graph.boundingBox()
-    expect(graphBox?.height).toBeGreaterThanOrEqual(280)
-    expect(graphBox?.height).toBeLessThanOrEqual(320)
+    expect(graphBox?.height).toBeGreaterThanOrEqual(120)
+    expect(graphBox?.height).toBeLessThanOrEqual(220)
     await expect(page.getByRole('tablist', { name: 'Workspace sections' })).toBeVisible()
 
     await page.getByRole('tab', { name: 'formula' }).click()
     await expect(page.getByLabel('Modal formula')).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Visual model' })).toBeVisible()
 
-    const dimensions = await page.evaluate(() => ({ viewport: document.documentElement.clientWidth, content: document.documentElement.scrollWidth }))
+    const dimensions = await page.evaluate(() => ({
+      viewport: document.documentElement.clientWidth,
+      content: document.documentElement.scrollWidth,
+      viewportHeight: document.documentElement.clientHeight,
+      contentHeight: document.documentElement.scrollHeight,
+      scrollY: window.scrollY,
+    }))
     expect(dimensions.content).toBeLessThanOrEqual(dimensions.viewport)
+    expect(dimensions.contentHeight).toBeLessThanOrEqual(dimensions.viewportHeight + 1)
+    expect(dimensions.scrollY).toBe(0)
   })
 })
