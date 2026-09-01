@@ -7,7 +7,7 @@ test.describe('Android phone QA regressions', () => {
     await page.addInitScript(() => localStorage.setItem('logic-game:workspace-tour:v1', 'seen'))
   })
 
-  test('locks the browser page to the viewport and separates top controls from primary navigation', async ({ page }) => {
+  test('locks the browser page to the viewport and keeps language as a setup control', async ({ page }) => {
     await page.goto('./')
 
     const shell = page.locator('.page-shell')
@@ -34,6 +34,7 @@ test.describe('Android phone QA regressions', () => {
     const learnCard = page.getByRole('button', { name: 'Start or continue Learn Modal Logic' })
     const campaignsCard = page.getByRole('button', { name: /Campaigns: longer challenges/ })
     const labCard = page.getByRole('button', { name: /Lab: experiment with models and formulas/ })
+    await expect(language).toBeVisible()
     await expect(learnCard).toBeVisible()
     await expect(campaignsCard).toBeVisible()
     await expect(labCard).toBeVisible()
@@ -53,9 +54,11 @@ test.describe('Android phone QA regressions', () => {
     }
 
     await page.getByRole('button', { name: 'Learn', exact: true }).click()
-    const learnNavBox = await navigation.boundingBox()
-    const learnLanguageBox = await language.boundingBox()
-    expect(learnLanguageBox!.y + learnLanguageBox!.height).toBeLessThan(learnNavBox!.y)
+    await expect(language).toBeHidden()
+
+    await page.getByRole('button', { name: 'More', exact: true }).click()
+    await page.getByRole('menuitem', { name: 'Settings', exact: true }).click()
+    await expect(language).toBeVisible()
   })
 
   test('opens all map tools inside the phone viewport and keeps the table caption visually hidden', async ({ page }) => {
@@ -87,7 +90,7 @@ test.describe('Android phone QA regressions', () => {
     await expect(page.getByText('Keyboard-accessible model view. Changes are synchronized with the graph.')).not.toBeVisible()
   })
 
-  test('Check task opens Result automatically and Result can be closed with the same control', async ({ page }) => {
+  test('uses Result as a compact toggle while Model remains implicit', async ({ page }) => {
     await page.addInitScript(() => {
       localStorage.setItem('logic-game:campaign-progress:v2', JSON.stringify(['tutorial-v2-evaluation-world', 'tutorial-v2-valuation', 'tutorial-v2-draw-edge', 'tutorial-v2-correct-edge', 'tutorial-v2-add-world', 'tutorial-v2-build-model']))
       localStorage.setItem('logic-game:campaign-content-revision:v1', '2')
@@ -100,16 +103,20 @@ test.describe('Android phone QA regressions', () => {
     const dialog = page.getByRole('dialog', { name: 'A possible alternative' })
     await dialog.getByRole('button', { name: 'Start task' }).click()
 
+    await expect(page.getByRole('tab', { name: 'model' })).toHaveCount(0)
+    const resultTab = page.getByRole('tab', { name: 'result' })
+    const resultBox = await resultTab.boundingBox()
+    expect(resultBox?.width).toBeLessThan(120)
+
     const checkTask = page.getByRole('button', { name: 'Check task', exact: true })
-    await expect(checkTask).toBeVisible()
     await checkTask.click()
 
-    const resultTab = page.getByRole('tab', { name: 'result' })
     await expect(resultTab).toHaveAttribute('aria-selected', 'true')
     await expect(page.getByRole('heading', { name: 'Verification' })).toBeVisible()
 
     await resultTab.click()
-    await expect(page.getByRole('tab', { name: 'model' })).toHaveAttribute('aria-selected', 'true')
+    await expect(resultTab).toHaveAttribute('aria-selected', 'false')
     await expect(page.getByRole('heading', { name: 'Verification' })).toBeHidden()
+    await expect(page.getByRole('heading', { name: 'Visual model' })).toBeVisible()
   })
 })
