@@ -203,16 +203,9 @@
     min-height: 0;
   }
 
-  /* Table caption remains available to assistive technology without consuming a
-     large visible row on a phone. */
+  /* The explanatory caption is redundant on phones and costs a full visible row. */
   .model-table caption {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-    white-space: nowrap;
+    display: none !important;
   }
 
   /* Model / Formula / Result switcher stays above display cutouts. Result is a
