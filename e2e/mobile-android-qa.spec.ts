@@ -119,4 +119,37 @@ test.describe('Android phone QA regressions', () => {
     await expect(page.getByRole('heading', { name: 'Verification' })).toBeHidden()
     await expect(page.getByRole('heading', { name: 'Visual model' })).toBeVisible()
   })
+
+  test('shows a successful controls lesson in one compact completion card', async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem('logic-game:campaign-progress:v2', JSON.stringify(['tutorial-v2-evaluation-world']))
+      localStorage.setItem('logic-game:campaign-content-revision:v1', '2')
+      localStorage.setItem('logic-game:learn-progress:v1', JSON.stringify({ version: 1, contentRevision: 3, welcomeViewed: true, completedLessonIds: [], completedChapterIds: [], highestStageByLesson: {}, attemptsByLesson: {}, successfulAttemptsByLesson: {}, predictionAnswers: {}, predictionCorrectness: {}, hintsUsed: {}, transferCompletedLessonIds: [], completedAt: {} }))
+    })
+
+    await page.goto('./')
+    await page.getByRole('button', { name: 'Learn', exact: true }).click()
+    const controls = page.getByRole('heading', { name: 'Learn the Controls', exact: true }).locator('xpath=ancestor::article')
+    await controls.getByRole('button', { name: 'Continue', exact: true }).click()
+
+    const mission = page.getByRole('region', { name: 'Current lesson' })
+    await expect(mission).toContainText('Edit a world valuation')
+    await expect(mission).toContainText('Add q to w0.')
+    await expect(page.getByRole('button', { name: 'Interface language' })).toBeHidden()
+
+    await page.getByLabel(/World w0, atoms/).click()
+    const atoms = page.getByLabel('True atoms')
+    await expect(atoms).toBeVisible()
+    await atoms.fill('q')
+    await page.getByRole('button', { name: 'Check task', exact: true }).click()
+
+    await expect(mission).toHaveClass(/mission-header-completed/)
+    await expect(mission).toContainText('Atoms written inside a world are true at that world.')
+    await expect(mission.getByRole('button', { name: 'Next lesson', exact: true })).toBeVisible()
+    expect((await mission.boundingBox())?.height).toBeLessThanOrEqual(310)
+
+    await expect(page.getByRole('tab', { name: 'result' })).toBeHidden()
+    await expect(page.getByRole('heading', { name: 'Verification' })).toBeHidden()
+    await expect(page.getByRole('heading', { name: 'Visual model' })).toBeVisible()
+  })
 })
