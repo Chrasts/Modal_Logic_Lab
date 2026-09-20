@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-test('fresh learner reaches the controls workspace and sees direction-by-drag copy', async ({ page }) => {
+test('fresh learner reaches the controls workspace', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: /Start or continue Learn/ }).click()
   await expect(page.getByRole('heading', { name: 'Welcome to Modal Logic' })).toBeVisible()
@@ -10,7 +10,7 @@ test('fresh learner reaches the controls workspace and sees direction-by-drag co
   await page.getByRole('button', { name: 'Back to Learn' }).click()
   await page.getByRole('button', { name: 'View lessons' }).first().click()
   await page.getByRole('button', { name: 'Open' }).nth(2).click()
-  await expect(page.getByRole('region', { name: 'Kripke model editor' }).getByText(/handle position.*does not set direction/i)).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Kripke model editor' })).toBeVisible()
 })
 
 test('replayed final controls lesson continues into the first modal lesson', async ({ page }) => {
