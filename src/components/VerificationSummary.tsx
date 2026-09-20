@@ -40,6 +40,6 @@ export const VerificationSummary = forwardRef<HTMLDivElement, VerificationSummar
       </div>
       {actions && <div className="verification-summary-actions">{actions}</div>}
       {children && <details className="semantic-result-details"><summary>Semantic details</summary><div>{children}</div></details>}
-    </> : <p className="verification-idle">The verification result will appear here.</p>}
+    </> : null}
   </div>
 })
