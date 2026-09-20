@@ -24,22 +24,22 @@ export const VerificationSummary = forwardRef<HTMLDivElement, VerificationSummar
     announceMobileVerification()
   }, [active, state, summary])
 
+  if (!active) return null
+
   return <div
     ref={ref}
     data-tour-target="result-area"
     tabIndex={-1}
-    className={`result ${active ? state : ''}`}
-    role={active ? state === 'error' ? 'alert' : 'status' : undefined}
-    aria-live={active ? state === 'error' ? 'assertive' : 'polite' : undefined}
-    aria-atomic={active ? 'true' : undefined}
+    className={`result ${state}`}
+    role={state === 'error' ? 'alert' : 'status'}
+    aria-live={state === 'error' ? 'assertive' : 'polite'}
+    aria-atomic="true"
   >
-    {active ? <>
-      <div className="verification-summary">
-        <span className="verification-state-icon" aria-hidden="true">{state === 'success' ? '✓' : state === 'failure' ? '!' : '×'}</span>
-        <div><strong>{headings[state]}</strong>{summary && <p>{summary}</p>}</div>
-      </div>
-      {actions && <div className="verification-summary-actions">{actions}</div>}
-      {children && <details className="semantic-result-details"><summary>Semantic details</summary><div>{children}</div></details>}
-    </> : null}
+    <div className="verification-summary">
+      <span className="verification-state-icon" aria-hidden="true">{state === 'success' ? '✓' : state === 'failure' ? '!' : '×'}</span>
+      <div><strong>{headings[state]}</strong>{summary && <p>{summary}</p>}</div>
+    </div>
+    {actions && <div className="verification-summary-actions">{actions}</div>}
+    {children && <details className="semantic-result-details"><summary>Semantic details</summary><div>{children}</div></details>}
   </div>
 })

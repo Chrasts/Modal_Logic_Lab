@@ -30,10 +30,11 @@ describe('VerificationSummary', () => {
     expect(screen.getByRole('alert')).toHaveTextContent('×Verification error')
   })
 
-  it('keeps the idle state empty and out of the live region', () => {
+  it('does not render an idle result container', () => {
     const { container } = render(<VerificationSummary state="idle" />)
     expect(screen.queryByRole('status')).not.toBeInTheDocument()
-    expect(container.querySelector('.result')).toBeEmptyDOMElement()
+    expect(container.querySelector('.result')).not.toBeInTheDocument()
+    expect(container).toBeEmptyDOMElement()
   })
 
   it('requests the Result sheet when a verification result appears on a phone', () => {
