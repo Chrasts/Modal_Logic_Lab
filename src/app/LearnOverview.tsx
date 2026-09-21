@@ -55,7 +55,6 @@ export function LearnOverview({ completed, total, progress, tutorialLevels, tuto
 
     <div className="learn-chapter-list relational-chapter-path">
       <article className="chapter-row">
-        <span className="chapter-marker" aria-hidden="true"><i /></span>
         <div>
           <p className="eyebrow">{progress.welcomeViewed ? 'Viewed' : 'Not viewed'}</p>
           <h2>Welcome to Modal Logic</h2>
@@ -65,7 +64,6 @@ export function LearnOverview({ completed, total, progress, tutorialLevels, tuto
       </article>
 
       <article className={`chapter-row ${tutorialCompleted === tutorialLevels.length ? 'complete ' : ''}${expandedChapterId === 'controls' ? 'expanded' : ''}`}>
-        <span className="chapter-marker" aria-hidden="true"><i /></span>
         <div>
           <p className="eyebrow">{tutorialCompleted === tutorialLevels.length ? 'Completed' : 'Available'}</p>
           <h2>Learn the Controls</h2>
@@ -94,7 +92,6 @@ export function LearnOverview({ completed, total, progress, tutorialLevels, tuto
         const currentIndex = lessons.findIndex((lesson) => lesson.chapterId === chapter.id && !progress.completedLessonIds.includes(lesson.id))
         const expanded = expandedChapterId === chapter.id
         return <article className={`chapter-row ${chapterComplete ? 'complete ' : ''}${expanded ? 'expanded' : ''}`} key={chapter.id}>
-          <span className="chapter-marker" aria-hidden="true"><i /></span>
           <div>
             <p className="eyebrow">{chapter.lessons.length === 0 ? 'Coming later' : chapterComplete ? 'Completed' : 'Available'}</p>
             <h2>{chapter.title}</h2>
