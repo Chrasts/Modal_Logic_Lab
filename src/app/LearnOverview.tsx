@@ -43,9 +43,7 @@ export function LearnOverview({ completed, total, progress, tutorialLevels, tuto
   return <section className="content-screen learn-course-screen editorial-screen" aria-labelledby="learn-course-title">
     <header className="editorial-heading learn-index-heading">
       <div>
-        <p className="eyebrow">Learning path · finite Kripke semantics</p>
         <h1 id="learn-course-title">Learn Modal Logic</h1>
-        <p>Welcome, learn the controls, then work through finite Kripke semantics one section at a time.</p>
       </div>
       <div className="collection-progress relational-progress" role="status">
         <strong>{completed}/{total}</strong>
@@ -57,7 +55,7 @@ export function LearnOverview({ completed, total, progress, tutorialLevels, tuto
 
     <div className="learn-chapter-list relational-chapter-path">
       <article className="chapter-row">
-        <span className="chapter-marker" aria-hidden="true"><i />00</span>
+        <span className="chapter-marker" aria-hidden="true"><i /></span>
         <div>
           <p className="eyebrow">{progress.welcomeViewed ? 'Viewed' : 'Not viewed'}</p>
           <h2>Welcome to Modal Logic</h2>
@@ -67,7 +65,7 @@ export function LearnOverview({ completed, total, progress, tutorialLevels, tuto
       </article>
 
       <article className={`chapter-row ${tutorialCompleted === tutorialLevels.length ? 'complete ' : ''}${expandedChapterId === 'controls' ? 'expanded' : ''}`}>
-        <span className="chapter-marker" aria-hidden="true"><i />C</span>
+        <span className="chapter-marker" aria-hidden="true"><i /></span>
         <div>
           <p className="eyebrow">{tutorialCompleted === tutorialLevels.length ? 'Completed' : 'Available'}</p>
           <h2>Learn the Controls</h2>
@@ -89,14 +87,14 @@ export function LearnOverview({ completed, total, progress, tutorialLevels, tuto
         </div>
       </article>
 
-      {course.chapters.map((chapter, chapterIndex) => {
+      {course.chapters.map((chapter) => {
         const chapterCompleted = chapter.lessons.filter((lesson) => progress.completedLessonIds.includes(lesson.id)).length
         const chapterComplete = chapterCompleted === chapter.lessons.length && chapter.lessons.length > 0
         const available = chapter.lessons.length > 0
         const currentIndex = lessons.findIndex((lesson) => lesson.chapterId === chapter.id && !progress.completedLessonIds.includes(lesson.id))
         const expanded = expandedChapterId === chapter.id
         return <article className={`chapter-row ${chapterComplete ? 'complete ' : ''}${expanded ? 'expanded' : ''}`} key={chapter.id}>
-          <span className="chapter-marker" aria-hidden="true"><i />{String(chapterIndex + 1).padStart(2, '0')}</span>
+          <span className="chapter-marker" aria-hidden="true"><i /></span>
           <div>
             <p className="eyebrow">{chapter.lessons.length === 0 ? 'Coming later' : chapterComplete ? 'Completed' : 'Available'}</p>
             <h2>{chapter.title}</h2>
