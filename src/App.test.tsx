@@ -64,7 +64,7 @@ describe('sandbox user interface', () => {
   it('links to the game repository', async () => {
     render(<App initialView="workspace" />)
     await userEvent.setup().click(screen.getByRole('button', { name: 'More' }))
-    expect(screen.getByRole('menuitem', { name: 'GitHub' })).toHaveAttribute('href', 'https://github.com/Chrasts/Modal_Logic_Educational_Game')
+    expect(screen.getByRole('menuitem', { name: 'GitHub' })).toHaveAttribute('href', 'https://github.com/Chrasts/Modal_Logic_Lab')
   })
 
   it('keeps four activity destinations in primary navigation and support destinations in More', async () => {
