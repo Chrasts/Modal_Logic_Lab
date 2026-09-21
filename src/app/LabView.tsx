@@ -22,8 +22,8 @@ export function LabView({ language = 'en', onOpenModelSandbox }: { readonly lang
     </header>
     <section className="lab-instrument" aria-label={cs ? 'Dostupné nástroje laboratoře' : 'Available Lab tools'}>
       <div className="lab-instrument-node" aria-hidden="true"><span>◇</span><small>MODEL</small></div>
-      <div className="lab-instrument-copy"><p className="eyebrow">{cs ? 'Nástroj 01' : 'Instrument 01'}</p><h2>{cs ? 'Modelová laboratoř' : 'Model Sandbox'}</h2><p>{cs ? 'Vytvářejte a upravujte konečné Kripkeho modely, vyhodnocujte a porovnávejte formule a zkoumejte vlastnosti Kripkeho rámců.' : 'Build and edit finite Kripke models, evaluate formulas, compare formulas, and explore frame properties.'}</p></div>
-      <ol className="lab-capabilities">{(cs ? modelLaboratoryCapabilities : modelSandboxCapabilities).map((capability, index) => <li key={capability}><span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>{capability}</li>)}</ol>
+      <div className="lab-instrument-copy"><h2>{cs ? 'Modelová laboratoř' : 'Model Sandbox'}</h2><p>{cs ? 'Vytvářejte a upravujte konečné Kripkeho modely, vyhodnocujte a porovnávejte formule a zkoumejte vlastnosti Kripkeho rámců.' : 'Build and edit finite Kripke models, evaluate formulas, compare formulas, and explore frame properties.'}</p></div>
+      <ol className="lab-capabilities">{(cs ? modelLaboratoryCapabilities : modelSandboxCapabilities).map((capability) => <li key={capability}>{capability}</li>)}</ol>
       <button type="button" className="row-action lab-open-action" onClick={onOpenModelSandbox}>{cs ? 'Otevřít modelovou laboratoř' : 'Open Model Sandbox'} <span aria-hidden="true">→</span></button>
     </section>
   </section>
