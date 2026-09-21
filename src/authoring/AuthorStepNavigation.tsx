@@ -25,7 +25,7 @@ export function AuthorStepNavigation({ currentStep, visitedSteps, onSelectStep }
           const enabled = step === currentStep || visitedSteps.has(step)
           return <li key={label} className={step === currentStep ? 'current' : visitedSteps.has(step) ? 'visited' : ''}>
             <button type="button" aria-current={step === currentStep ? 'step' : undefined} disabled={!enabled} onClick={() => onSelectStep(step)}>
-              <span aria-hidden="true" />{label}
+              {label}
             </button>
           </li>
         })}
