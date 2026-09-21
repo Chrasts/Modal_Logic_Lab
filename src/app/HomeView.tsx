@@ -60,17 +60,19 @@ export function HomeView({ language = 'en', completed, total, nextTitle, current
         <h1 id="home-title" aria-label="Modal Logic Lab - Interactive Kripke Models">Modal Logic Lab</h1>
         <p className="home-deck">{copy.intro}</p>
 
-        {currentSession && onResume && <button
-          type="button"
-          className="home-resume-link"
-          aria-label={(cs ? copy.continue : 'Resume') + ' ' + currentSession.kind + ': ' + currentSession.title}
-          onClick={onResume}
-        >
-          <span>{copy.continue}</span>
-          <strong>{currentSession.title}</strong>
-          {currentSession.context && <small>{currentSession.context}</small>}
-          <b aria-hidden="true">→</b>
-        </button>}
+        {currentSession && onResume && <aside className="home-resume-region" aria-label="Continue current session">
+          <button
+            type="button"
+            className="home-resume-link"
+            aria-label={(cs ? copy.continue : 'Resume') + ' ' + currentSession.kind + ': ' + currentSession.title}
+            onClick={onResume}
+          >
+            <span>{copy.continue}</span>
+            <strong>{currentSession.title}</strong>
+            {currentSession.context && <small>{currentSession.context}</small>}
+            <b aria-hidden="true">→</b>
+          </button>
+        </aside>}
       </header>
 
       <div className="home-frame" aria-label={copy.choose}>
