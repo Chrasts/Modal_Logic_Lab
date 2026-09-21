@@ -55,7 +55,9 @@ export function HomeView({ language = 'en', completed, total, nextTitle, current
     <div className="home-layout">
       <header className="home-intro">
         <p className="eyebrow">{copy.kicker}</p>
-        <h1 id="home-title" aria-label="Modal Logic Lab - Interactive Kripke Models">Modal Logic Lab</h1>
+        <div className="home-logo-lockup">
+          <h1 id="home-title" aria-label="Modal Logic Lab - Interactive Kripke Models"><span>Modal</span><span>Logic</span><span>Lab</span></h1>
+        </div>
         <p className="home-deck">{copy.intro}</p>
 
         {currentSession && onResume && <aside className="home-resume-region" aria-label="Continue current session">
@@ -82,7 +84,6 @@ export function HomeView({ language = 'en', completed, total, nextTitle, current
               <span>{copy.learnSummary}</span>
               <small className="home-learn-progress"><b>{completed}/{total} {copy.complete}</b><span>{completed === total ? copy.courseComplete : copy.next + ': ' + (nextTitle ?? copy.learn)}</span></small>
             </span>
-            <span className="home-destination-arrow" aria-hidden="true">→</span>
           </button>
 
           <button type="button" className="home-destination" aria-label={cs ? "Kampaně: delší výzvy a cílené procvičování" : "Campaigns: longer challenges and focused practice"} onClick={onCampaigns}>
@@ -91,7 +92,6 @@ export function HomeView({ language = 'en', completed, total, nextTitle, current
               <strong>{copy.campaigns}</strong>
               <span>{copy.campaignsSummary}</span>
             </span>
-            <span className="home-destination-arrow" aria-hidden="true">→</span>
           </button>
 
           <button type="button" className="home-destination" aria-label={cs ? "Laboratoř: experimentování s modely a formulemi" : "Lab: experiment with models and formulas"} onClick={onLab}>
@@ -100,7 +100,6 @@ export function HomeView({ language = 'en', completed, total, nextTitle, current
               <strong>{copy.lab}</strong>
               <span>{copy.labSummary}</span>
             </span>
-            <span className="home-destination-arrow" aria-hidden="true">→</span>
           </button>
         </nav>
       </div>
