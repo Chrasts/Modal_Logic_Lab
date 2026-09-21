@@ -139,9 +139,9 @@ a { color: inherit; }
 }
 
 .brand { display: flex; align-items: baseline; gap: .7rem; }
-.back-button { align-self: center; display: flex; align-items: center; gap: .3rem; border: 1px solid rgba(20,100,122,.18); border-radius: 7px; background: rgba(220,235,239,.38); color: var(--petrol-dark); padding: .42rem .55rem; font-size: .68rem; font-weight: 700; }
-.back-button:hover { border-color: rgba(20,100,122,.38); background: var(--petrol-soft); }
-.brand-mark { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 8px; background: var(--petrol); color: #fff; font: 700 1.05rem "IBM Plex Mono", monospace; box-shadow: 0 5px 14px rgba(20, 100, 122, .22); }
+.back-button { align-self: center; display: flex; align-items: center; gap: .3rem; border: 0; border-right: 1px solid var(--rule); border-radius: 0; background: transparent; color: var(--petrol-dark); padding: .38rem .65rem .38rem .2rem; font-size: .68rem; font-weight: 650; }
+.back-button:hover { border-color: var(--rule-strong); background: var(--surface-active-subtle); }
+.brand-mark { display: grid; place-items: center; width: 2rem; height: 2rem; border: 1px solid var(--petrol-dark); border-radius: 50%; background: var(--paper); color: var(--petrol-dark); font: 600 1rem "IBM Plex Mono", ui-monospace, monospace; box-shadow: none; }
 .brand strong { font: 700 1.02rem "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif; letter-spacing: -.025em; }
 .brand > span:last-child { color: var(--text-subtle); font: .68rem "IBM Plex Mono", monospace; text-transform: uppercase; }
 .product-nav { display: flex; align-items: stretch; gap: 0; margin-left: .65rem; border-radius: 0; background: transparent; padding: 0; }
@@ -242,9 +242,9 @@ a { color: inherit; }
 .collection-progress > span { color: var(--text-subtle); font-size: .62rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .progress-meter { width: 100%; height: 5px; overflow: hidden; border-radius: 999px; background: #d8d7cf; }
 .progress-meter i { display: block; height: 100%; border-radius: inherit; background: var(--petrol); transition: width .25s ease; }
-.primary-action { border: 1px solid var(--petrol-dark); border-radius: 8px; background: var(--petrol); color: white; padding: .7rem 1rem; font-weight: 700; transition: background .16s ease, translate .16s ease, box-shadow .16s ease; }
+.primary-action { border: 1px solid var(--petrol-dark); border-radius: var(--radius-control); background: var(--petrol); color: white; padding: .7rem 1rem; font-weight: 700; transition: background var(--motion-fast) var(--ease-ui), color var(--motion-fast) var(--ease-ui); }
 .primary-action:hover { background: var(--petrol-dark); }
-.primary-action:active, .verify-button:active, .help-button:active { translate: 0 1px; }
+.primary-action:active, .verify-button:active, .help-button:active { translate: 0; }
 .campaign-browser { display: grid; grid-template-columns: minmax(210px, 280px) 1fr; gap: 1rem; }
 .track-list { display: grid; align-content: start; gap: .45rem; }
 .track-list button { display: grid; gap: .2rem; border: 1px solid rgba(92, 96, 87, .15); border-radius: 8px; background: rgba(239, 237, 230, .6); color: var(--text-secondary); padding: .75rem; text-align: left; }
@@ -685,7 +685,7 @@ input:disabled, select:disabled { cursor: not-allowed; opacity: .62; }
 .edge-row > span { font: 1.2rem "IBM Plex Mono", monospace; }
 .remove-button { width: 2rem; height: 2rem; border: 1px solid transparent; border-radius: 50%; background: transparent; color: var(--brown); font-size: 1.2rem; }
 .remove-button:hover:not(:disabled) { border-color: rgba(122, 77, 38, .22); background: var(--brown-soft); color: var(--brown-dark); }
-.secondary-button { border: 1px solid rgba(20, 100, 122, .35); border-radius: 8px; background: rgba(220, 235, 239, .45); color: var(--petrol-dark); padding: .65rem .9rem; font-weight: 700; }
+.secondary-button { border: 1px solid var(--rule-strong); border-radius: var(--radius-control); background: transparent; color: var(--petrol-dark); padding: .65rem .9rem; font-weight: 700; }
 .secondary-button:hover { border-color: var(--petrol); color: var(--petrol); }
 .secondary-button:disabled { cursor: not-allowed; opacity: .45; }
 .empty-state { margin: 0; color: var(--text-subtle); font-size: .9rem; }
@@ -1252,7 +1252,7 @@ code, .notation, .formula-panel input { font-variant-ligatures: none; }
 }
 
 .language-picker { position: relative; }
-.language-picker-button { min-height: 2rem; display: inline-flex; align-items: center; border: 1px solid rgba(20,100,122,.25); border-radius: 7px; background: rgba(248,247,241,.65); color: var(--petrol-dark); padding: .25rem .5rem; font: 800 .68rem "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif; letter-spacing: .04em; }
+.language-picker-button { min-height: 2rem; display: inline-flex; align-items: center; border: 1px solid var(--rule); border-radius: var(--radius-control); background: transparent; color: var(--petrol-dark); padding: .25rem .5rem; font: 700 .68rem "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif; letter-spacing: .04em; }
 .language-picker-button:hover, .language-picker-button[aria-expanded="true"] { border-color: rgba(20,100,122,.48); background: var(--petrol-soft); }
 .language-menu-popover { position: absolute; z-index: var(--z-popover); top: calc(100% + .42rem); right: 0; display: grid; min-width: 9.5rem; gap: .16rem; border: 1px solid rgba(20,100,122,.24); border-radius: 9px; background: var(--paper); padding: .32rem; box-shadow: 0 12px 30px rgba(30,48,42,.14); animation: screen-arrive .14s ease-out; }
 .language-menu-popover button { display: flex; align-items: center; gap: .55rem; width: 100%; border: 0; border-radius: 6px; background: transparent; color: var(--petrol-dark); padding: .5rem .55rem; text-align: left; font: 700 .71rem "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif; }
