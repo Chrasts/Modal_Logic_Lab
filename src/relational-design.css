@@ -1355,7 +1355,7 @@
 
 .result.success {
   border-color: var(--rule-soft);
-  border-left-color: #147a50;
+  border-left-color: var(--success);
   background: transparent;
   color: #174f3c;
   animation: none;
@@ -1856,7 +1856,7 @@ textarea:focus {
 }
 
 .question-feedback.correct {
-  border-left-color: #147a50;
+  border-left-color: var(--success);
 }
 
 .question-feedback.incorrect {
