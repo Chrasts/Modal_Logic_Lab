@@ -2354,3 +2354,28 @@ textarea:focus {
   background: transparent;
   padding: .5rem .65rem;
 }
+
+
+/* Remaining primary action surfaces: no gradient/elevation vocabulary. */
+.verify-button {
+  border: 1px solid var(--petrol-dark);
+  border-radius: var(--radius-control);
+  background: var(--petrol-dark);
+  box-shadow: none;
+  transition: background var(--motion-fast) var(--ease-ui), color var(--motion-fast) var(--ease-ui);
+}
+
+.verify-button:hover:not(:disabled) {
+  filter: none;
+  translate: 0;
+  background: var(--petrol);
+  box-shadow: none;
+}
+
+:root[data-theme='dark'] .page-shell {
+  background:
+    linear-gradient(rgba(201,193,182,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,193,182,.035) 1px, transparent 1px),
+    var(--cream);
+  background-size: 32px 32px;
+}
