@@ -20,19 +20,19 @@ export function CreateView({ templates, selectedTemplateId, onSelectedTemplateCh
 
     <div className="create-workflows" aria-label="Authoring workflows">
       <section className="create-workflow create-workflow--primary">
-        <span className="workflow-node" aria-hidden="true"><i />01</span>
+        <span className="workflow-node" aria-hidden="true"><i /></span>
         <div><p className="eyebrow">Custom mission</p><h2>Build a constrained objective</h2><p>Capture a starting model, configure its objective and constraints, then verify a reference solution.</p></div>
         <button type="button" className="row-action" onClick={onOpenStudio}>New custom mission <span aria-hidden="true">→</span></button>
       </section>
 
       <section className="create-workflow">
-        <span className="workflow-node" aria-hidden="true"><i />02</span>
+        <span className="workflow-node" aria-hidden="true"><i /></span>
         <div><p className="eyebrow">Duplicate a built-in mission</p><h2>Start from an existing structure</h2><p>Copy content into the studio without changing the built-in original. The copy must receive its own reference solution.</p></div>
         <div className="workflow-controls"><select aria-label="Built-in mission template" value={selectedTemplateId} onChange={(event) => onSelectedTemplateChange(event.target.value)}>{templates.map((level) => <option value={level.id} key={level.id}>{level.chapter} · {level.title}</option>)}</select><button type="button" className="row-action" onClick={onDuplicateTemplate}>Duplicate into studio <span aria-hidden="true">→</span></button></div>
       </section>
 
       <section className="create-workflow">
-        <span className="workflow-node" aria-hidden="true"><i />03</span>
+        <span className="workflow-node" aria-hidden="true"><i /></span>
         <div><p className="eyebrow">Custom campaign</p><h2>Package missions</h2><p>Combine authored missions, download a JSON package, or create a browser-shareable link.</p></div>
         <button type="button" className="row-action" onClick={onOpenCampaign}>Manage custom campaigns <span aria-hidden="true">→</span></button>
       </section>
