@@ -19,78 +19,99 @@ export function HomeView({ language = 'en', completed, total, nextTitle, current
 }) {
   const cs = language === 'cs'
   const copy = cs
-    ? { learn: 'Výuka', campaigns: 'Kampaně', lab: 'Laboratoř', complete: 'splněno', courseComplete: 'Kurz dokončen', next: 'Další', openCampaigns: 'Otevřít kampaně', openLab: 'Otevřít laboratoř' }
-    : { learn: 'Learn', campaigns: 'Campaigns', lab: 'Lab', complete: 'complete', courseComplete: 'Course complete', next: 'Next', openCampaigns: 'Open Campaigns', openLab: 'Open Lab' }
-  return <section className="content-screen home-screen home-screen--redesigned" aria-labelledby="home-title">
-    <header className="home-hero">
-      <h1 id="home-title" aria-label="Modal Logic Lab - Interactive Kripke Models">Modal Logic Lab</h1>
-    </header>
+    ? {
+        kicker: 'Interaktivní Kripkeho sémantika',
+        intro: 'Vytvářejte konečné Kripkeho modely, sledujte pravdivost formulí a zkoumejte vztah mezi světy, relacemi a modálními principy.',
+        choose: 'Zvolte směr',
+        worlds: 'možné světy',
+        learn: 'Výuka',
+        learnSummary: 'Systematická cesta modální logikou a Kripkeho sémantikou.',
+        campaigns: 'Kampaně',
+        campaignsSummary: 'Delší úlohy a cílené procvičování.',
+        lab: 'Laboratoř',
+        labSummary: 'Volná konstrukce a analýza konečných modelů.',
+        complete: 'splněno',
+        next: 'další',
+        courseComplete: 'kurz dokončen',
+        continue: 'Pokračovat',
+      }
+    : {
+        kicker: 'Interactive Kripke semantics',
+        intro: 'Build finite Kripke models, trace formula truth, and explore the relation between worlds, accessibility, and modal principles.',
+        choose: 'Choose a path',
+        worlds: 'possible worlds',
+        learn: 'Learn',
+        learnSummary: 'A structured path through modal logic and Kripke semantics.',
+        campaigns: 'Campaigns',
+        campaignsSummary: 'Longer challenges and targeted practice.',
+        lab: 'Lab',
+        labSummary: 'Free construction and analysis of finite models.',
+        complete: 'complete',
+        next: 'next',
+        courseComplete: 'course complete',
+        continue: 'Continue',
+      }
 
-    {currentSession && onResume && <aside className="home-resume-region" aria-label="Continue current session">
-      <button
-        type="button"
-        className="home-resume-strip"
-        aria-label={`Resume ${currentSession.kind}: ${currentSession.title}`}
-        onClick={onResume}
-      >
-        <span className="home-resume-kicker">Continue</span>
-        <span className="home-resume-session">
+  const progressText = completed === total
+    ? copy.courseComplete
+    : completed + '/' + total + ' ' + copy.complete + ' · ' + copy.next + ': ' + (nextTitle ?? copy.learn)
+
+  return <section className="content-screen home-screen home-screen--relational" aria-labelledby="home-title">
+    <div className="home-layout">
+      <header className="home-intro">
+        <p className="eyebrow">{copy.kicker}</p>
+        <h1 id="home-title">Modal Logic Lab</h1>
+        <p className="home-deck">{copy.intro}</p>
+
+        {currentSession && onResume && <button
+          type="button"
+          className="home-resume-link"
+          aria-label={copy.continue + ' ' + currentSession.kind + ': ' + currentSession.title}
+          onClick={onResume}
+        >
+          <span>{copy.continue}</span>
           <strong>{currentSession.title}</strong>
           {currentSession.context && <small>{currentSession.context}</small>}
-        </span>
-        <span className="home-resume-action">Resume →</span>
-      </button>
-    </aside>}
+          <b aria-hidden="true">→</b>
+        </button>}
+      </header>
 
-    <nav className="home-actions home-primary-actions" aria-label="Main activities">
-      <article className="home-destination home-destination--learn">
-        <span className="home-destination-heading-row">
-          <span className="home-destination-title">{copy.learn}</span>
-          <span className="home-destination-arrow" aria-hidden="true">↗</span>
-        </span>
-        <span className="home-destination-summary" id="home-learn-description">{cs ? 'Modální logika krok za krokem.' : 'Modal logic step by step.'}</span>
-        <span className="home-learn-progress" aria-label={`${completed}/${total} complete. ${completed === total ? 'Course complete' : `Next: ${nextTitle ?? 'Learn overview'}`}`}>
-          <strong>{completed}/{total} {copy.complete}</strong>
-          <span>{completed === total ? copy.courseComplete : `${copy.next}: ${nextTitle ?? copy.learn}`}</span>
-        </span>
-        <button
-          type="button"
-          className="home-destination-hitbox"
-          aria-label="Start or continue Learn Modal Logic"
-          aria-describedby="home-learn-description"
-          onClick={onLearn}
-        >{cs ? 'VÝUKA' : 'LEARN'}</button>
-      </article>
+      <div className="home-frame" aria-label={copy.choose}>
+        <div className="home-frame-origin" aria-hidden="true">
+          <span className="home-frame-origin-symbol">◇</span>
+          <span className="home-frame-origin-label">{copy.worlds}</span>
+        </div>
 
-      <article className="home-destination home-destination--campaigns">
-        <span className="home-destination-heading-row">
-          <span className="home-destination-title">{copy.campaigns}</span>
-          <span className="home-destination-arrow" aria-hidden="true">↗</span>
-        </span>
-        <span className="home-destination-summary" id="home-campaigns-description">{cs ? 'Pokročilé a specializované mise.' : 'Advanced, specialized missions.'}</span>
-        <button
-          type="button"
-          className="home-destination-hitbox"
-          aria-label="Campaigns: longer challenges and focused practice"
-          aria-describedby="home-campaigns-description"
-          onClick={onCampaigns}
-        >{copy.openCampaigns}</button>
-      </article>
+        <nav className="home-destinations" aria-label="Main activities">
+          <button type="button" className="home-destination home-destination--learn" onClick={onLearn}>
+            <span className="home-node-marker"><i aria-hidden="true" /><small>01</small></span>
+            <span className="home-destination-copy">
+              <strong>{copy.learn}</strong>
+              <span>{copy.learnSummary}</span>
+              <small>{progressText}</small>
+            </span>
+            <span className="home-destination-arrow" aria-hidden="true">→</span>
+          </button>
 
-      <article className="home-destination home-destination--lab">
-        <span className="home-destination-heading-row">
-          <span className="home-destination-title">{copy.lab}</span>
-          <span className="home-destination-arrow" aria-hidden="true">↗</span>
-        </span>
-        <span className="home-destination-summary" id="home-lab-description">{cs ? 'Plný sandbox se všemi nástroji pro modelování a analýzu.' : 'Full sandbox with all modeling and analysis tools.'}</span>
-        <button
-          type="button"
-          className="home-destination-hitbox"
-          aria-label="Lab: experiment with models and formulas"
-          aria-describedby="home-lab-description"
-          onClick={onLab}
-        >{copy.openLab}</button>
-      </article>
-    </nav>
+          <button type="button" className="home-destination" onClick={onCampaigns}>
+            <span className="home-node-marker"><i aria-hidden="true" /><small>02</small></span>
+            <span className="home-destination-copy">
+              <strong>{copy.campaigns}</strong>
+              <span>{copy.campaignsSummary}</span>
+            </span>
+            <span className="home-destination-arrow" aria-hidden="true">→</span>
+          </button>
+
+          <button type="button" className="home-destination" onClick={onLab}>
+            <span className="home-node-marker"><i aria-hidden="true" /><small>03</small></span>
+            <span className="home-destination-copy">
+              <strong>{copy.lab}</strong>
+              <span>{copy.labSummary}</span>
+            </span>
+            <span className="home-destination-arrow" aria-hidden="true">→</span>
+          </button>
+        </nav>
+      </div>
+    </div>
   </section>
 }
