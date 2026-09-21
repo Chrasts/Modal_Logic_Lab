@@ -78,7 +78,6 @@ export function HomeView({ language = 'en', completed, total, nextTitle, current
       <div className="home-frame" aria-label={copy.choose}>
         <nav className="home-destinations" aria-label="Main activities">
           <button type="button" className="home-destination home-destination--learn" aria-label={cs ? "Začít nebo pokračovat ve výuce modální logiky" : "Start or continue Learn Modal Logic"} onClick={onLearn}>
-            <span className="home-node-marker" aria-hidden="true"><i /></span>
             <span className="home-destination-copy">
               <strong>{copy.learn}</strong>
               <span>{copy.learnSummary}</span>
@@ -87,7 +86,6 @@ export function HomeView({ language = 'en', completed, total, nextTitle, current
           </button>
 
           <button type="button" className="home-destination" aria-label={cs ? "Kampaně: delší výzvy a cílené procvičování" : "Campaigns: longer challenges and focused practice"} onClick={onCampaigns}>
-            <span className="home-node-marker" aria-hidden="true"><i /></span>
             <span className="home-destination-copy">
               <strong>{copy.campaigns}</strong>
               <span>{copy.campaignsSummary}</span>
@@ -95,7 +93,6 @@ export function HomeView({ language = 'en', completed, total, nextTitle, current
           </button>
 
           <button type="button" className="home-destination" aria-label={cs ? "Laboratoř: experimentování s modely a formulemi" : "Lab: experiment with models and formulas"} onClick={onLab}>
-            <span className="home-node-marker" aria-hidden="true"><i /></span>
             <span className="home-destination-copy">
               <strong>{copy.lab}</strong>
               <span>{copy.labSummary}</span>
