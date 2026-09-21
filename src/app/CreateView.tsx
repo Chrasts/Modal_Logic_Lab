@@ -13,9 +13,35 @@ interface CreateViewProps {
 }
 
 export function CreateView({ templates, selectedTemplateId, onSelectedTemplateChange, onOpenStudio, onOpenCampaign, onDuplicateTemplate, importSource, onImportSourceChange, onImportContent }: CreateViewProps) {
-  return <section className="content-screen create-screen" aria-labelledby="create-screen-title">
-    <div className="screen-hero compact"><div><p className="eyebrow">Authoring tools</p><h1 id="create-screen-title">Create</h1><p>Author a custom mission or package missions into a shareable custom campaign. Your content remains separate from Learn, General Challenges, and Practice Library.</p></div></div>
-    <div className="home-actions play-actions"><article className="featured"><span>Custom mission</span><h2>Build a constrained objective</h2><p>Capture a starting model, configure its objective and constraints, then verify a reference solution.</p><button type="button" className="primary-action" onClick={onOpenStudio}>New custom mission</button></article><article><span>Duplicate a built-in mission</span><h2>Start from a proven structure</h2><p>Copy content into the studio without changing the built-in original. The copy must receive its own reference solution.</p><select aria-label="Built-in mission template" value={selectedTemplateId} onChange={(event) => onSelectedTemplateChange(event.target.value)}>{templates.map((level) => <option value={level.id} key={level.id}>{level.chapter} · {level.title}</option>)}</select><button type="button" className="secondary-button" onClick={onDuplicateTemplate}>Duplicate into studio</button></article><article><span>Custom campaign</span><h2>Package missions</h2><p>Combine authored missions, download a JSON package, or create a browser-shareable link.</p><button type="button" className="secondary-button" onClick={onOpenCampaign}>Manage custom campaigns</button></article></div>
-    <article className="create-import-card"><h2>Import custom content</h2><p>Paste a custom mission or campaign package. A mission opens in the authoring studio and a campaign opens its package.</p><label><span>Custom content JSON</span><textarea aria-label="Custom content JSON" value={importSource} onChange={(event) => onImportSourceChange(event.target.value)} spellCheck={false} /></label><button type="button" className="secondary-button" onClick={onImportContent}>Import into Create</button></article>
+  return <section className="content-screen create-screen editorial-screen" aria-labelledby="create-screen-title">
+    <header className="editorial-heading create-index-heading">
+      <div><p className="eyebrow">Mission authoring · validation · sharing</p><h1 id="create-screen-title">Create</h1><p>Author a custom mission or package missions into a shareable custom campaign. Your content remains separate from Learn, General Challenges, and Practice Library.</p></div>
+    </header>
+
+    <div className="create-workflows" aria-label="Authoring workflows">
+      <section className="create-workflow create-workflow--primary">
+        <span className="workflow-node" aria-hidden="true"><i />01</span>
+        <div><p className="eyebrow">Custom mission</p><h2>Build a constrained objective</h2><p>Capture a starting model, configure its objective and constraints, then verify a reference solution.</p></div>
+        <button type="button" className="row-action" onClick={onOpenStudio}>New custom mission <span aria-hidden="true">→</span></button>
+      </section>
+
+      <section className="create-workflow">
+        <span className="workflow-node" aria-hidden="true"><i />02</span>
+        <div><p className="eyebrow">Duplicate a built-in mission</p><h2>Start from an existing structure</h2><p>Copy content into the studio without changing the built-in original. The copy must receive its own reference solution.</p></div>
+        <div className="workflow-controls"><select aria-label="Built-in mission template" value={selectedTemplateId} onChange={(event) => onSelectedTemplateChange(event.target.value)}>{templates.map((level) => <option value={level.id} key={level.id}>{level.chapter} · {level.title}</option>)}</select><button type="button" className="row-action" onClick={onDuplicateTemplate}>Duplicate into studio <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <section className="create-workflow">
+        <span className="workflow-node" aria-hidden="true"><i />03</span>
+        <div><p className="eyebrow">Custom campaign</p><h2>Package missions</h2><p>Combine authored missions, download a JSON package, or create a browser-shareable link.</p></div>
+        <button type="button" className="row-action" onClick={onOpenCampaign}>Manage custom campaigns <span aria-hidden="true">→</span></button>
+      </section>
+    </div>
+
+    <section className="create-import-card create-import-section">
+      <div><p className="eyebrow">External content</p><h2>Import custom content</h2><p>Paste a custom mission or campaign package. A mission opens in the authoring studio and a campaign opens its package.</p></div>
+      <label><span>Custom content JSON</span><textarea aria-label="Custom content JSON" value={importSource} onChange={(event) => onImportSourceChange(event.target.value)} spellCheck={false} /></label>
+      <button type="button" className="row-action" onClick={onImportContent}>Import into Create <span aria-hidden="true">→</span></button>
+    </section>
   </section>
 }

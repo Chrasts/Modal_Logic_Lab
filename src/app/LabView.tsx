@@ -16,10 +16,15 @@ const modelLaboratoryCapabilities = [
 
 export function LabView({ language = 'en', onOpenModelSandbox }: { readonly language?: 'en' | 'cs'; readonly onOpenModelSandbox: () => void }) {
   const cs = language === 'cs'
-  return <section className="content-screen lab-screen" aria-labelledby="lab-title">
-    <div className="screen-hero compact"><div><p className="eyebrow">{cs ? 'Volné experimentování' : 'Experiment freely'}</p><h1 id="lab-title" className="clean-display">{cs ? 'Laboratoř' : 'Lab'}</h1><p>{cs ? 'Zkoumejte konečné Kripkeho modely a modální formule bez pevně daného cíle mise. Nástroje laboratoře používají stejný pracovní prostor modelu jako zbytek aplikace.' : 'Explore finite Kripke models and modal formulas without a fixed mission objective. Lab tools share the same deterministic model workspace used throughout the game.'}</p></div></div>
-    <div className="lab-tool-grid" aria-label={cs ? 'Dostupné nástroje laboratoře' : 'Available Lab tools'}>
-      <article className="lab-tool-card active"><div><p className="eyebrow">{cs ? 'K dispozici nyní' : 'Available now'}</p><h2>{cs ? 'Modelová laboratoř' : 'Model Sandbox'}</h2><p>{cs ? 'Vytvářejte a upravujte konečné Kripkeho modely, vyhodnocujte a porovnávejte formule a zkoumejte vlastnosti Kripkeho rámců.' : 'Build and edit finite Kripke models, evaluate formulas, compare formulas, and explore frame properties.'}</p></div><ul>{(cs ? modelLaboratoryCapabilities : modelSandboxCapabilities).map((capability) => <li key={capability}>{capability}</li>)}</ul><button type="button" className="primary-action" onClick={onOpenModelSandbox}>{cs ? 'Otevřít modelovou laboratoř' : 'Open Model Sandbox'}</button></article>
-    </div>
+  return <section className="content-screen lab-screen editorial-screen" aria-labelledby="lab-title">
+    <header className="editorial-heading lab-index-heading">
+      <div><p className="eyebrow">{cs ? 'Konečné Kripkeho modely' : 'Finite Kripke models'}</p><h1 id="lab-title" className="clean-display">{cs ? 'Laboratoř' : 'Lab'}</h1><p>{cs ? 'Zkoumejte konečné Kripkeho modely a modální formule bez pevně daného cíle mise.' : 'Explore finite Kripke models and modal formulas without a fixed mission objective.'}</p></div>
+    </header>
+    <section className="lab-instrument" aria-label={cs ? 'Dostupné nástroje laboratoře' : 'Available Lab tools'}>
+      <div className="lab-instrument-node" aria-hidden="true"><span>◇</span><small>MODEL</small></div>
+      <div className="lab-instrument-copy"><p className="eyebrow">{cs ? 'Nástroj 01' : 'Instrument 01'}</p><h2>{cs ? 'Modelová laboratoř' : 'Model Sandbox'}</h2><p>{cs ? 'Vytvářejte a upravujte konečné Kripkeho modely, vyhodnocujte a porovnávejte formule a zkoumejte vlastnosti Kripkeho rámců.' : 'Build and edit finite Kripke models, evaluate formulas, compare formulas, and explore frame properties.'}</p></div>
+      <ol className="lab-capabilities">{(cs ? modelLaboratoryCapabilities : modelSandboxCapabilities).map((capability, index) => <li key={capability}><span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>{capability}</li>)}</ol>
+      <button type="button" className="row-action lab-open-action" onClick={onOpenModelSandbox}>{cs ? 'Otevřít modelovou laboratoř' : 'Open Model Sandbox'} <span aria-hidden="true">→</span></button>
+    </section>
   </section>
 }

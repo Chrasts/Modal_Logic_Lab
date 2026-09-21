@@ -1342,3 +1342,732 @@ code, .notation, .formula-panel input { font-variant-ligatures: none; }
 ) { color: #D8D0C4; }
 
 :root[data-theme='dark'] :is(.primary-action, .help-button, .verify-button, .toolbar-verify, .settings-choice button.active, .model-view-switch button.active, .scope-prediction button.active, .prediction-choice button.active, .statement-choice-grid button.active) { color: #FFF8EC; }
+
+
+/* Relational editorial views: replace generic card grids with index, rail, and instrument structures. */
+.editorial-screen {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.editorial-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: var(--space-8);
+  margin: 0 0 clamp(2rem, 5vw, 4rem);
+  border-bottom: 1px solid var(--rule);
+  padding: 0 0 var(--space-6);
+}
+
+.editorial-heading > div:first-child {
+  max-width: 720px;
+}
+
+.editorial-heading h1 {
+  margin: 0;
+  color: var(--petrol-dark);
+  font: 600 clamp(2.2rem, 4vw, 3.6rem)/.96 "Source Serif 4", Georgia, serif;
+  letter-spacing: -.035em;
+}
+
+.editorial-heading p:not(.eyebrow) {
+  max-width: 62ch;
+  margin: .7rem 0 0;
+  color: var(--text-muted);
+  font-size: .86rem;
+  line-height: 1.7;
+}
+
+.editorial-heading-action {
+  grid-column: 2;
+  width: max-content;
+}
+
+.relational-progress {
+  min-width: 160px;
+  justify-items: end;
+  gap: .2rem;
+}
+
+.relational-progress > strong {
+  display: flex;
+  align-items: baseline;
+  gap: .18rem;
+  color: var(--petrol-dark);
+  font: 500 1.4rem "IBM Plex Mono", ui-monospace, monospace;
+}
+
+.relational-progress > strong span {
+  color: var(--rule-strong);
+  font-size: .8em;
+  font-weight: 400;
+}
+
+.relational-progress > span {
+  color: var(--text-muted);
+  font: 500 .58rem "IBM Plex Mono", ui-monospace, monospace;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.relational-progress .progress-meter {
+  position: relative;
+  width: 150px;
+  height: 9px;
+  overflow: visible;
+  border-radius: 0;
+  background:
+    radial-gradient(circle, var(--rule) 1.5px, transparent 1.7px) left center / 15px 9px repeat-x;
+}
+
+.relational-progress .progress-meter::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 4px;
+  border-top: 1px solid var(--rule-soft);
+}
+
+.relational-progress .progress-meter i {
+  position: relative;
+  z-index: 1;
+  height: 9px;
+  border-radius: 0;
+  background:
+    radial-gradient(circle, var(--petrol) 2px, transparent 2.2px) left center / 15px 9px repeat-x;
+  transition: width var(--motion-panel) var(--ease-ui);
+}
+
+/* Learn: an explicit path through states rather than a stack of cards. */
+.relational-chapter-path {
+  position: relative;
+  gap: 0;
+  padding-left: 0;
+}
+
+.relational-chapter-path::before {
+  content: "";
+  position: absolute;
+  left: 22px;
+  top: 1.5rem;
+  bottom: 1.5rem;
+  border-left: 1px solid var(--rule-strong);
+}
+
+.learn-course-screen .learn-chapter-list article.chapter-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) minmax(118px, auto);
+  align-items: start;
+  gap: var(--space-4);
+  min-height: 112px;
+  border: 0;
+  border-bottom: 1px solid var(--rule-soft);
+  border-radius: 0;
+  background: transparent;
+  padding: var(--space-6) 0;
+}
+
+.learn-course-screen .learn-chapter-list article.chapter-row:first-child {
+  border-top: 1px solid var(--rule-soft);
+}
+
+.learn-course-screen .learn-chapter-list article.chapter-row.complete,
+.learn-course-screen .learn-chapter-list article.chapter-row.locked {
+  background: transparent;
+  opacity: 1;
+}
+
+.chapter-marker {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: .35rem;
+  color: var(--text-muted);
+  font: 500 .56rem "IBM Plex Mono", ui-monospace, monospace;
+}
+
+.chapter-marker i {
+  display: block;
+  width: 15px;
+  height: 15px;
+  border: 1px solid var(--petrol-dark);
+  border-radius: 50%;
+  background: var(--surface-page);
+}
+
+.chapter-row.complete .chapter-marker i {
+  background: var(--petrol);
+  box-shadow: inset 0 0 0 4px var(--surface-page);
+}
+
+.learn-course-screen .learn-chapter-list h2 {
+  margin: 0;
+  color: var(--petrol-dark);
+  font: 600 1.25rem "Source Serif 4", Georgia, serif;
+}
+
+.learn-course-screen .learn-chapter-list p:not(.eyebrow) {
+  max-width: 68ch;
+  margin: .3rem 0;
+  color: var(--text-muted);
+  font-size: .76rem;
+  line-height: 1.55;
+}
+
+.learn-course-screen .chapter-actions {
+  display: grid;
+  justify-items: stretch;
+  gap: .25rem;
+  min-width: 8.5rem;
+}
+
+.learn-course-screen .chapter-actions .primary-action,
+.learn-course-screen .chapter-actions .secondary-button {
+  background: transparent;
+}
+
+.learn-course-screen .chapter-actions .primary-action {
+  border-color: var(--petrol-dark);
+  background: var(--petrol-dark);
+}
+
+.chapter-lesson-outline {
+  margin-top: var(--space-4);
+  border-left: 1px solid var(--rule);
+  padding-left: var(--space-4);
+}
+
+.chapter-lesson-outline > ol {
+  gap: 0;
+}
+
+.chapter-lesson-outline > ol > li {
+  position: relative;
+  border: 0;
+  border-bottom: 1px solid var(--rule-soft);
+  border-left: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: .5rem 0 .5rem 1rem;
+}
+
+.chapter-lesson-outline > ol > li::before {
+  content: "";
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 50%;
+  background: var(--surface-page);
+  translate: 0 -50%;
+}
+
+.chapter-lesson-outline > ol > li.current {
+  background: var(--surface-active-subtle);
+}
+
+.chapter-lesson-outline > ol > li.current::before,
+.chapter-lesson-outline > ol > li.complete::before {
+  border-color: var(--petrol);
+  background: var(--petrol);
+}
+
+.chapter-recap {
+  margin-top: var(--space-4);
+  border-top: 1px solid var(--rule);
+  padding-top: var(--space-4);
+}
+
+/* Campaigns: catalogue and file-index patterns rather than tiles. */
+.index-section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-3);
+}
+
+.index-section-heading h2 {
+  margin: 0;
+  color: var(--petrol-dark);
+  font: 600 1.45rem "Source Serif 4", Georgia, serif;
+}
+
+.index-section-heading > span {
+  color: var(--text-muted);
+  font: 500 .6rem "IBM Plex Mono", ui-monospace, monospace;
+  text-transform: uppercase;
+}
+
+.campaign-challenge-list {
+  display: grid;
+  border-top: 1px solid var(--rule);
+}
+
+.campaign-challenge-list article {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-4);
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 1.15rem 0;
+}
+
+.challenge-code,
+.track-code {
+  color: var(--brown);
+  font: 500 .65rem "IBM Plex Mono", ui-monospace, monospace;
+  letter-spacing: .06em;
+}
+
+.campaign-challenge-list h3,
+.track-detail h3,
+.level-browser h4 {
+  margin: 0;
+  color: var(--petrol-dark);
+  font: 600 1rem "Source Serif 4", Georgia, serif;
+}
+
+.campaign-challenge-list p,
+.track-detail p,
+.level-browser p {
+  margin: .2rem 0 0;
+  color: var(--text-muted);
+  font-size: .7rem;
+  line-height: 1.5;
+}
+
+.campaign-challenge-list small {
+  display: block;
+  margin-top: .35rem;
+  color: var(--text-muted);
+  font: 500 .58rem "IBM Plex Mono", ui-monospace, monospace;
+}
+
+.row-action {
+  width: max-content;
+  border: 0;
+  border-bottom: 1px solid var(--rule-strong);
+  border-radius: 0;
+  background: transparent;
+  padding: .45rem 0;
+  color: var(--petrol-dark);
+  font-size: .7rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.row-action > span {
+  display: inline-block;
+  margin-left: .35rem;
+  color: var(--petrol);
+  transition: translate var(--motion-fast) var(--ease-ui);
+}
+
+.row-action:hover,
+.row-action:focus-visible {
+  border-bottom-color: var(--petrol);
+  background: transparent;
+}
+
+.row-action:hover > span,
+.row-action:focus-visible > span {
+  translate: 4px 0;
+}
+
+.campaign-browser {
+  grid-template-columns: minmax(210px, 260px) minmax(0, 1fr);
+  gap: var(--space-8);
+}
+
+.track-list {
+  gap: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.track-list button {
+  position: relative;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: .15rem .6rem;
+  border: 0;
+  border-bottom: 1px solid var(--rule-soft);
+  border-radius: 0;
+  background: transparent;
+  padding: .75rem 0;
+  color: var(--text-muted);
+}
+
+.track-list button .track-code {
+  grid-row: 1 / span 2;
+  align-self: start;
+}
+
+.track-list button.active {
+  border-color: var(--rule);
+  background: var(--surface-active-subtle);
+  color: var(--petrol-dark);
+  box-shadow: inset 2px 0 var(--petrol);
+  padding-left: .65rem;
+}
+
+.track-list button:hover {
+  background: var(--surface-active-subtle);
+}
+
+.track-list span {
+  font-size: .62rem;
+}
+
+.level-browser {
+  gap: 0;
+  width: 100%;
+  margin: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.level-browser article {
+  grid-template-columns: 42px minmax(0, 1fr) auto auto;
+  gap: var(--space-3);
+  border: 0;
+  border-bottom: 1px solid var(--rule-soft);
+  border-radius: 0;
+  background: transparent;
+  padding: .7rem 0;
+}
+
+.level-browser article.complete {
+  border-color: var(--rule-soft);
+}
+
+.level-browser article > span {
+  color: var(--brown);
+  font: 500 .62rem "IBM Plex Mono", ui-monospace, monospace;
+}
+
+.level-browser b {
+  color: var(--text-muted);
+  font: 500 .55rem "IBM Plex Mono", ui-monospace, monospace;
+  letter-spacing: .05em;
+}
+
+.level-browser button {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: .35rem 0;
+  color: var(--petrol-dark);
+}
+
+.level-browser button:hover {
+  color: var(--petrol);
+  background: transparent;
+}
+
+/* Lab: one instrument, expressed as a diagrammatic technical sheet. */
+.lab-instrument {
+  position: relative;
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr) minmax(240px, .7fr);
+  grid-template-areas:
+    "node copy capabilities"
+    "node action capabilities";
+  gap: var(--space-4) var(--space-8);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: clamp(1.5rem, 4vw, 3rem) 0;
+}
+
+.lab-instrument-node {
+  grid-area: node;
+  align-self: center;
+  display: grid;
+  justify-items: center;
+  gap: .5rem;
+}
+
+.lab-instrument-node > span {
+  display: grid;
+  width: 86px;
+  height: 86px;
+  place-items: center;
+  border: 1px solid var(--petrol-dark);
+  border-radius: 50%;
+  color: var(--petrol-dark);
+  font: 500 2.4rem "IBM Plex Mono", ui-monospace, monospace;
+}
+
+.lab-instrument-node small {
+  color: var(--text-muted);
+  font: 500 .55rem "IBM Plex Mono", ui-monospace, monospace;
+  letter-spacing: .08em;
+}
+
+.lab-instrument-copy {
+  grid-area: copy;
+  align-self: end;
+}
+
+.lab-instrument-copy h2 {
+  margin: 0;
+  color: var(--petrol-dark);
+  font: 600 clamp(1.7rem, 3vw, 2.5rem) "Source Serif 4", Georgia, serif;
+}
+
+.lab-instrument-copy p:not(.eyebrow) {
+  max-width: 55ch;
+  color: var(--text-muted);
+  font-size: .8rem;
+  line-height: 1.65;
+}
+
+.lab-capabilities {
+  grid-area: capabilities;
+  align-self: stretch;
+  display: grid;
+  align-content: center;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--rule-soft);
+}
+
+.lab-capabilities li {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: .5rem;
+  border-bottom: 1px solid var(--rule-soft);
+  padding: .55rem 0;
+  color: var(--text-muted);
+  font-size: .7rem;
+}
+
+.lab-capabilities li span {
+  color: var(--brown);
+  font: 500 .56rem "IBM Plex Mono", ui-monospace, monospace;
+}
+
+.lab-open-action {
+  grid-area: action;
+  align-self: start;
+}
+
+/* Create: workflow rail instead of three promotional cards. */
+.create-workflows {
+  position: relative;
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.create-workflows::before {
+  content: "";
+  position: absolute;
+  left: 22px;
+  top: 1.5rem;
+  bottom: 1.5rem;
+  border-left: 1px solid var(--rule-strong);
+}
+
+.create-workflow {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) minmax(190px, auto);
+  align-items: center;
+  gap: var(--space-4);
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 1.4rem 0;
+}
+
+.workflow-node {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: .3rem;
+  color: var(--text-muted);
+  font: 500 .56rem "IBM Plex Mono", ui-monospace, monospace;
+}
+
+.workflow-node i {
+  width: 15px;
+  height: 15px;
+  border: 1px solid var(--petrol-dark);
+  border-radius: 50%;
+  background: var(--surface-page);
+}
+
+.create-workflow--primary .workflow-node i {
+  background: var(--petrol);
+  box-shadow: inset 0 0 0 4px var(--surface-page);
+}
+
+.create-workflow h2,
+.create-import-section h2 {
+  margin: 0;
+  color: var(--petrol-dark);
+  font: 600 1.2rem "Source Serif 4", Georgia, serif;
+}
+
+.create-workflow p:not(.eyebrow),
+.create-import-section p:not(.eyebrow) {
+  max-width: 62ch;
+  margin: .25rem 0 0;
+  color: var(--text-muted);
+  font-size: .74rem;
+  line-height: 1.55;
+}
+
+.workflow-controls {
+  display: grid;
+  justify-items: end;
+  gap: .5rem;
+}
+
+.workflow-controls select {
+  max-width: 280px;
+  border-radius: var(--radius-control);
+}
+
+.create-import-section {
+  max-width: none;
+  display: grid;
+  grid-template-columns: minmax(220px, .7fr) minmax(300px, 1.3fr) auto;
+  align-items: end;
+  gap: var(--space-6);
+  margin-top: var(--space-8);
+  border: 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  border-radius: 0;
+  background: transparent;
+  padding: var(--space-6) 0;
+}
+
+.create-import-section label {
+  gap: .35rem;
+}
+
+.create-import-section label > span {
+  color: var(--text-muted);
+  font: 500 .58rem "IBM Plex Mono", ui-monospace, monospace;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.create-import-section textarea {
+  min-height: 92px;
+  border-radius: var(--radius-control);
+}
+
+@media (max-width: 820px) {
+  .editorial-heading {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .editorial-heading-action {
+    grid-column: 1;
+  }
+
+  .relational-progress {
+    justify-items: start;
+  }
+
+  .learn-course-screen .learn-chapter-list article.chapter-row,
+  .create-workflow {
+    grid-template-columns: 42px minmax(0, 1fr);
+  }
+
+  .learn-course-screen .chapter-actions,
+  .create-workflow > .row-action,
+  .create-workflow > .workflow-controls {
+    grid-column: 2;
+    justify-items: start;
+  }
+
+  .campaign-browser,
+  .lab-instrument,
+  .create-import-section {
+    grid-template-columns: 1fr;
+  }
+
+  .lab-instrument {
+    grid-template-areas: "node" "copy" "capabilities" "action";
+  }
+
+  .lab-instrument-node {
+    justify-items: start;
+  }
+
+  .campaign-challenge-list article {
+    grid-template-columns: 50px minmax(0, 1fr);
+  }
+
+  .campaign-challenge-list .row-action {
+    grid-column: 2;
+  }
+
+  .create-import-section {
+    align-items: stretch;
+  }
+
+  .workflow-controls {
+    justify-items: stretch;
+  }
+
+  .workflow-controls select {
+    max-width: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .learn-course-screen .learn-chapter-list article.chapter-row {
+    grid-template-columns: 34px minmax(0, 1fr);
+  }
+
+  .relational-chapter-path::before,
+  .create-workflows::before {
+    left: 16px;
+  }
+
+  .campaign-challenge-list article {
+    grid-template-columns: 1fr;
+  }
+
+  .challenge-code {
+    margin-bottom: -.25rem;
+  }
+
+  .campaign-challenge-list .row-action {
+    grid-column: 1;
+  }
+
+  .track-list {
+    grid-template-columns: 1fr;
+  }
+
+  .level-browser article {
+    grid-template-columns: 32px minmax(0, 1fr) auto;
+  }
+
+  .level-browser article > button {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .level-browser article > b {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .create-workflow {
+    grid-template-columns: 34px minmax(0, 1fr);
+  }
+}
