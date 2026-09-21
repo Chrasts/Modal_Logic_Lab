@@ -57,7 +57,7 @@ export function HomeView({ language = 'en', completed, total, nextTitle, current
     <div className="home-layout">
       <header className="home-intro">
         <p className="eyebrow">{copy.kicker}</p>
-        <h1 id="home-title">Modal Logic Lab</h1>
+        <h1 id="home-title" aria-label="Modal Logic Lab - Interactive Kripke Models">Modal Logic Lab</h1>
         <p className="home-deck">{copy.intro}</p>
 
         {currentSession && onResume && <button
