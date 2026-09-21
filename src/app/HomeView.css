@@ -146,7 +146,7 @@
 .home-destination {
   position: relative;
   display: grid;
-  grid-template-columns: 36px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
   gap: 1rem;
   min-height: 112px;
@@ -167,47 +167,6 @@
 .home-destination:hover,
 .home-destination:focus-visible {
   background: var(--surface-active-subtle);
-}
-
-.home-node-marker {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  justify-items: center;
-}
-
-.home-node-marker i {
-  position: relative;
-  display: block;
-  width: 17px;
-  height: 17px;
-  border: 1px solid var(--petrol-dark);
-  border-radius: 0;
-  background: transparent;
-  transition: background var(--motion-fast) var(--ease-ui), border-color var(--motion-fast) var(--ease-ui);
-}
-
-.home-node-marker i::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 6px;
-  height: 6px;
-  background: var(--brown);
-  transform: translate(-50%, -50%) rotate(45deg) scale(0);
-  transition: transform var(--motion-fast) var(--ease-ui);
-}
-
-.home-destination:hover .home-node-marker i,
-.home-destination:focus-visible .home-node-marker i {
-  border-color: var(--petrol);
-  background: var(--petrol);
-}
-
-.home-destination:hover .home-node-marker i::after,
-.home-destination:focus-visible .home-node-marker i::after {
-  transform: translate(-50%, -50%) rotate(45deg) scale(1);
 }
 
 .home-destination-copy {
@@ -279,9 +238,22 @@
 
 @media (prefers-reduced-motion: reduce) {
   .home-resume-link b,
-  .home-destination,
-  .home-node-marker i,
-  .home-node-marker i::after {
+  .home-destination {
     transition: none;
   }
+}
+
+
+.home-destination:hover .home-destination-copy strong,
+.home-destination:focus-visible .home-destination-copy strong {
+  color: var(--brown);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .18em;
+  text-decoration-color: color-mix(in srgb, var(--brown) 45%, transparent);
+}
+
+.home-destination:hover .home-destination-copy > span,
+.home-destination:focus-visible .home-destination-copy > span {
+  color: var(--text-main);
 }
