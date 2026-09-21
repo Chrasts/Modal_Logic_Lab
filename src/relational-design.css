@@ -2379,3 +2379,83 @@ textarea:focus {
     var(--cream);
   background-size: 32px 32px;
 }
+
+
+/* Edge states: warnings, hints and empty states follow the same line-based grammar. */
+.learn-recovery-actions {
+  border: 0;
+  border-left: 2px solid var(--petrol);
+  border-radius: 0;
+  background: transparent;
+  padding: .55rem .65rem;
+}
+
+.rule-status {
+  border: 0;
+  border-left: 2px solid var(--rule-strong);
+  border-radius: 0;
+  background: transparent;
+  padding: .42rem .55rem;
+}
+
+.rule-status.pass {
+  border-left-color: var(--success);
+  background: transparent;
+  color: var(--success-dark);
+}
+
+.rule-status.fail {
+  border-left: 2px solid var(--brown);
+  background: transparent;
+  color: var(--brown-dark);
+}
+
+.empty-card {
+  justify-items: start;
+  border: 0;
+  border-top: 1px dashed var(--rule);
+  border-bottom: 1px dashed var(--rule);
+  border-radius: 0;
+  background: transparent;
+  padding: 1rem 0;
+  text-align: left;
+}
+
+.mission-hints > div {
+  gap: .6rem;
+}
+
+.mission-hints button {
+  border: 0;
+  border-bottom: 1px solid var(--rule-strong);
+  border-radius: 0;
+  background: transparent;
+  padding: .22rem 0;
+}
+
+.mission-hints button:hover {
+  border-bottom-color: var(--petrol);
+  background: transparent;
+  color: var(--petrol);
+}
+
+.dialog-close {
+  width: 2.2rem;
+  height: 2.2rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.dialog-close:hover {
+  background: var(--surface-active-subtle);
+}
+
+.lesson-warning {
+  border-left-width: 2px;
+  background: transparent;
+}
+
+.data-message {
+  border-radius: 0;
+}
