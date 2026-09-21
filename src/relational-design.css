@@ -107,15 +107,6 @@
   padding-left: 0;
 }
 
-.relational-chapter-path::before {
-  content: "";
-  position: absolute;
-  left: 22px;
-  top: 1.5rem;
-  bottom: 1.5rem;
-  border-left: 1px solid var(--rule-strong);
-}
-
 .learn-course-screen .learn-chapter-list article.chapter-row {
   position: relative;
   display: grid;
@@ -197,8 +188,8 @@
 
 .chapter-lesson-outline {
   margin-top: var(--space-4);
-  border-left: 1px solid var(--rule);
-  padding-left: var(--space-4);
+  border-left: 0;
+  padding-left: 0;
 }
 
 .chapter-lesson-outline > ol {
@@ -212,13 +203,13 @@
   border-left: 0;
   border-radius: 0;
   background: transparent;
-  padding: .5rem 0 .5rem 1rem;
+  padding: .5rem 0 .5rem 1.35rem;
 }
 
 .chapter-lesson-outline > ol > li::before {
   content: "";
   position: absolute;
-  left: -20px;
+  left: 0;
   top: 50%;
   width: 7px;
   height: 7px;
@@ -526,15 +517,6 @@
   border-top: 1px solid var(--rule);
 }
 
-.create-workflows::before {
-  content: "";
-  position: absolute;
-  left: 22px;
-  top: 1.5rem;
-  bottom: 1.5rem;
-  border-left: 1px solid var(--rule-strong);
-}
-
 .create-workflow {
   display: grid;
   grid-template-columns: 46px minmax(0, 1fr) minmax(190px, auto);
@@ -690,13 +672,7 @@
   .learn-course-screen .learn-chapter-list article.chapter-row {
     grid-template-columns: 34px minmax(0, 1fr);
   }
-
-  .relational-chapter-path::before,
-  .create-workflows::before {
-    left: 16px;
-  }
-
-  .campaign-challenge-list article {
+.campaign-challenge-list article {
     grid-template-columns: 1fr;
   }
 
@@ -1669,7 +1645,7 @@
   padding: 0;
   counter-reset: welcome-step;
   list-style: none;
-  border-left: 1px solid var(--rule-strong);
+  border-left: 0;
 }
 
 .welcome-cycle li {
@@ -1677,7 +1653,7 @@
   counter-increment: welcome-step;
   min-height: 2.4rem;
   border-bottom: 1px solid var(--rule-soft);
-  padding: .55rem 0 .55rem 1.6rem;
+  padding: .55rem 0 .55rem 2rem;
   color: var(--text-muted);
   font-size: .72rem;
 }
@@ -1685,7 +1661,7 @@
 .welcome-cycle li::before {
   content: counter(welcome-step);
   position: absolute;
-  left: -10px;
+  left: 0;
   top: .58rem;
   display: grid;
   width: 19px;
@@ -1991,16 +1967,6 @@ textarea:focus {
   overflow-x: auto;
   border-bottom: 1px solid var(--rule);
   padding-bottom: .2rem;
-}
-
-.author-step-navigation::before {
-  content: "";
-  position: absolute;
-  left: 14px;
-  right: 14px;
-  top: 16px;
-  border-top: 1px solid var(--rule-strong);
-  pointer-events: none;
 }
 
 .author-step-navigation li {
@@ -2339,4 +2305,52 @@ textarea:focus {
 
 .scope-prediction button {
   border-radius: 0;
+}
+
+
+/* Graph surface: technical plotting field rather than a rounded dashboard card. */
+.graph-canvas {
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  background: var(--paper);
+  box-shadow: none;
+}
+
+.graph-canvas .react-flow__controls {
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.graph-canvas .react-flow__controls-button {
+  border-color: var(--rule-soft);
+  border-radius: 0;
+  background: var(--paper);
+}
+
+.graph-canvas .react-flow__controls-button:hover {
+  background: var(--surface-active-subtle);
+}
+
+.react-flow__minimap {
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  background: var(--paper);
+  box-shadow: none;
+}
+
+.trace-legend {
+  border-color: var(--rule);
+  border-radius: 0;
+  background: var(--paper);
+  box-shadow: none;
+}
+
+.vacuous-trace-note {
+  border: 0;
+  border-left: 2px solid var(--brown);
+  border-radius: 0;
+  background: transparent;
+  padding: .5rem .65rem;
 }
