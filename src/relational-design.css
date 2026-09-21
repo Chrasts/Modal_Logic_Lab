@@ -2644,3 +2644,203 @@ textarea:focus {
   border-color: var(--brown);
   background: var(--brown);
 }
+
+
+/* Simplified markers and panel geometry. */
+.guide-page-grid {
+  counter-reset: none;
+}
+
+.guide-page-grid article {
+  counter-increment: none;
+  padding-left: 0;
+}
+
+.guide-page-grid article::before {
+  content: none;
+}
+
+.welcome-cycle ol {
+  counter-reset: none;
+}
+
+.welcome-cycle li {
+  counter-increment: none;
+  padding-left: 1.25rem;
+}
+
+.welcome-cycle li::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  top: 50%;
+  border-color: var(--rule-strong);
+  background: var(--surface-page);
+  translate: 0 -50%;
+}
+
+.author-step-navigation button span {
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--rule-strong);
+  background: var(--surface-page);
+}
+
+.author-step-navigation .current button span {
+  border-color: var(--petrol);
+  background: var(--petrol);
+}
+
+.lab-capabilities li {
+  grid-template-columns: 1fr;
+}
+
+.campaign-challenge-list article {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.track-list button {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.level-browser article {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+}
+
+.learn-course-screen .chapter-actions .primary-action,
+.campaign-screen .primary-action {
+  color: #fff;
+}
+
+.campaign-screen .row-action {
+  color: var(--petrol-dark);
+}
+
+/* No one-sided color-accent borders. */
+.mission-header {
+  border-left: 0;
+  padding-left: .2rem;
+}
+
+.mission-header-campaign,
+.mission-header-practice,
+.mission-header-custom,
+.mission-header-question,
+.mission-header-completed {
+  border-left-color: transparent;
+}
+
+.mission-header-objective {
+  border: 1px solid var(--rule-soft);
+  background: var(--surface-active-subtle);
+}
+
+.panel:focus-within,
+.verify-panel {
+  box-shadow: none;
+}
+
+.verify-panel {
+  border-top: 0;
+}
+
+.result,
+.result.success,
+.result.failure,
+.result.error {
+  border-left: 0;
+}
+
+.verdict-section.fail,
+.diagnostic-highlights,
+.evaluation-node.false,
+.evaluation-node.true,
+.active-trace-summary,
+.formula-comparison-chips span,
+.map-answer-status,
+.question-feedback,
+.question-feedback.correct,
+.question-feedback.incorrect,
+.share-link-output,
+.author-snapshots,
+.objective-summary,
+.vacuous-trace-note,
+.learn-recovery-actions,
+.rule-status,
+.rule-status.pass,
+.rule-status.fail,
+.lesson-concept-grid article:first-child,
+.frame-rule-conflicts,
+.feedback-disclosure,
+.lesson-warning,
+.data-message,
+.correspondence-note,
+.author-step-errors,
+.frame-valuation-note,
+.objective-explainer,
+.welcome-explanation,
+.evaluation-node-body > em,
+.mission-audit li {
+  border-left: 0 !important;
+}
+
+.bonus-result,
+.prediction-result,
+.bonus-result.achieved,
+.prediction-result.correct {
+  border-left: 0 !important;
+}
+
+.empty-graph-state {
+  border-left: 0;
+  border-top: 1px dashed var(--rule);
+  border-bottom: 1px dashed var(--rule);
+}
+
+.question-feedback,
+.map-answer-status,
+.rule-status,
+.learn-recovery-actions,
+.diagnostic-highlights,
+.active-trace-summary,
+.vacuous-trace-note,
+.frame-rule-conflicts,
+.feedback-disclosure,
+.lesson-warning,
+.data-message,
+.correspondence-note,
+.author-step-errors,
+.frame-valuation-note,
+.objective-explainer,
+.welcome-explanation {
+  padding-left: .2rem;
+}
+
+/* One clean separator between graph header, toolbar, and canvas. */
+.graph-panel .panel-heading {
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: .55rem;
+}
+
+.graph-panel .graph-canvas {
+  border: 0;
+  border-radius: 0;
+}
+
+.graph-panel .map-toolbar {
+  margin: 0;
+  border: 0;
+  border-bottom: 1px solid var(--rule-soft);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.graph-panel .react-flow__panel.top-left {
+  margin: 0;
+}
+
+.workspace {
+  gap: 1px;
+  background: var(--rule);
+}
