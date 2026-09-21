@@ -2595,3 +2595,52 @@ textarea:focus {
   border-left-width: 2px;
   background: transparent;
 }
+
+
+/* Primary navigation uses state markers rather than generic tab underlines. */
+.brand strong {
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: 1.08rem;
+  font-weight: 600;
+  letter-spacing: -.02em;
+}
+
+.product-nav button {
+  display: inline-flex;
+  align-items: center;
+  gap: .42rem;
+  box-shadow: none;
+}
+
+.product-nav button::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  flex: 0 0 auto;
+  border: 1px solid var(--rule-strong);
+  border-radius: 50%;
+  background: transparent;
+  transition: border-color var(--motion-fast) var(--ease-ui), background var(--motion-fast) var(--ease-ui);
+}
+
+.product-nav button:hover:not(:disabled)::before {
+  border-color: var(--petrol);
+}
+
+.product-nav button.active {
+  box-shadow: none;
+}
+
+.product-nav button.active::before {
+  border-color: var(--petrol);
+  background: var(--petrol);
+}
+
+.product-nav button.reference-nav::before {
+  border-color: color-mix(in srgb, var(--brown) 55%, transparent);
+}
+
+.product-nav button.reference-nav.active::before {
+  border-color: var(--brown);
+  background: var(--brown);
+}
