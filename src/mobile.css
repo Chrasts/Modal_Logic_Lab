@@ -2042,7 +2042,6 @@
     max-height: min(42dvh, 310px);
     gap: .24rem;
     border-color: rgba(20, 122, 80, .24);
-    border-left-color: #147a50;
     background: var(--paper);
   }
 
