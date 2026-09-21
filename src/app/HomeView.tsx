@@ -43,18 +43,15 @@ export function HomeView({ language = 'en', completed, total, nextTitle, current
         learn: 'Learn',
         learnSummary: 'A structured path through modal logic and Kripke semantics.',
         campaigns: 'Campaigns',
-        campaignsSummary: 'Longer challenges and targeted practice.',
+        campaignsSummary: 'Advanced, specialized missions.',
         lab: 'Lab',
-        labSummary: 'Free construction and analysis of finite models.',
+        labSummary: 'Full sandbox with all modeling and analysis tools.',
         complete: 'complete',
-        next: 'next',
+        next: 'Next',
         courseComplete: 'course complete',
         continue: 'Continue',
       }
 
-  const progressText = completed === total
-    ? copy.courseComplete
-    : completed + '/' + total + ' ' + copy.complete + ' · ' + copy.next + ': ' + (nextTitle ?? copy.learn)
 
   return <section className="content-screen home-screen home-screen--relational" aria-labelledby="home-title">
     <div className="home-layout">
@@ -66,7 +63,7 @@ export function HomeView({ language = 'en', completed, total, nextTitle, current
         {currentSession && onResume && <button
           type="button"
           className="home-resume-link"
-          aria-label={copy.continue + ' ' + currentSession.kind + ': ' + currentSession.title}
+          aria-label={(cs ? copy.continue : 'Resume') + ' ' + currentSession.kind + ': ' + currentSession.title}
           onClick={onResume}
         >
           <span>{copy.continue}</span>
@@ -83,17 +80,17 @@ export function HomeView({ language = 'en', completed, total, nextTitle, current
         </div>
 
         <nav className="home-destinations" aria-label="Main activities">
-          <button type="button" className="home-destination home-destination--learn" onClick={onLearn}>
+          <button type="button" className="home-destination home-destination--learn" aria-label={cs ? "Začít nebo pokračovat ve výuce modální logiky" : "Start or continue Learn Modal Logic"} onClick={onLearn}>
             <span className="home-node-marker"><i aria-hidden="true" /><small>01</small></span>
             <span className="home-destination-copy">
               <strong>{copy.learn}</strong>
               <span>{copy.learnSummary}</span>
-              <small>{progressText}</small>
+              <small className="home-learn-progress"><b>{completed}/{total} {copy.complete}</b><span>{completed === total ? copy.courseComplete : copy.next + ': ' + (nextTitle ?? copy.learn)}</span></small>
             </span>
             <span className="home-destination-arrow" aria-hidden="true">→</span>
           </button>
 
-          <button type="button" className="home-destination" onClick={onCampaigns}>
+          <button type="button" className="home-destination" aria-label={cs ? "Kampaně: delší výzvy a cílené procvičování" : "Campaigns: longer challenges and focused practice"} onClick={onCampaigns}>
             <span className="home-node-marker"><i aria-hidden="true" /><small>02</small></span>
             <span className="home-destination-copy">
               <strong>{copy.campaigns}</strong>
@@ -102,7 +99,7 @@ export function HomeView({ language = 'en', completed, total, nextTitle, current
             <span className="home-destination-arrow" aria-hidden="true">→</span>
           </button>
 
-          <button type="button" className="home-destination" onClick={onLab}>
+          <button type="button" className="home-destination" aria-label={cs ? "Laboratoř: experimentování s modely a formulemi" : "Lab: experiment with models and formulas"} onClick={onLab}>
             <span className="home-node-marker"><i aria-hidden="true" /><small>03</small></span>
             <span className="home-destination-copy">
               <strong>{copy.lab}</strong>
