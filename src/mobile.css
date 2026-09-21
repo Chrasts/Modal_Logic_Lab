@@ -1,3 +1,9 @@
+/* Mobile interface layer.
+ * Consolidated from the previous patch-stack while preserving source order.
+ * Keep mobile-specific overrides here so desktop relational rules remain inspectable.
+ */
+
+/* ===== mobile.css ===== */
 /* Compact/mobile presentation layer. Desktop semantics and state stay shared. */
 .mobile-toolbar-more-button { display: none; }
 .workspace-toolbar-secondary { display: contents; }
@@ -481,4 +487,1712 @@
 @media (min-width: 761px) and (max-width: 1050px) {
   .graph-canvas { min-height: 500px; }
   .workspace-toolbar-content button { min-height: 40px; }
+}
+
+/* ===== mobile-workspace.css ===== */
+/* Keep the original desktop toolbar as the default shell. */
+.workspace-toolbar-desktop {
+  display: contents;
+}
+
+.workspace-toolbar-mobile {
+  display: none;
+}
+
+/* Phone workspace composition that keeps persistent controls out of the model hit area. */
+@media (max-width: 760px) {
+  .workspace,
+  .workspace.left-collapsed,
+  .workspace.right-collapsed,
+  .workspace.left-collapsed.right-collapsed,
+  .workspace.guided-workspace {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .workspace .graph-panel {
+    order: 1;
+  }
+
+  .workspace-toolbar-desktop {
+    display: none;
+  }
+
+  .workspace-toolbar-mobile {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .28rem;
+  }
+
+  .workspace-toolbar-mobile > .map-toolbar-group button {
+    min-width: 44px;
+    min-height: 44px;
+    white-space: nowrap;
+  }
+
+  .mobile-workspace-tabs {
+    position: sticky;
+    order: 2;
+    left: auto;
+    right: auto;
+    bottom: calc(.5rem + env(safe-area-inset-bottom));
+    width: 100%;
+    margin: .45rem 0 0;
+    flex: 0 0 auto;
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+  }
+
+  .workspace .formula-panel,
+  .workspace .verify-panel,
+  .workspace .model-panel,
+  .workspace .edge-panel {
+    order: 3;
+  }
+
+  .page-shell:has(.workspace),
+  .main-content:has(.workspace) {
+    scroll-padding-bottom: calc(var(--mobile-nav-height) + 1rem + env(safe-area-inset-bottom));
+  }
+
+  .graph-canvas .react-flow__node {
+    scroll-margin-block: 5rem calc(var(--mobile-nav-height) + 1rem);
+  }
+
+  .guided-workspace .graph-canvas {
+    height: min(52dvh, 520px);
+    min-height: 360px;
+  }
+}
+
+/* ===== mobile-guided.css ===== */
+/* Phone-specific guided learning refinements.
+   This layer intentionally sits after the general mobile workspace rules. */
+@media (max-width: 760px) {
+  /* Guided content must remain readable even though the ordinary mission summary is compact. */
+  .mission-header-rich .mission-header-objective {
+    display: grid;
+    gap: .45rem;
+  }
+
+  .mission-header-rich .mission-header-objective p,
+  .mission-header .question-feedback,
+  .mission-header .progressive-hints p,
+  .mission-header .reference-solution p {
+    display: block;
+    overflow: visible;
+    -webkit-line-clamp: unset;
+    -webkit-box-orient: initial;
+  }
+
+  .mission-header-objective > ol {
+    display: grid;
+    gap: .25rem;
+  }
+
+  .mission-header-controls {
+    min-width: 0;
+  }
+
+  .mission-header-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .35rem;
+    overflow: visible;
+  }
+
+  .mission-header-actions > button,
+  .mission-header-actions > a {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    white-space: normal;
+  }
+
+  .mission-header-actions > :only-child {
+    grid-column: 1 / -1;
+  }
+
+  .mission-header-details {
+    min-width: 0;
+    border-top: 1px solid rgba(20, 100, 122, .14);
+    padding-top: .2rem;
+  }
+
+  .mission-header-details > summary,
+  .semantic-result-details > summary {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  .mission-header-details > div,
+  .semantic-result-details > div {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  /* Question and prediction tasks become one-column, thumb-sized controls. */
+  .question-task-panel {
+    display: grid;
+    gap: .55rem;
+    min-width: 0;
+  }
+
+  .question-task-panel > strong {
+    font-size: .82rem;
+    line-height: 1.45;
+  }
+
+  .question-choice-row,
+  .prediction-choice,
+  .statement-choice-grid,
+  .countervaluation-choices,
+  .model-choice-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .4rem;
+    min-width: 0;
+  }
+
+  .question-choice-row.prediction-choice {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .question-choice-row button,
+  .statement-choice-grid button,
+  .countervaluation-choices button,
+  .model-choice-grid button {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    touch-action: manipulation;
+  }
+
+  .scope-prediction,
+  .question-scope-choice {
+    display: grid;
+    gap: .4rem;
+  }
+
+  .scope-prediction > div,
+  .question-scope-choice > div {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) repeat(2, minmax(64px, auto));
+    align-items: center;
+    gap: .3rem;
+  }
+
+  .scope-prediction button,
+  .question-scope-choice button {
+    min-width: 64px;
+    min-height: 44px;
+  }
+
+  .map-answer-status {
+    display: grid;
+    gap: .2rem;
+    min-width: 0;
+    border-radius: 9px;
+    background: var(--petrol-soft);
+    padding: .55rem .65rem;
+  }
+
+  .map-answer-status span,
+  .map-answer-status b {
+    overflow-wrap: anywhere;
+  }
+
+  .question-feedback {
+    margin: 0;
+    padding: .6rem .7rem;
+    border-radius: 9px;
+    line-height: 1.45;
+  }
+
+  .countervaluation-choices button {
+    display: grid;
+    justify-items: start;
+    gap: .25rem;
+    text-align: left;
+  }
+
+  .countervaluation-choices code,
+  .reference-solution code {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .model-choice-grid button {
+    display: grid;
+    gap: .35rem;
+    text-align: left;
+  }
+
+  .model-choice-grid svg,
+  .model-choice-grid .static-kripke-diagram {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Hints and worked guidance should scroll naturally inside the mission details panel. */
+  .progressive-hints {
+    display: grid;
+    gap: .45rem;
+    min-width: 0;
+  }
+
+  .progressive-hints p {
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .progressive-hints button,
+  .reference-solution button {
+    width: 100%;
+    min-height: 44px;
+    white-space: normal;
+  }
+
+  .reference-solution {
+    min-width: 0;
+  }
+
+  /* Result actions are kept above the workspace switcher and remain thumb-sized. */
+  .verification-summary {
+    align-items: flex-start;
+    gap: .55rem;
+  }
+
+  .verification-summary p {
+    overflow-wrap: anywhere;
+  }
+
+  .verification-summary-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .4rem;
+  }
+
+  .verification-summary-actions > button,
+  .verification-summary-actions > a {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    white-space: normal;
+  }
+
+  .verification-summary-actions > :only-child {
+    grid-column: 1 / -1;
+  }
+
+  .semantic-result-details {
+    margin-top: .45rem;
+  }
+
+  /* Inputs remain visible when mobile browsers raise the software keyboard. */
+  .formula-panel input,
+  .formula-panel select,
+  .world-inspector input,
+  .world-inspector select,
+  .question-task-panel select {
+    scroll-margin-block: 4.5rem calc(var(--mobile-nav-height) + 1rem);
+    font-size: max(16px, 1em);
+  }
+}
+
+/* Short screens cover both landscape phones and viewports reduced by a software keyboard. */
+@media (max-width: 760px) and (max-height: 600px) {
+  .graph-canvas {
+    height: 300px;
+    min-height: 300px;
+  }
+
+  .workspace.mobile-tab-formula .formula-panel,
+  .workspace.mobile-tab-result .verify-panel,
+  .workspace.mobile-tab-result.left-collapsed .verify-panel,
+  .workspace.mobile-tab-formula.left-collapsed .formula-panel {
+    max-height: calc(100dvh - var(--mobile-nav-height) - 1.5rem);
+  }
+
+  .graph-canvas .world-inspector {
+    max-height: min(62%, 300px);
+  }
+}
+
+@media (max-width: 380px) {
+  .mission-header-actions,
+  .verification-summary-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .mission-header-actions > :only-child,
+  .verification-summary-actions > :only-child {
+    grid-column: auto;
+  }
+
+  .scope-prediction > div,
+  .question-scope-choice > div {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .scope-prediction > div > span,
+  .question-scope-choice > div > span {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ===== mobile-surfaces.css ===== */
+/* Phone presentation for non-workspace screens and modal surfaces. */
+@media (max-width: 760px) {
+  /* Forms should never require horizontal scrolling or trigger iOS input zoom. */
+  .content-screen input:not([type='checkbox']):not([type='radio']),
+  .content-screen select,
+  .content-screen textarea,
+  .help-dialog input:not([type='checkbox']):not([type='radio']),
+  .help-dialog select,
+  .help-dialog textarea {
+    max-width: 100%;
+    font-size: max(16px, 1em);
+  }
+
+  .content-screen button,
+  .content-screen [role='button'] {
+    min-height: 44px;
+  }
+
+  /* Settings becomes a clear stack with full touch rows. */
+  .settings-grid {
+    grid-template-columns: 1fr;
+    gap: .55rem;
+  }
+
+  .settings-grid article {
+    gap: .55rem;
+    padding: .85rem;
+  }
+
+  .settings-choice {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .35rem;
+  }
+
+  .settings-choice button {
+    min-width: 0;
+    min-height: 48px;
+    white-space: normal;
+  }
+
+  .settings-grid label {
+    min-height: 44px;
+    align-items: center;
+    border-radius: 8px;
+    padding: .35rem .15rem;
+    touch-action: manipulation;
+  }
+
+  .settings-grid label input[type='checkbox'] {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 22px;
+    margin: 0;
+  }
+
+  .settings-grid .secondary-button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  /* Create is supported on phone even though large-scale authoring still benefits from desktop. */
+  .create-screen .play-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .create-screen .home-actions article {
+    gap: .55rem;
+  }
+
+  .create-screen select,
+  .create-screen button,
+  .create-import-card button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .create-import-card {
+    width: 100%;
+    max-width: none;
+    gap: .65rem;
+    margin-top: .6rem;
+    padding: .85rem;
+  }
+
+  .create-import-card textarea {
+    width: 100%;
+    min-height: 180px;
+  }
+
+  /* The multi-step mission studio remains fully navigable on a phone. */
+  .authoring-screen .screen-hero.compact {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    gap: .65rem;
+  }
+
+  .authoring-screen .screen-hero.compact > button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .authoring-studio,
+  .mission-author-stepper,
+  .author-step,
+  .author-step-fields,
+  .author-export-step,
+  .campaign-packager,
+  .mission-audit {
+    min-width: 0;
+  }
+
+  .author-step-navigation,
+  .author-workflow {
+    grid-template-columns: 1fr;
+  }
+
+  .author-step-navigation button {
+    min-height: 48px;
+  }
+
+  .author-step {
+    padding: .8rem;
+  }
+
+  .author-step-fields,
+  .author-bounds,
+  .author-pairs {
+    grid-template-columns: 1fr;
+  }
+
+  .author-step-fields label,
+  .author-bounds label,
+  .author-pairs label,
+  .campaign-packager label,
+  .share-link-output label {
+    min-width: 0;
+  }
+
+  .author-step-fields input,
+  .author-step-fields select,
+  .author-step-fields textarea,
+  .author-bounds input,
+  .author-pairs input,
+  .campaign-packager input,
+  .share-link-output input {
+    width: 100%;
+  }
+
+  .level-author fieldset {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .35rem;
+  }
+
+  .level-author fieldset label {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+  }
+
+  .level-author fieldset input[type='checkbox'],
+  .level-author fieldset input[type='radio'] {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 22px;
+  }
+
+  .author-step-actions {
+    position: sticky;
+    z-index: 3;
+    bottom: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .4rem;
+    margin: .8rem -.25rem -.25rem;
+    border-top: 1px solid rgba(20, 100, 122, .14);
+    background: color-mix(in srgb, var(--paper) 96%, transparent);
+    padding: .55rem .25rem .25rem;
+    backdrop-filter: blur(12px);
+  }
+
+  .author-step-actions button {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+  }
+
+  .author-final-actions,
+  .campaign-packager > div,
+  .share-link-output {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .4rem;
+  }
+
+  .author-final-actions button,
+  .campaign-packager button,
+  .share-link-output button,
+  .mission-audit button {
+    width: 100%;
+    min-height: 48px;
+    white-space: normal;
+  }
+
+  .campaign-packager li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: .4rem;
+  }
+
+  /* General dialogs become bottom sheets. This avoids tiny centered modals behind the keyboard. */
+  .dialog-backdrop {
+    place-items: end stretch;
+    padding: .5rem .5rem calc(.5rem + env(safe-area-inset-bottom));
+  }
+
+  .help-dialog,
+  .data-dialog,
+  .introduction-dialog,
+  .frame-rules-dialog,
+  .workspace-quick-help {
+    width: 100%;
+    max-width: none;
+    max-height: calc(100dvh - 1rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    border-radius: 16px 16px 12px 12px;
+    padding: .9rem;
+    overscroll-behavior: contain;
+  }
+
+  .dialog-heading {
+    position: sticky;
+    z-index: 4;
+    top: -.9rem;
+    align-items: center;
+    gap: .7rem;
+    margin: -.1rem -.1rem .8rem;
+    background: color-mix(in srgb, var(--paper) 96%, transparent);
+    padding: .7rem .1rem .45rem;
+    backdrop-filter: blur(12px);
+  }
+
+  .dialog-heading h2 {
+    font-size: clamp(1.35rem, 7vw, 1.8rem);
+    line-height: 1.15;
+  }
+
+  .dialog-close {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    flex: 0 0 44px;
+  }
+
+  .dialog-intro {
+    margin: 0 0 .85rem;
+  }
+
+  .quick-help-grid,
+  .data-actions,
+  .data-actions .data-reset-card {
+    grid-template-columns: 1fr;
+  }
+
+  .data-actions {
+    gap: .55rem;
+  }
+
+  .data-actions .data-reset-card {
+    grid-column: auto;
+  }
+
+  .data-actions article {
+    min-width: 0;
+    padding: .8rem;
+  }
+
+  .data-actions textarea {
+    width: 100%;
+    min-height: 160px;
+  }
+
+  .data-actions article > div {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .35rem;
+  }
+
+  .data-actions button {
+    width: 100%;
+    min-height: 48px;
+    white-space: normal;
+  }
+
+  /* Horizontal tab bars remain scrollable and each target stays finger-sized. */
+  .guide-tabs,
+  .campaign-section-tabs {
+    margin-inline: -.25rem;
+    padding-inline: .25rem;
+    scroll-padding-inline: .25rem;
+    scrollbar-width: none;
+  }
+
+  .guide-tabs::-webkit-scrollbar,
+  .campaign-section-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .guide-tabs button,
+  .campaign-section-tabs button {
+    min-height: 44px;
+  }
+
+  /* Tables are useful reference material, so keep them intact and scroll the table rather than the page. */
+  .reference-grid {
+    min-width: 0;
+  }
+
+  .reference-grid table,
+  .model-table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Learn/Campaign cards must reflow their action area rather than squeeze copy beside buttons. */
+  .learn-chapter-list article,
+  .level-browser article,
+  .history-list article {
+    align-items: stretch;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .learn-chapter-list article button,
+  .level-browser article button {
+    width: 100%;
+    min-height: 48px;
+  }
+}
+
+@media (max-width: 380px) {
+  .settings-choice,
+  .author-step-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== mobile-chrome.css ===== */
+/* Phone-only topbar and utility-menu behavior. */
+@media (max-width: 760px) {
+  .utility-menu > .text-button {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: .45rem .55rem;
+  }
+
+  .utility-menu-popover {
+    position: fixed;
+    z-index: var(--z-popover);
+    top: 3.85rem;
+    right: .5rem;
+    left: .5rem;
+    width: auto;
+    min-width: 0;
+    max-height: calc(100dvh - 4.35rem - env(safe-area-inset-bottom));
+    overflow-y: auto;
+    border-radius: 12px;
+    padding: .35rem;
+    overscroll-behavior: contain;
+  }
+
+  .utility-menu-popover > * {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: .6rem .7rem;
+    touch-action: manipulation;
+  }
+
+  .language-menu-popover {
+    position: fixed;
+    top: 3.85rem;
+    right: .5rem;
+    left: .5rem;
+    width: auto;
+    min-width: 0;
+    max-height: calc(100dvh - 4.35rem - env(safe-area-inset-bottom));
+    overflow-y: auto;
+  }
+
+  .language-menu-popover button {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 760px) and (max-height: 480px) {
+  .utility-menu-popover,
+  .language-menu-popover {
+    top: 3.35rem;
+    max-height: calc(100dvh - 3.75rem);
+  }
+}
+
+/* ===== mobile-stability.css ===== */
+/* Final phone-layer fixes for stacking contexts, hit areas, and guided reflow. */
+.mobile-formula-verify-fab { display: none; }
+
+@media (max-width: 760px) {
+  /* backdrop-filter creates a containing block for fixed descendants in Chromium.
+     The global bottom nav lives inside the topbar in the DOM, so keep the mobile
+     topbar opaque enough without trapping that fixed nav over the header actions. */
+  .topbar {
+    background: color-mix(in srgb, var(--paper) 96%, transparent);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .topbar .product-nav {
+    position: fixed;
+  }
+
+  /* The base phone layout puts header actions on their own flex row. `width: 100%`
+     measures wider than the topbar content box once padding is included, so let
+     flex stretching size the row instead of forcing the percentage width. */
+  .topbar-actions {
+    width: auto;
+    max-width: 100%;
+    align-self: stretch;
+  }
+
+  /* React Flow's pane must never sit above controls expanded from its Panel. */
+  .graph-canvas .map-toolbar {
+    z-index: calc(var(--z-popover) + 3) !important;
+    overflow: visible !important;
+  }
+
+  .workspace-toolbar-secondary {
+    z-index: calc(var(--z-popover) + 4);
+    isolation: isolate;
+  }
+
+  /* Formula is a sheet over the graph. Put its primary action in the root
+     stacking context so it cannot be trapped under React Flow or the sheet. */
+  body:has(.workspace.mobile-tab-formula) .workspace-primary-verify {
+    display: none;
+  }
+
+  body:has(.workspace.mobile-tab-formula) .mobile-formula-verify-fab {
+    position: fixed;
+    z-index: calc(var(--z-popover) + 8);
+    right: calc(1rem + env(safe-area-inset-right));
+    bottom: calc(var(--mobile-nav-height) + 1.35rem + env(safe-area-inset-bottom));
+    min-width: 92px;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--petrol-dark);
+    border-radius: 10px;
+    background: var(--petrol);
+    color: #fff;
+    padding: .7rem 1rem;
+    box-shadow: 0 10px 28px rgba(14, 35, 42, .28);
+    font-weight: 800;
+    touch-action: manipulation;
+  }
+
+  .workspace.mobile-tab-formula .formula-panel {
+    padding-bottom: 5rem;
+  }
+
+  /* Guided content should reflow inside the page rather than rely on clipping.
+     The dedicated mobile overflow test guards against regressions at document level. */
+  .mission-header,
+  .mission-header-rich,
+  .mission-header-controls,
+  .mission-header-objective,
+  .progressive-hints {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  /* On phones, lesson details are part of the document flow rather than a
+     desktop popover. This also prevents the popover width from widening the page. */
+  .mission-header-details > div {
+    position: static;
+    inset: auto;
+    width: 100%;
+    max-width: 100%;
+    max-height: min(46dvh, 420px);
+    margin-top: .35rem;
+    overflow: auto;
+    box-shadow: none;
+  }
+
+  .mission-header-details,
+  .mission-header-details > div,
+  .mission-header-details > div > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
+/* ===== mobile-device.css ===== */
+/* Device-level mobile hardening: safe areas, dynamic viewport, and real-device layout. */
+
+/* viewport-fit=cover can expose display cutouts above the phone breakpoint too,
+   notably on landscape iPhones. Match the normal desktop padding when safe-area
+   insets are zero, while keeping content out of notches when they are present. */
+.page-shell {
+  padding-top: calc(.75rem + env(safe-area-inset-top));
+  padding-right: calc(.75rem + env(safe-area-inset-right));
+  padding-bottom: calc(.75rem + env(safe-area-inset-bottom));
+  padding-left: calc(.75rem + env(safe-area-inset-left));
+}
+
+@media (max-width: 760px) {
+  html,
+  body,
+  #root {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  body {
+    min-width: 0;
+    min-height: 100dvh;
+    min-height: 100svh;
+  }
+
+  /* Mobile behaves as an application viewport rather than a document. Long
+     screens scroll inside the content region, so the browser page itself never
+     drifts underneath fixed navigation. */
+  .page-shell {
+    width: 100%;
+    height: 100dvh;
+    height: 100svh;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding-top: calc(.35rem + env(safe-area-inset-top));
+    padding-right: calc(.5rem + env(safe-area-inset-right));
+    padding-bottom: calc(var(--mobile-nav-height) + .75rem + env(safe-area-inset-bottom));
+    padding-left: calc(.5rem + env(safe-area-inset-left));
+  }
+
+  .page-shell:has(.workspace) {
+    padding-bottom: calc(.35rem + env(safe-area-inset-bottom));
+  }
+
+  .main-content {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Home is compact enough to fit as one non-scrolling application screen. */
+  .main-content:has(.home-screen) {
+    overflow: hidden;
+  }
+
+  .home-screen.home-screen--redesigned {
+    height: 100%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: .45rem;
+    overflow: hidden;
+    padding: .55rem;
+  }
+
+  .home-screen--redesigned .home-hero,
+  .home-screen--redesigned .home-resume-region {
+    flex: 0 0 auto;
+  }
+
+  .home-screen--redesigned .home-hero h1 {
+    font-size: clamp(2rem, 10vw, 2.8rem);
+    line-height: .95;
+  }
+
+  .home-screen--redesigned .home-resume-strip {
+    gap: .45rem;
+    padding: .45rem .55rem;
+  }
+
+  .home-screen--redesigned .home-primary-actions {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, 1.25fr) repeat(2, minmax(0, 1fr));
+    gap: .4rem;
+  }
+
+  .home-screen--redesigned .home-destination--learn,
+  .home-screen--redesigned .home-destination--campaigns,
+  .home-screen--redesigned .home-destination--lab {
+    min-height: 0;
+    padding: .7rem .8rem;
+  }
+
+  .home-screen--redesigned .home-destination--learn .home-destination-title,
+  .home-screen--redesigned .home-destination-title {
+    font-size: clamp(1.45rem, 7vw, 2rem);
+  }
+
+  .home-screen--redesigned .home-destination-summary {
+    margin-top: .25rem;
+    font-size: .68rem;
+    line-height: 1.35;
+  }
+
+  .home-screen--redesigned .home-learn-progress {
+    margin-top: .25rem;
+    font-size: .6rem;
+  }
+
+  /* Keep one compact header row. Global destinations live only in the bottom nav,
+     so title/fullscreen chrome cannot collide with language and More controls. */
+  .topbar {
+    position: relative;
+    top: auto;
+    z-index: var(--z-topbar);
+    min-height: 44px;
+    flex: 0 0 auto;
+    margin-bottom: .35rem;
+    padding: .2rem .3rem;
+    overflow: visible;
+  }
+
+  .brand > strong,
+  .fullscreen-button {
+    display: none !important;
+  }
+
+  .brand {
+    flex: 1 1 auto;
+  }
+
+  .topbar-actions {
+    flex: 0 0 auto;
+    gap: .15rem;
+  }
+
+  /* Force the four primary destinations to one unambiguous bottom location. */
+  .product-nav {
+    top: auto !important;
+    left: calc(var(--mobile-edge-gap) + env(safe-area-inset-left));
+    right: calc(var(--mobile-edge-gap) + env(safe-area-inset-right));
+    bottom: calc(var(--mobile-edge-gap) + env(safe-area-inset-bottom)) !important;
+    z-index: calc(var(--z-popover) + 6);
+  }
+
+  .utility-menu-popover,
+  .language-menu-popover {
+    z-index: calc(var(--z-popover) + 20);
+    top: calc(3.45rem + env(safe-area-inset-top));
+    right: calc(.5rem + env(safe-area-inset-right));
+    left: calc(.5rem + env(safe-area-inset-left));
+    max-height: calc(100dvh - 4rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+
+  /* The workspace itself consumes exactly the remaining viewport. Mission copy
+     and graph no longer make the document taller than the phone. */
+  .page-shell:has(.workspace) .main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  .page-shell:has(.workspace) .mission-header,
+  .page-shell:has(.workspace) .mission-header-rich {
+    flex: 0 0 auto;
+    max-height: min(36dvh, 290px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .page-shell:has(.workspace) .workspace,
+  .page-shell:has(.workspace) .workspace.left-collapsed,
+  .page-shell:has(.workspace) .workspace.right-collapsed,
+  .page-shell:has(.workspace) .workspace.left-collapsed.right-collapsed,
+  .page-shell:has(.workspace) .workspace.guided-workspace {
+    flex: 1 1 auto;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .page-shell:has(.workspace) .workspace .graph-panel,
+  .page-shell:has(.workspace) .workspace.mobile-tab-formula .graph-panel,
+  .page-shell:has(.workspace) .workspace.mobile-tab-result .graph-panel {
+    height: 100%;
+    min-height: 0;
+    display: flex !important;
+    flex-direction: column;
+  }
+
+  .page-shell:has(.workspace) .graph-canvas {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 0;
+  }
+
+  /* The explanatory caption is redundant on phones and costs a full visible row. */
+  .model-table caption {
+    display: none !important;
+  }
+
+  /* Model / Formula / Result switcher stays above display cutouts. Result is a
+     toggle sheet: tapping Result again closes it back to Model. */
+  .mobile-workspace-tabs {
+    left: calc(var(--mobile-edge-gap) + env(safe-area-inset-left));
+    right: calc(var(--mobile-edge-gap) + env(safe-area-inset-right));
+    bottom: calc(var(--mobile-edge-gap) + env(safe-area-inset-bottom));
+  }
+
+  .workspace.mobile-tab-formula .formula-panel,
+  .workspace.mobile-tab-result .verify-panel,
+  .workspace.mobile-tab-result.left-collapsed .verify-panel,
+  .workspace.mobile-tab-formula.left-collapsed .formula-panel {
+    left: calc(var(--mobile-edge-gap) + env(safe-area-inset-left));
+    right: calc(var(--mobile-edge-gap) + env(safe-area-inset-right));
+    bottom: calc(var(--mobile-nav-height) + 1rem + env(safe-area-inset-bottom));
+    max-height: min(68dvh, 640px);
+  }
+
+  /* Put the small map-tool trigger in the conventional map corner instead of as
+     a floating control in the middle of the bottom edge. */
+  .graph-canvas .map-toolbar {
+    top: .45rem !important;
+    right: .45rem !important;
+    bottom: auto !important;
+    left: auto !important;
+    width: auto;
+    max-width: calc(100% - .9rem);
+    transform: none;
+    padding: .2rem;
+    border-radius: 10px;
+  }
+
+  .mobile-toolbar-more-button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    border-radius: 8px;
+    font-size: 1.15rem;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+
+  /* Model tools are a root-level bottom sheet. React Flow can no longer clip or
+     cover the controls on Android Chrome. */
+  .mobile-model-tools-backdrop {
+    position: fixed;
+    z-index: calc(var(--z-popover) + 30);
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: stretch;
+    background: rgba(10, 28, 34, .22);
+    padding: .5rem calc(.5rem + env(safe-area-inset-right)) calc(var(--mobile-nav-height) + .85rem + env(safe-area-inset-bottom)) calc(.5rem + env(safe-area-inset-left));
+  }
+
+  .mobile-model-tools-sheet {
+    width: 100%;
+    max-height: min(68dvh, 560px);
+    overflow: auto;
+    overscroll-behavior: contain;
+    border: 1px solid rgba(20, 100, 122, .24);
+    border-radius: 16px;
+    background: var(--paper);
+    padding: .65rem;
+    box-shadow: 0 22px 56px rgba(14, 35, 42, .3);
+  }
+
+  .mobile-model-tools-sheet > header {
+    position: sticky;
+    z-index: 2;
+    top: -.65rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+    margin: -.1rem -.1rem .45rem;
+    background: var(--paper);
+    padding: .45rem .1rem .35rem;
+  }
+
+  .mobile-model-tools-close {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    padding: 0;
+    font-size: 1.25rem;
+  }
+
+  .mobile-model-tools-sheet .workspace-toolbar-secondary,
+  .mobile-model-tools-sheet .workspace-toolbar-secondary.open {
+    position: static;
+    width: 100%;
+    max-height: none;
+    display: grid;
+    gap: .45rem;
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .mobile-model-tools-sheet .workspace-presets,
+  .mobile-model-tools-sheet .map-toolbar-group {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .35rem;
+  }
+
+  .mobile-model-tools-sheet .workspace-presets {
+    grid-template-columns: 1fr;
+  }
+
+  .mobile-model-tools-sheet button {
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    white-space: normal;
+  }
+
+  /* Successful guided tasks are intentionally dense: one status block, one
+     primary next action, compact secondary actions, then optional details. */
+  .mission-header-completed {
+    gap: .3rem;
+    padding: .48rem .55rem;
+  }
+
+  .mission-header-completed .mission-header-context > span,
+  .mission-header-completed .mission-header-objective > span {
+    display: none;
+  }
+
+  .mission-header-completed .mission-header-context > strong {
+    font-size: .72rem;
+  }
+
+  .mission-complete-content {
+    display: grid;
+    gap: .22rem;
+    min-width: 0;
+  }
+
+  .mission-complete-content > strong {
+    font-size: .82rem;
+  }
+
+  .mission-complete-content p {
+    margin: 0;
+    font-size: .68rem;
+    line-height: 1.35;
+  }
+
+  .mission-complete-content small {
+    font-size: .6rem;
+    line-height: 1.3;
+  }
+
+  .mission-completion-metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .2rem;
+    margin: .1rem 0 0;
+  }
+
+  .mission-completion-metrics span {
+    border-radius: 999px;
+    background: var(--petrol-soft);
+    padding: .18rem .38rem;
+    font-size: .56rem;
+  }
+
+  .mission-header-completed .mission-header-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .3rem;
+  }
+
+  .mission-header-completed .mission-header-actions > button,
+  .mission-header-completed .mission-header-actions > a {
+    min-height: 44px;
+    padding: .42rem .5rem;
+    font-size: .66rem;
+  }
+
+  .mission-header-completed .mission-header-actions > .verify-button:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .mission-header-completed .mission-header-details {
+    margin: 0;
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .mission-header-completed .mission-header-details > summary {
+    min-height: 40px;
+    justify-content: center;
+    font-size: .66rem;
+  }
+
+  .dialog-backdrop {
+    padding-top: calc(.5rem + env(safe-area-inset-top));
+    padding-right: calc(.5rem + env(safe-area-inset-right));
+    padding-bottom: calc(.5rem + env(safe-area-inset-bottom));
+    padding-left: calc(.5rem + env(safe-area-inset-left));
+  }
+
+  /* Give browser auto-scroll enough breathing room when a software keyboard
+     focuses a field near a sticky/fixed control surface. */
+  .content-screen,
+  .formula-panel,
+  .verify-panel,
+  .world-inspector,
+  .help-dialog,
+  .data-dialog,
+  .introduction-dialog,
+  .frame-rules-dialog,
+  .workspace-quick-help {
+    scroll-padding-top: calc(4rem + env(safe-area-inset-top));
+    scroll-padding-bottom: calc(var(--mobile-nav-height) + 2rem + env(safe-area-inset-bottom));
+  }
+
+  :where(.content-screen, .formula-panel, .world-inspector, .help-dialog, .data-dialog) :where(input, select, textarea) {
+    scroll-margin-top: calc(4rem + env(safe-area-inset-top));
+    scroll-margin-bottom: calc(var(--mobile-nav-height) + 2rem + env(safe-area-inset-bottom));
+  }
+}
+
+/* Landscape phones and keyboard-reduced viewports need vertical efficiency more
+   than large canvas height. The graph remains usable while contextual sheets fit. */
+@media (max-width: 760px) and (max-height: 520px) {
+  .topbar {
+    margin-bottom: .2rem;
+  }
+
+  .page-shell:has(.workspace) .mission-header,
+  .page-shell:has(.workspace) .mission-header-rich {
+    max-height: min(32dvh, 150px);
+  }
+
+  .workspace.mobile-tab-formula .formula-panel,
+  .workspace.mobile-tab-result .verify-panel,
+  .workspace.mobile-tab-result.left-collapsed .verify-panel,
+  .workspace.mobile-tab-formula.left-collapsed .formula-panel {
+    max-height: calc(100dvh - var(--mobile-nav-height) - 1rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+
+  .utility-menu-popover,
+  .language-menu-popover {
+    top: calc(3.05rem + env(safe-area-inset-top));
+    max-height: calc(100dvh - 3.45rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+}
+
+/* ===== mobile-mission-redesign.css ===== */
+/* Final mobile mission UX layer. Keep desktop composition unchanged. */
+@media (max-width: 760px) {
+  /* Language is a setup preference on phones, not an in-game control. */
+  .topbar .language-picker {
+    display: none;
+  }
+
+  .page-shell:has(.home-screen) .topbar .language-picker,
+  .page-shell:has(.settings-screen) .topbar .language-picker {
+    display: block;
+  }
+
+  /* The mission HUD should read as one compact task card, not three stacked desktop regions. */
+  .page-shell:has(.guided-workspace) .mission-header,
+  .page-shell:has(.guided-workspace) .mission-header-rich {
+    max-height: min(34dvh, 250px);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .28rem;
+    margin-bottom: .3rem;
+    overflow-y: auto;
+    border-left-width: 3px;
+    border-radius: 10px;
+    padding: .42rem .5rem;
+    box-shadow: 0 3px 10px rgba(30, 48, 42, .045);
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-context {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: .08rem .4rem;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-context > span {
+    grid-column: 1 / -1;
+    color: #67726c;
+    font-size: .52rem;
+    letter-spacing: .055em;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-context > strong {
+    grid-column: 1;
+    overflow: visible;
+    color: var(--petrol-dark);
+    font: 750 .88rem/1.2 Manrope, ui-sans-serif, system-ui, sans-serif;
+    text-overflow: clip;
+    white-space: normal;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-context > b {
+    grid-column: 2;
+    align-self: center;
+    padding: .1rem .32rem;
+    font-size: .5rem;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-objective {
+    gap: .18rem;
+    border-left: 0;
+    border-radius: 7px;
+    background: rgba(220, 235, 239, .28);
+    padding: .35rem .42rem;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-objective > span {
+    display: none;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-objective > p {
+    display: block;
+    margin: 0;
+    overflow: visible;
+    color: #303832;
+    font-size: .69rem;
+    font-weight: 650;
+    line-height: 1.35;
+    -webkit-line-clamp: unset;
+  }
+
+  /* Control lessons become a short checklist row instead of a tall numbered block. */
+  .page-shell:has(.guided-workspace) .mission-header-objective > ol {
+    counter-reset: mobile-step;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: .25rem;
+    margin: .22rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-objective > ol > li {
+    counter-increment: mobile-step;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    gap: .22rem;
+    border-radius: 6px;
+    background: rgba(248, 247, 241, .72);
+    padding: .28rem .32rem;
+    color: #596159;
+    font-size: .58rem;
+    line-height: 1.25;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-objective > ol > li::before {
+    content: counter(mobile-step);
+    display: grid;
+    width: 1rem;
+    height: 1rem;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--petrol-soft);
+    color: var(--petrol-dark);
+    font-size: .52rem;
+    font-weight: 800;
+  }
+
+  /* Primary task action and optional navigation share one compact row. */
+  .page-shell:has(.guided-workspace) .mission-header-controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: .28rem;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-actions {
+    min-width: 0;
+    display: flex;
+    align-items: stretch;
+    gap: .28rem;
+    overflow: visible;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-actions > button,
+  .page-shell:has(.guided-workspace) .mission-header-actions > a {
+    width: auto;
+    min-width: 0;
+    min-height: 44px;
+    flex: 1 1 0;
+    padding: .38rem .42rem;
+    font-size: .61rem;
+    line-height: 1.15;
+    white-space: normal;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-actions > button:disabled {
+    display: none;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-actions .verify-button {
+    min-width: 108px;
+    flex: 1.35 1 108px;
+    font-size: .66rem;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-details {
+    min-width: 0;
+    margin: 0;
+    border-top: 0;
+    padding: 0;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-details > summary {
+    min-width: 86px;
+    min-height: 44px;
+    justify-content: center;
+    border: 1px solid rgba(20, 100, 122, .18);
+    border-radius: 7px;
+    background: rgba(248, 247, 241, .72);
+    padding: .3rem .42rem;
+    font-size: .59rem;
+    line-height: 1.15;
+    list-style: none;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-details > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-details[open] {
+    grid-column: 1 / -1;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-details[open] > summary {
+    width: 100%;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-details > div {
+    margin-top: .28rem;
+    max-height: min(32dvh, 260px);
+    padding: .55rem;
+  }
+
+  /* Completed lessons become one self-contained success card. No second Result sheet. */
+  .page-shell:has(.guided-workspace) .mission-header-completed,
+  .page-shell:has(.guided-workspace) .mission-header-completed.mission-header-rich {
+    max-height: min(42dvh, 310px);
+    gap: .24rem;
+    border-color: rgba(20, 122, 80, .24);
+    border-left-color: #147a50;
+    background: linear-gradient(150deg, rgba(217, 240, 227, .82), rgba(248, 247, 241, .97) 62%);
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-completed .mission-header-context > span,
+  .page-shell:has(.guided-workspace) .mission-header-completed .mission-header-context > b {
+    display: none;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-completed .mission-header-context > strong {
+    grid-column: 1 / -1;
+    color: #11613f;
+    font-size: .72rem;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-completed .mission-header-objective {
+    background: rgba(255, 255, 255, .48);
+    padding: .38rem .44rem;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-completed .mission-complete-content {
+    gap: .18rem;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-completed .mission-complete-content > strong {
+    color: #11613f;
+    font: 800 .88rem/1.2 Manrope, ui-sans-serif, system-ui, sans-serif;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-completed .mission-complete-content > p {
+    font-size: .66rem;
+    line-height: 1.3;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-completed .mission-complete-content small {
+    font-size: .56rem;
+    line-height: 1.25;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-completed .mission-completion-metrics {
+    gap: .18rem;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-completed .mission-completion-metrics span {
+    padding: .14rem .3rem;
+    font-size: .52rem;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-completed .mission-header-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-completed .mission-header-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .25rem;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-completed .mission-header-actions > button,
+  .page-shell:has(.guided-workspace) .mission-header-completed .mission-header-actions > a {
+    min-height: 42px;
+    padding: .32rem .38rem;
+    font-size: .58rem;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-completed .mission-header-actions > .verify-button {
+    grid-column: 1 / -1;
+    order: -2;
+    min-height: 44px;
+    font-size: .65rem;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-completed .mission-header-details > summary {
+    width: 100%;
+    min-height: 38px;
+  }
+
+  /* Model is implicit. Formula and Result are compact, dismissible overlays. */
+  .mobile-workspace-tabs {
+    left: auto !important;
+    right: calc(.55rem + env(safe-area-inset-right)) !important;
+    bottom: calc(.55rem + env(safe-area-inset-bottom)) !important;
+    width: auto !important;
+    display: flex !important;
+    grid-template-columns: none !important;
+    grid-auto-flow: initial !important;
+    grid-auto-columns: initial !important;
+    gap: .18rem;
+    margin: 0;
+    border-radius: 10px;
+    padding: .18rem;
+    box-shadow: 0 8px 22px rgba(20, 45, 52, .16);
+  }
+
+  .mobile-workspace-tabs button {
+    min-width: 76px;
+    min-height: 44px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: .24rem;
+    border-radius: 7px;
+    padding: .28rem .45rem;
+  }
+
+  .mobile-workspace-tabs button > span {
+    font-size: .78rem;
+  }
+
+  .mobile-workspace-tabs button > small {
+    font-size: .6rem;
+  }
+
+  /* Failed checks can still open Result, but as a compact feedback sheet. */
+  .workspace.mobile-tab-result .verify-panel,
+  .workspace.mobile-tab-result.left-collapsed .verify-panel {
+    bottom: calc(3.55rem + env(safe-area-inset-bottom)) !important;
+    max-height: min(46dvh, 420px) !important;
+    padding: .65rem !important;
+    border-radius: 12px !important;
+  }
+
+  .workspace.mobile-tab-result .verification-summary {
+    gap: .35rem;
+  }
+
+  .workspace.mobile-tab-result .verification-summary-actions {
+    gap: .28rem;
+  }
+
+  /* Success is intentionally represented only by the mission card above. */
+  .mission-header-completed + .workspace .mobile-workspace-tabs,
+  .mission-header-completed + .workspace .verify-panel {
+    display: none !important;
+  }
+
+  .mission-header-completed + .workspace.mobile-tab-result::after {
+    content: none !important;
+    display: none !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .page-shell:has(.guided-workspace) .mission-header-objective > ol {
+    grid-template-columns: 1fr;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .page-shell:has(.guided-workspace) .mission-header-details > summary {
+    width: 100%;
+  }
 }
