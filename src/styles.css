@@ -2071,3 +2071,371 @@ code, .notation, .formula-panel input { font-variant-ligatures: none; }
     grid-template-columns: 34px minmax(0, 1fr);
   }
 }
+
+
+/* Secondary editorial views: settings, manual, reference, and local profile. */
+.settings-screen,
+.guide-screen,
+.profile-screen {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+.settings-screen > .screen-hero,
+.guide-screen > .screen-hero,
+.profile-screen > .screen-hero {
+  max-width: none;
+  align-items: end;
+  margin: 0 0 var(--space-8);
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: var(--space-6);
+}
+
+.settings-screen > .screen-hero h1,
+.guide-screen > .screen-hero h1,
+.profile-screen > .screen-hero h1 {
+  font-size: clamp(2.15rem, 4vw, 3.4rem);
+  font-weight: 600;
+  line-height: .98;
+}
+
+.settings-screen > .screen-hero p:not(.eyebrow),
+.guide-screen > .screen-hero p:not(.eyebrow),
+.profile-screen > .screen-hero p:not(.eyebrow) {
+  max-width: 66ch;
+  margin-top: .7rem;
+  color: var(--text-muted);
+  font-size: .82rem;
+}
+
+/* Settings become a preferences sheet instead of a two-column card dashboard. */
+.settings-grid {
+  grid-template-columns: 1fr;
+  gap: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.settings-grid article {
+  display: grid;
+  grid-template-columns: minmax(165px, .34fr) minmax(0, 1fr);
+  align-items: start;
+  gap: .45rem var(--space-8);
+  border: 0;
+  border-bottom: 1px solid var(--rule-soft);
+  border-radius: 0;
+  background: transparent;
+  padding: 1rem 0;
+}
+
+.settings-grid h2 {
+  grid-column: 1;
+  grid-row: 1 / span 6;
+  margin: 0;
+  font-size: .95rem;
+  font-weight: 600;
+}
+
+.settings-grid article > :not(h2) {
+  grid-column: 2;
+}
+
+.settings-grid p {
+  max-width: 68ch;
+  color: var(--text-muted);
+  font-size: .72rem;
+}
+
+.settings-grid label {
+  color: var(--text-main);
+  font-size: .72rem;
+}
+
+.settings-grid label input {
+  accent-color: var(--petrol);
+}
+
+.settings-choice {
+  gap: 0;
+  width: max-content;
+  border-bottom: 1px solid var(--rule);
+}
+
+.settings-choice button {
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  padding: .45rem .65rem;
+  color: var(--text-muted);
+  font-size: .68rem;
+}
+
+.settings-choice button:hover {
+  background: var(--surface-active-subtle);
+  color: var(--petrol-dark);
+}
+
+.settings-choice button.active {
+  border-bottom-color: var(--petrol);
+  background: transparent;
+  color: var(--petrol-dark);
+}
+
+.settings-grid .secondary-button {
+  width: max-content;
+  border: 0;
+  border-bottom: 1px solid var(--rule-strong);
+  border-radius: 0;
+  padding: .35rem 0;
+  background: transparent;
+}
+
+/* Manual/reference content reads as indexed documentation, not feature cards. */
+.guide-actions {
+  gap: var(--space-4);
+  margin: -1rem 0 var(--space-6);
+  border-bottom: 1px solid var(--rule-soft);
+  padding-bottom: var(--space-3);
+}
+
+.guide-actions button {
+  border: 0;
+  border-bottom: 1px solid var(--rule-strong);
+  border-radius: 0;
+  background: transparent;
+  padding: .35rem 0;
+}
+
+.guide-actions button:hover {
+  background: transparent;
+  color: var(--petrol);
+}
+
+.guide-page-grid {
+  counter-reset: manual-section;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 var(--space-8);
+  border-top: 1px solid var(--rule);
+}
+
+.guide-page-grid article {
+  position: relative;
+  counter-increment: manual-section;
+  min-height: 120px;
+  border: 0;
+  border-bottom: 1px solid var(--rule-soft);
+  border-radius: 0;
+  background: transparent;
+  padding: 1.1rem 0 1.1rem 2.3rem;
+}
+
+.guide-page-grid article::before {
+  content: counter(manual-section, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 1.15rem;
+  color: var(--brown);
+  font: 500 .56rem "IBM Plex Mono", ui-monospace, monospace;
+  letter-spacing: .05em;
+}
+
+.guide-page-grid h2 {
+  margin-bottom: .35rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.guide-page-grid p {
+  color: var(--text-muted);
+  font-size: .73rem;
+}
+
+.reference-grid table {
+  background: transparent;
+  font-size: .72rem;
+}
+
+.reference-grid caption {
+  border-bottom: 1px solid var(--rule);
+  padding: .55rem 0;
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: 1rem;
+}
+
+.reference-grid th,
+.reference-grid td {
+  border: 0;
+  border-bottom: 1px solid var(--rule-soft);
+  padding: .6rem .45rem .6rem 0;
+}
+
+.reference-diagram-card {
+  gap: .55rem;
+}
+
+.reference-diagram-card .static-kripke-diagram {
+  border: 0;
+  border-top: 1px solid var(--rule-soft);
+  border-bottom: 1px solid var(--rule-soft);
+  border-radius: 0;
+  background: transparent;
+}
+
+.reading-card > span {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-weight: 500;
+}
+
+/* Profile metrics and history become a compact ledger. */
+.profile-summary {
+  gap: 0;
+  margin-bottom: var(--space-8);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.profile-summary article {
+  min-height: 118px;
+  gap: .3rem;
+  border: 0;
+  border-right: 1px solid var(--rule-soft);
+  border-radius: 0;
+  background: transparent;
+  padding: 1rem 1.1rem;
+}
+
+.profile-summary article:first-child {
+  padding-left: 0;
+}
+
+.profile-summary article:last-child {
+  border-right: 0;
+}
+
+.profile-summary span {
+  color: var(--text-muted);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-weight: 500;
+}
+
+.profile-summary strong {
+  font-weight: 500;
+}
+
+.educator-export {
+  margin-bottom: var(--space-8);
+  border: 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule-soft);
+  border-radius: 0;
+  background: transparent;
+  padding: 1rem 0;
+}
+
+.profile-insights {
+  gap: var(--space-8);
+  margin-bottom: var(--space-8);
+  border-top: 1px solid var(--rule);
+}
+
+.profile-insights article {
+  border: 0;
+  border-bottom: 1px solid var(--rule-soft);
+  border-radius: 0;
+  background: transparent;
+  padding: 1rem 0;
+}
+
+.profile-insights li {
+  border-bottom-color: var(--rule-soft);
+  color: var(--text-muted);
+}
+
+.history-list {
+  gap: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.history-list article {
+  grid-template-columns: minmax(135px, auto) minmax(0, 1fr) minmax(58px, auto) auto;
+  gap: var(--space-4);
+  border: 0;
+  border-bottom: 1px solid var(--rule-soft);
+  border-radius: 0;
+  background: transparent;
+  padding: .75rem 0;
+}
+
+.history-list article > b {
+  position: relative;
+  border-radius: 0;
+  background: transparent !important;
+  padding: 0 0 0 .8rem;
+  font: 600 .56rem "IBM Plex Mono", ui-monospace, monospace;
+  letter-spacing: .05em;
+}
+
+.history-list article > b::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  translate: 0 -50%;
+}
+
+.profile-empty {
+  justify-items: start;
+  border: 0;
+  border-top: 1px dashed var(--rule);
+  border-bottom: 1px dashed var(--rule);
+  border-radius: 0;
+  padding: 1.5rem 0;
+  text-align: left;
+}
+
+@media (max-width: 760px) {
+  .settings-grid article {
+    grid-template-columns: 1fr;
+    gap: .45rem;
+  }
+
+  .settings-grid h2,
+  .settings-grid article > :not(h2) {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .guide-page-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .profile-summary article:nth-child(2) {
+    border-right: 0;
+  }
+
+  .profile-summary article:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--rule-soft);
+  }
+
+  .history-list article {
+    grid-template-columns: 1fr auto;
+  }
+
+  .history-list time,
+  .history-list article > div {
+    grid-column: 1;
+  }
+
+  .history-list article > b,
+  .history-list em {
+    grid-column: 2;
+  }
+}
