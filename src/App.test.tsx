@@ -1217,7 +1217,7 @@ describe('sandbox user interface', () => {
     expect(screen.getByRole('group', { name: 'Required frame properties' })).toBeVisible()
     await user.click(screen.getByRole('button', { name: 'Next' }))
     expect(screen.getByLabelText('Custom mission prediction')).toHaveValue('none')
-    expect(screen.getByRole('button', { name: /9Export\/share/ })).toBeDisabled()
+    expect(screen.getByRole('button', { name: /Export\/share/ })).toBeDisabled()
   })
 
   it('duplicates a built-in mission into the studio without replacing the sandbox', async () => {
