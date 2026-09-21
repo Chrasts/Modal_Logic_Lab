@@ -2439,3 +2439,413 @@ code, .notation, .formula-panel input { font-variant-ligatures: none; }
     grid-column: 2;
   }
 }
+
+
+/* Workspace instrument language: graph-first, flat technical surfaces, semantic lines instead of cards. */
+.mission-header {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  border-left: 3px solid var(--petrol);
+  border-radius: 0;
+  background: var(--surface-page);
+  padding: .62rem .2rem .62rem .72rem;
+  box-shadow: none;
+  animation: none;
+}
+
+.mission-header-campaign { border-left-color: var(--brown); }
+.mission-header-practice { border-left-color: #6b756a; }
+.mission-header-custom { border-left-color: #6e5d86; }
+
+.mission-header-context > b {
+  position: relative;
+  width: max-content;
+  border-radius: 0;
+  background: transparent;
+  padding: 0 0 0 .75rem;
+  color: var(--petrol);
+  font: 600 .56rem "IBM Plex Mono", ui-monospace, monospace;
+  letter-spacing: .05em;
+}
+
+.mission-header-context > b::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  translate: 0 -50%;
+}
+
+.mission-header-objective {
+  border: 0;
+  border-left: 2px solid var(--petrol);
+  border-radius: 0;
+  background: var(--surface-active-subtle);
+  padding: .42rem .68rem;
+  box-shadow: none;
+}
+
+.mission-header-objective > span {
+  font: 600 .58rem "IBM Plex Mono", ui-monospace, monospace;
+  letter-spacing: .08em;
+}
+
+.mission-header-objective > p {
+  font-size: .85rem;
+  font-weight: 650;
+}
+
+.mission-header-actions button {
+  border: 0;
+  border-bottom: 1px solid var(--rule-strong);
+  border-radius: 0;
+  background: transparent;
+  padding: .42rem .15rem;
+}
+
+.mission-header-actions button:hover:not(:disabled) {
+  border-bottom-color: var(--petrol);
+  background: var(--surface-active-subtle);
+}
+
+.mission-header-actions .verify-button {
+  border: 1px solid var(--petrol-dark);
+  border-radius: var(--radius-control);
+  background: var(--petrol-dark);
+  padding: .45rem .62rem;
+}
+
+.mission-header-details > div {
+  border-radius: var(--radius-overlay);
+  box-shadow: 0 8px 24px rgba(30,48,42,.12);
+}
+
+/* The workspace itself stops being a rounded container around rounded panels. */
+.workspace {
+  gap: 1px;
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  background: var(--rule-soft);
+  padding: 0;
+  box-shadow: none;
+}
+
+.panel {
+  border: 0;
+  border-radius: 0;
+  background: var(--surface-page);
+  box-shadow: none;
+  transition: background var(--motion-fast) var(--ease-ui);
+}
+
+.panel:focus-within {
+  border-color: transparent;
+  background: var(--paper);
+  box-shadow: inset 2px 0 var(--petrol);
+}
+
+.verify-panel {
+  border-top: 0;
+  box-shadow: inset 0 2px var(--petrol);
+}
+
+.graph-panel {
+  border: 0;
+  background: var(--paper);
+  box-shadow: none;
+}
+
+.panel-heading {
+  margin-bottom: .65rem;
+  border-bottom: 1px solid var(--rule-soft);
+  padding-bottom: .55rem;
+}
+
+.panel-heading h2 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.workspace-resize-handle {
+  top: 0;
+  bottom: 0;
+  width: 12px;
+  border-radius: 0;
+}
+
+.workspace-resize-handle::after {
+  inset: 14px 5px;
+  border-radius: 0;
+  background: var(--rule);
+  transition: background var(--motion-fast) var(--ease-ui);
+}
+
+.workspace-resize-handle:hover::after,
+.workspace-resize-handle:focus-visible::after {
+  background: var(--petrol);
+  box-shadow: none;
+}
+
+/* Map controls read as an instrument strip rather than a glass floating pill. */
+.map-toolbar {
+  gap: .1rem;
+  margin: 0;
+  border: 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  border-radius: 0;
+  background: var(--paper);
+  padding: .25rem .15rem;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.map-toolbar-group {
+  gap: 0;
+  padding-left: .3rem;
+  border-left-color: var(--rule);
+}
+
+.workspace-presets {
+  gap: 0;
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.workspace-presets button {
+  min-height: 1.9rem;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  padding: .35rem .5rem;
+}
+
+.workspace-presets button:hover {
+  background: var(--surface-active-subtle);
+}
+
+.workspace-presets button.active {
+  border-color: var(--petrol);
+  background: transparent;
+}
+
+.map-toolbar-group > button {
+  border-radius: 0;
+}
+
+.map-toolbar-group > button:hover:not(:disabled) {
+  background: var(--surface-active-subtle);
+}
+
+.map-toolbar-group > button.panel-toggle.active {
+  background: var(--surface-active-subtle);
+  box-shadow: inset 0 -2px var(--petrol);
+}
+
+.map-toolbar-group > button.toolbar-verify {
+  border-radius: var(--radius-control);
+  background: var(--petrol-dark);
+}
+
+/* Floating inspectors are one of the few surfaces that retain physical depth. */
+.world-inspector {
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius-overlay);
+  background: var(--paper);
+  box-shadow: 0 5px 14px rgba(31,37,29,.11);
+  backdrop-filter: none;
+}
+
+.inspector-actions button {
+  border-radius: var(--radius-control);
+}
+
+.empty-graph-state {
+  justify-items: start;
+  width: max-content;
+  max-width: calc(100% - 2rem);
+  margin: 5rem auto 0;
+  border: 0;
+  border-left: 2px solid var(--rule-strong);
+  border-radius: 0;
+  background: transparent;
+  padding: .6rem .9rem;
+  text-align: left;
+}
+
+.empty-graph-state button {
+  border-radius: var(--radius-control);
+}
+
+/* Verification reads as a semantic report, not a success/error notification card. */
+.result {
+  min-height: 0;
+  border: 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule-soft);
+  border-left: 3px solid var(--rule-strong);
+  border-radius: 0;
+  background: transparent;
+  padding: .7rem .2rem .7rem .75rem;
+}
+
+.result.success {
+  border-color: var(--rule-soft);
+  border-left-color: #147a50;
+  background: transparent;
+  color: #174f3c;
+  animation: none;
+}
+
+.result.failure {
+  border-color: var(--rule-soft);
+  border-left: 3px solid var(--brown);
+  background: transparent;
+  color: var(--brown-dark);
+  animation: none;
+}
+
+.result.error {
+  border-color: var(--rule-soft);
+  border-left: 3px solid var(--brown-dark);
+  background: transparent;
+  color: var(--brown-dark);
+  animation: none;
+}
+
+.verification-state-icon {
+  width: 1.65rem;
+  height: 1.65rem;
+  border-width: 1px;
+  font-size: .85rem;
+}
+
+.semantic-result-details {
+  border-top-color: var(--rule-soft);
+}
+
+.verdict-sections {
+  gap: 0;
+  border-top: 1px solid var(--rule-soft);
+}
+
+.verdict-section {
+  border: 0;
+  border-bottom: 1px solid var(--rule-soft);
+  border-radius: 0;
+  background: transparent;
+  padding: .55rem 0;
+}
+
+.verdict-section.fail {
+  border: 0;
+  border-bottom: 1px solid var(--rule-soft);
+  border-left: 2px solid var(--brown);
+  background: transparent;
+  padding-left: .55rem;
+}
+
+.verdict-section > div b {
+  position: relative;
+  border-radius: 0;
+  background: transparent !important;
+  padding: 0 0 0 .65rem;
+  color: inherit !important;
+  font: 600 .54rem "IBM Plex Mono", ui-monospace, monospace;
+  letter-spacing: .05em;
+}
+
+.verdict-section > div b::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  translate: 0 -50%;
+}
+
+.truth-diagnostic code {
+  border: 0;
+  border-bottom: 1px solid var(--rule-soft);
+  border-radius: 0;
+  background: transparent;
+  padding: .18rem .1rem;
+}
+
+.valuation-diagnostic code {
+  border-radius: var(--radius-control);
+}
+
+.diagnostic-highlights {
+  border: 0;
+  border-left: 2px solid var(--brown);
+  border-radius: 0;
+  background: transparent;
+  padding: .45rem .55rem;
+}
+
+.evaluation-node {
+  border: 0;
+  border-bottom: 1px solid var(--rule-soft);
+  border-radius: 0;
+  background: transparent;
+}
+
+.evaluation-node.false {
+  border-left: 2px solid var(--brown);
+}
+
+.evaluation-node.true {
+  border-left: 2px solid var(--petrol);
+}
+
+.active-trace-summary {
+  border: 0;
+  border-left: 2px solid var(--petrol);
+  border-radius: 0;
+  background: var(--surface-active-subtle);
+}
+
+.bonus-result,
+.prediction-result {
+  border: 0 !important;
+  border-left: 2px solid var(--brown) !important;
+  border-radius: 0;
+  background: transparent !important;
+}
+
+.bonus-result.achieved,
+.prediction-result.correct {
+  border-left-color: var(--petrol) !important;
+  color: var(--petrol-dark);
+}
+
+@media (max-width: 1050px) {
+  .workspace {
+    gap: 1px;
+    padding: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .mission-header {
+    border-left-width: 2px;
+    padding-inline: .55rem;
+  }
+
+  .workspace {
+    border-inline: 0;
+  }
+
+  .map-toolbar {
+    border-inline: 0;
+  }
+}
