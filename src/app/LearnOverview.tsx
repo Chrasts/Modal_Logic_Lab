@@ -48,7 +48,7 @@ export function LearnOverview({ completed, total, progress, tutorialLevels, tuto
         <p>Welcome, learn the controls, then work through finite Kripke semantics one section at a time.</p>
       </div>
       <div className="collection-progress relational-progress" role="status">
-        <strong>{completed}<span>/</span>{total}</strong>
+        <strong>{completed}/{total}</strong>
         <span>{completed === total ? 'course complete' : 'available tasks complete'}</span>
         <div className="progress-meter" aria-hidden="true"><i style={{ width: `${completed / total * 100}%` }} /></div>
       </div>
