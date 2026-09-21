@@ -2844,3 +2844,174 @@ textarea:focus {
   gap: 1px;
   background: var(--rule);
 }
+
+
+/* Square UI markers: petrol fill + brown diamond on hover/focus.
+ * Actual Kripke worlds remain circular.
+ */
+.chapter-marker i,
+.workflow-node i,
+.author-step-navigation button span {
+  position: relative;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  transition: background var(--motion-fast) var(--ease-ui), border-color var(--motion-fast) var(--ease-ui);
+}
+
+.chapter-marker i::after,
+.workflow-node i::after,
+.author-step-navigation button span::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  background: var(--brown);
+  transform: translate(-50%, -50%) rotate(45deg) scale(0);
+  transition: transform var(--motion-fast) var(--ease-ui);
+}
+
+.chapter-row.complete .chapter-marker i,
+.create-workflow--primary .workflow-node i {
+  background: transparent;
+  box-shadow: none;
+}
+
+.chapter-row:hover .chapter-marker i,
+.chapter-row:focus-within .chapter-marker i,
+.create-workflow:hover .workflow-node i,
+.create-workflow:focus-within .workflow-node i {
+  border-color: var(--petrol);
+  background: var(--petrol);
+}
+
+.chapter-row:hover .chapter-marker i::after,
+.chapter-row:focus-within .chapter-marker i::after,
+.create-workflow:hover .workflow-node i::after,
+.create-workflow:focus-within .workflow-node i::after {
+  transform: translate(-50%, -50%) rotate(45deg) scale(1);
+}
+
+.author-step-navigation .visited button span {
+  border-color: var(--rule-strong);
+  background: transparent;
+}
+
+.author-step-navigation .current button span,
+.author-step-navigation button:hover:not(:disabled) span,
+.author-step-navigation button:focus-visible span {
+  border-color: var(--petrol);
+  background: var(--petrol);
+}
+
+.author-step-navigation .current button span::after,
+.author-step-navigation button:hover:not(:disabled) span::after,
+.author-step-navigation button:focus-visible span::after {
+  transform: translate(-50%, -50%) rotate(45deg) scale(1);
+}
+
+.chapter-lesson-outline > ol > li::before,
+.welcome-cycle li::before {
+  border-radius: 0;
+  background: transparent;
+}
+
+.chapter-lesson-outline > ol > li.current::before,
+.chapter-lesson-outline > ol > li.complete::before {
+  border-color: var(--rule-strong);
+  background: transparent;
+}
+
+.chapter-lesson-outline > ol > li::after,
+.welcome-cycle li::after {
+  content: "";
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: var(--brown);
+  transform: rotate(45deg) scale(0);
+  transition: transform var(--motion-fast) var(--ease-ui);
+}
+
+.chapter-lesson-outline > ol > li::after {
+  left: 2px;
+  top: calc(50% - 1px);
+}
+
+.welcome-cycle li::after {
+  left: 2px;
+  top: calc(50% - 1px);
+}
+
+.chapter-lesson-outline > ol > li:hover::before,
+.chapter-lesson-outline > ol > li:focus-within::before,
+.welcome-cycle li:hover::before {
+  border-color: var(--petrol);
+  background: var(--petrol);
+}
+
+.chapter-lesson-outline > ol > li:hover::after,
+.chapter-lesson-outline > ol > li:focus-within::after,
+.welcome-cycle li:hover::after {
+  transform: rotate(45deg) scale(1);
+}
+
+/* Global nav uses the same square-state vocabulary. */
+.product-nav button {
+  position: relative;
+}
+
+.product-nav button::before {
+  border-radius: 0;
+  background: transparent;
+}
+
+.product-nav button::after {
+  content: "";
+  position: absolute;
+  left: .86rem;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  background: var(--brown);
+  transform: translate(-50%, -50%) rotate(45deg) scale(0);
+  transition: transform var(--motion-fast) var(--ease-ui);
+  pointer-events: none;
+}
+
+.product-nav button:hover:not(:disabled)::before,
+.product-nav button:focus-visible::before,
+.product-nav button.active::before {
+  border-color: var(--petrol);
+  background: var(--petrol);
+}
+
+.product-nav button:hover:not(:disabled)::after,
+.product-nav button:focus-visible::after,
+.product-nav button.active::after {
+  transform: translate(-50%, -50%) rotate(45deg) scale(1);
+}
+
+.product-nav button.reference-nav.active::before {
+  border-color: var(--petrol);
+  background: var(--petrol);
+}
+
+.product-nav button.reference-nav::before {
+  border-color: var(--rule-strong);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chapter-marker i,
+  .chapter-marker i::after,
+  .workflow-node i,
+  .workflow-node i::after,
+  .author-step-navigation button span,
+  .author-step-navigation button span::after,
+  .product-nav button::before,
+  .product-nav button::after {
+    transition: none;
+  }
+}
