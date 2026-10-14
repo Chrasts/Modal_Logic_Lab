@@ -66,6 +66,7 @@ const moveMenuFocus = (event: React.KeyboardEvent<HTMLDivElement>, role: 'menuit
 }
 
 export function AppChrome({ activeArea, showBack, backLabel, labels, language, showResume, resumeLabel, showWorkspaceReset, workspaceResetLabel, showQuickHelp, fullscreenEnabled, isFullscreen, showWorkspaceTour, compactWorkspaceNavigation, onNavigate, onBack, onLanguageChange, onResume, onResetWorkspace, onOpenQuickHelp, onToggleFullscreen, onOpenWorkspaceTour, onOpenCreate, onOpenReference, onOpenHelp, onOpenProfile, onOpenData, onOpenSettings }: AppChromeProps) {
+  const cs = language === 'cs'
   const [utilityMenuOpen, setUtilityMenuOpen] = useState(false)
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false)
   const utilityMenuRef = useRef<HTMLDivElement>(null)
@@ -117,9 +118,9 @@ export function AppChrome({ activeArea, showBack, backLabel, labels, language, s
     <a className="skip-link" href="#main-content">{labels.skip}</a>
     <header className="topbar">
       <div className="brand">
-        {showBack && <button className="back-button" type="button" onClick={onBack} aria-label={backLabel === 'Back' ? 'Go back' : backLabel}>← <span>{backLabel}</span></button>}
+        {showBack && <button className="back-button" type="button" onClick={onBack} aria-label={backLabel === 'Back' ? (cs ? 'Zpět' : 'Go back') : backLabel}>← <span>{backLabel}</span></button>}
         <strong>Modal Logic Lab</strong>
-        {!compactWorkspaceNavigation && <nav className="product-nav" aria-label="Global navigation">
+        {!compactWorkspaceNavigation && <nav className="product-nav" aria-label={cs ? 'Hlavní navigace' : 'Global navigation'}>
           {(['home', 'learn', 'campaigns', 'lab'] as const).map((area) => <button key={area} className={activeArea === area ? 'active' : ''} type="button" onClick={() => onNavigate(area)}>{labels[area]}</button>)}
         </nav>}
       </div>
@@ -133,14 +134,14 @@ export function AppChrome({ activeArea, showBack, backLabel, labels, language, s
         </div>
         {showResume && <button type="button" className="topbar-resume" onClick={onResume}>{resumeLabel}</button>}
         {showWorkspaceReset && <button type="button" className="text-button" onClick={onResetWorkspace}>{workspaceResetLabel}</button>}
-        {showQuickHelp && <button type="button" className="help-button" aria-label="Open workspace quick help" onClick={onOpenQuickHelp}>Quick help</button>}
-        {fullscreenEnabled && <button type="button" className="icon-button fullscreen-button" aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'} aria-pressed={isFullscreen} title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'} onClick={onToggleFullscreen}>⛶</button>}
+        {showQuickHelp && <button type="button" className="help-button" aria-label={cs ? 'Otevřít rychlou nápovědu pracovního prostoru' : 'Open workspace quick help'} onClick={onOpenQuickHelp}>{cs ? 'Rychlá nápověda' : 'Quick help'}</button>}
+        {fullscreenEnabled && <button type="button" className="icon-button fullscreen-button" aria-label={isFullscreen ? (cs ? 'Ukončit režim celé obrazovky' : 'Exit fullscreen') : (cs ? 'Zobrazit na celou obrazovku' : 'Enter fullscreen')} aria-pressed={isFullscreen} title={isFullscreen ? (cs ? 'Ukončit režim celé obrazovky' : 'Exit fullscreen') : (cs ? 'Zobrazit na celou obrazovku' : 'Enter fullscreen')} onClick={onToggleFullscreen}>⛶</button>}
         <div className="utility-menu" ref={utilityMenuRef}>
           <button ref={utilityMenuButtonRef} type="button" className="text-button" aria-haspopup="menu" aria-controls="utility-menu" aria-expanded={utilityMenuOpen} onClick={() => setUtilityMenuOpen((open) => !open)}>{labels.more}</button>
           {utilityMenuOpen && <div id="utility-menu" role="menu" className="utility-menu-popover" onKeyDown={(event) => moveMenuFocus(event, 'menuitem', () => { setUtilityMenuOpen(false); requestAnimationFrame(() => utilityMenuButtonRef.current?.focus()) })}>
-            {showWorkspaceTour && <button type="button" role="menuitem" onClick={() => closeAndOpen(onOpenWorkspaceTour)}>Workspace tour</button>}
+            {showWorkspaceTour && <button type="button" role="menuitem" onClick={() => closeAndOpen(onOpenWorkspaceTour)}>{cs ? 'Průvodce pracovním prostorem' : 'Workspace tour'}</button>}
             {compactWorkspaceNavigation && <>
-              <span className="utility-menu-section" aria-hidden="true">Navigate</span>
+              <span className="utility-menu-section" aria-hidden="true">{cs ? 'Navigace' : 'Navigate'}</span>
               {(['home', 'learn', 'campaigns', 'lab'] as const).map((area) => <button key={area} type="button" role="menuitem" aria-current={activeArea === area ? 'page' : undefined} onClick={() => closeAndOpen(() => onNavigate(area))}>{labels[area]}</button>)}
             </>}
             <button type="button" role="menuitem" onClick={() => closeAndOpen(onOpenCreate)}>{labels.create}</button>
