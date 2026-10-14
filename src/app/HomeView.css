@@ -178,3 +178,52 @@
     width: min(100%, 20rem);
   }
 }
+
+/* Keep the two-row destination layout inside the desktop application viewport.
+   Both the intro mark and the circular destinations respond to available height,
+   rather than allowing their width-based dimensions to produce inner scrolling. */
+@media (min-width: 861px) {
+  .home-screen.home-screen--relational {
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    padding-block: clamp(1.25rem, 3vh, 2.5rem);
+  }
+
+  .home-layout {
+    height: 100%;
+    min-height: 0;
+    gap: clamp(2rem, 5vw, 5.5rem);
+  }
+
+  .home-logo-lockup {
+    width: min(410px, 31vw, 50dvh);
+  }
+
+  .home-frame {
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .home-destinations {
+    gap: clamp(.75rem, 2vw, 2rem);
+  }
+
+  .home-destination,
+  .home-destination--learn,
+  .home-destination--campaigns,
+  .home-destination--lab {
+    width: min(100%, 22rem, calc((100dvh - 205px) / 2));
+    padding: clamp(.85rem, 2vw, 1.6rem);
+  }
+}
+
+/* The shared shell normally becomes document-height below 1050px.
+   Keep Home viewport-bound on laptop widths without changing other screens. */
+@media (min-width: 861px) and (max-width: 1050px) {
+  .page-shell:has(.home-screen--relational) {
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+  }
+}
