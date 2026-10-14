@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { czechInterfaceEnabled } from './interface-settings'
 
 type NavigationArea = 'home' | 'learn' | 'campaigns' | 'lab'
 
@@ -125,13 +126,13 @@ export function AppChrome({ activeArea, showBack, backLabel, labels, language, s
         </nav>}
       </div>
       <div className="topbar-actions">
-        <div className="language-picker" ref={languageMenuRef}>
+        {czechInterfaceEnabled && <div className="language-picker" ref={languageMenuRef}>
           <button ref={languageMenuButtonRef} type="button" className="language-picker-button" aria-label={labels.language} aria-haspopup="menu" aria-controls="language-menu" aria-expanded={languageMenuOpen} onClick={() => setLanguageMenuOpen((open) => !open)}>{language === 'cs' ? 'CZ' : 'EN'}</button>
           {languageMenuOpen && <div id="language-menu" className="language-menu-popover" role="menu" aria-label={labels.language} onKeyDown={(event) => moveMenuFocus(event, 'menuitemradio', () => { setLanguageMenuOpen(false); languageMenuButtonRef.current?.focus() })}>
             <button type="button" role="menuitemradio" aria-checked={language === 'en'} onClick={() => { onLanguageChange('en'); setLanguageMenuOpen(false); languageMenuButtonRef.current?.focus() }}><span>EN</span> English</button>
             <button type="button" role="menuitemradio" aria-checked={language === 'cs'} onClick={() => { onLanguageChange('cs'); setLanguageMenuOpen(false); languageMenuButtonRef.current?.focus() }}><span>CZ</span> Čeština</button>
           </div>}
-        </div>
+        </div>}
         {showResume && <button type="button" className="topbar-resume" onClick={onResume}>{resumeLabel}</button>}
         {showWorkspaceReset && <button type="button" className="text-button" onClick={onResetWorkspace}>{workspaceResetLabel}</button>}
         {showQuickHelp && <button type="button" className="help-button" aria-label={cs ? 'Otevřít rychlou nápovědu pracovního prostoru' : 'Open workspace quick help'} onClick={onOpenQuickHelp}>{cs ? 'Rychlá nápověda' : 'Quick help'}</button>}
