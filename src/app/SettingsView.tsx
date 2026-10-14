@@ -1,3 +1,5 @@
+import { czechInterfaceEnabled } from './interface-settings'
+
 interface SettingsViewProps {
   readonly language: 'en' | 'cs'
   readonly density: 'comfortable' | 'compact'
@@ -24,7 +26,7 @@ export function SettingsView({ language, density, showMinimap, showDerivedRelati
   return <section className="content-screen settings-screen" aria-labelledby="settings-title">
     <header className="settings-heading"><h1 id="settings-title">{t.title}</h1><p>{t.intro}</p></header>
     <div className="settings-grid">
-      <article><h2>{t.language}</h2><p>{t.languageText}</p><div className="settings-choice"><button type="button" className={language === 'en' ? 'active' : ''} aria-pressed={language === 'en'} onClick={() => onLanguageChange('en')}>English</button><button type="button" className={language === 'cs' ? 'active' : ''} aria-pressed={language === 'cs'} onClick={() => onLanguageChange('cs')}>Čeština</button></div></article>
+      {czechInterfaceEnabled && <article><h2>{t.language}</h2><p>{t.languageText}</p><div className="settings-choice"><button type="button" className={language === 'en' ? 'active' : ''} aria-pressed={language === 'en'} onClick={() => onLanguageChange('en')}>English</button><button type="button" className={language === 'cs' ? 'active' : ''} aria-pressed={language === 'cs'} onClick={() => onLanguageChange('cs')}>Čeština</button></div></article>}
       <article><h2>{t.density}</h2><p>{t.densityText}</p><div className="settings-choice"><button type="button" className={density === 'comfortable' ? 'active' : ''} aria-pressed={density === 'comfortable'} onClick={() => onDensityChange('comfortable')}>{t.comfortable}</button><button type="button" className={density === 'compact' ? 'active' : ''} aria-pressed={density === 'compact'} onClick={() => onDensityChange('compact')}>{t.compact}</button></div></article>
       <article><h2>{t.map}</h2><label><input type="checkbox" checked={showMinimap} onChange={(event) => onShowMinimapChange(event.target.checked)} /> {t.minimap}</label><label><input type="checkbox" checked={showDerivedRelations} onChange={(event) => onShowDerivedRelationsChange(event.target.checked)} /> {t.derived}</label><p>{t.mapText}</p></article>
       <article><h2>{t.motion}</h2><label><input type="checkbox" checked={reduceMotion} onChange={(event) => onReduceMotionChange(event.target.checked)} /> {t.reduceMotion}</label><p>{t.motionText}</p></article>
