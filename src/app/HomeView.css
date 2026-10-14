@@ -183,6 +183,10 @@
    Both the intro mark and the circular destinations respond to available height,
    rather than allowing their width-based dimensions to produce inner scrolling. */
 @media (min-width: 861px) {
+  .page-shell:has(.home-screen--relational) {
+    min-height: 0;
+  }
+
   .home-screen.home-screen--relational {
     height: 100%;
     min-height: 0;
@@ -225,5 +229,35 @@
     height: 100dvh;
     min-height: 0;
     overflow: hidden;
+  }
+}
+
+/* Accommodate reduced CSS viewport heights, including Windows display scaling,
+   without making the logo or session link push the destinations offscreen. */
+@media (min-width: 861px) and (max-height: 680px) {
+  .home-screen.home-screen--relational {
+    padding-block: .75rem;
+  }
+
+  .home-logo-lockup {
+    width: min(410px, 31vw, 44dvh);
+  }
+
+  .home-deck {
+    margin-top: .75rem;
+    line-height: 1.5;
+  }
+
+  .home-resume-link {
+    margin-top: 1rem;
+    padding-block: .5rem;
+  }
+}
+
+/* Extremely short windows need accessibility-preserving scrolling instead
+   of clipping readable labels in circles that cannot shrink any further. */
+@media (min-width: 861px) and (max-height: 520px) {
+  .home-screen.home-screen--relational {
+    overflow-y: auto;
   }
 }
