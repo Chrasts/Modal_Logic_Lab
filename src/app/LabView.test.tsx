@@ -12,7 +12,7 @@ describe('LabView', () => {
     render(<LabView language="cs" onOpenModelSandbox={vi.fn()} />)
     expect(screen.getByText(/bez zadání konkrétní mise/)).toBeVisible()
     expect(screen.getByRole('heading', { name: 'Modelová laboratoř' })).toBeVisible()
-    expect(screen.getByText('Zkoumání vlastností Kripkeho rámců')).toBeVisible()
+    expect(screen.queryByText('Zkoumání vlastností Kripkeho rámců')).not.toBeInTheDocument()
   })
 
   it('presents only the real shared Model Sandbox and delegates opening it', async () => {
@@ -21,7 +21,7 @@ describe('LabView', () => {
     render(<LabView onOpenModelSandbox={onOpenModelSandbox} />)
     expect(screen.getByRole('heading', { name: 'Lab' })).toBeVisible()
     expect(screen.getByRole('heading', { name: 'Model Sandbox' })).toBeVisible()
-    expect(screen.getByText('Inspect evaluation traces')).toBeVisible()
+    expect(screen.queryByText('Inspect evaluation traces')).not.toBeInTheDocument()
     expect(screen.queryByText(/coming soon/i)).not.toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Open Model Sandbox' }))
     expect(onOpenModelSandbox).toHaveBeenCalledOnce()

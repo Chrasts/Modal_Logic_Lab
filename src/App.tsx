@@ -1282,7 +1282,7 @@ function AppContent({ initialView = 'home' }: { readonly initialView?: AppView }
       setImportedAuthorFile(null)
       setLevelStartSnapshot(currentAuthorSnapshot())
       setLevelReferenceSolution(null)
-      setDataMessage('Starting model saved. The previous workspace remains unchanged.')
+      setDataMessage('Starting model saved.')
     }
     if (save && session.purpose === 'reference-solution') {
       try {
@@ -1658,7 +1658,7 @@ function AppContent({ initialView = 'home' }: { readonly initialView?: AppView }
       )}
 
       {appView === 'campaigns' && (
-        <CampaignsView section={campaignSection} guidedCampaigns={guidedCampaigns} practiceTracks={campaignTracks} selectedTrackIndex={campaignTrackIndex} completedLevelIds={completedLevelIds} overallPracticeCompleted={overallCampaignCompleted} overallPracticeLevels={overallCampaignLevels} activePracticeTrackIndex={playingTrackIndex ?? campaignTrackIndex} activePracticeLevelIndex={campaignLevelIndex} practiceSessionActive={gameMode === 'campaign'} onSectionChange={setCampaignSection} onOpenLearn={() => setAppView('learn')} onStartCampaign={startGuidedCampaign} onSelectPracticeTrack={setCampaignTrackIndex} onStartPractice={(levelIndex, trackIndex) => startGuidedLevel('campaign', levelIndex, trackIndex)} onResumePractice={() => setAppView('workspace')} />
+        <CampaignsView section={campaignSection} guidedCampaigns={guidedCampaigns} practiceTracks={campaignTracks} selectedTrackIndex={campaignTrackIndex} completedLevelIds={completedLevelIds} overallPracticeCompleted={overallCampaignCompleted} overallPracticeLevels={overallCampaignLevels} activePracticeTrackIndex={playingTrackIndex ?? campaignTrackIndex} activePracticeLevelIndex={campaignLevelIndex} practiceSessionActive={gameMode === 'campaign'} onSectionChange={setCampaignSection} onStartCampaign={startGuidedCampaign} onSelectPracticeTrack={setCampaignTrackIndex} onStartPractice={(levelIndex, trackIndex) => startGuidedLevel('campaign', levelIndex, trackIndex)} onResumePractice={() => setAppView('workspace')} />
       )}
 
       {appView === 'create' && !authorStudioOpen && (
