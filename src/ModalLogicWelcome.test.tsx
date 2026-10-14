@@ -14,7 +14,7 @@ describe('ModalLogicWelcome', () => {
     expect(screen.getByText(/every world accessible from it/)).toBeVisible()
     expect(screen.getByRole('heading', { name: 'Possibility: ◇φ' })).toBeVisible()
     expect(screen.getByText(/at least one world accessible from it/)).toBeVisible()
-    expect(screen.getByText('Learn Modal Logic · Introduction')).toBeVisible()
+    expect(screen.getByRole('heading', { name: 'Welcome to Modal Logic' })).toBeVisible()
     expect(screen.getByText(/useful foundation for reasoning about systems, information, and time/)).toBeVisible()
     const symbols = container.querySelectorAll('svg.modal-operator-symbol[aria-hidden="true"]')
     expect(symbols).toHaveLength(2)

@@ -11,7 +11,7 @@ const guidedSteps: readonly WorkspaceTourStep[] = [
   { target: 'model-map', title: 'Model map', body: 'Inspect worlds, true atoms, and directed accessibility in the live model.' },
   { target: 'editing-controls', title: 'Edit model', body: 'The available controls reflect what this task allows you to change.' },
   { target: 'formula-controls', title: 'Formula and evaluation', body: 'Read the formula and choose the evaluation world when the objective uses pointed truth.' },
-  { target: 'check-task', title: 'Check task', body: 'Check your current answer here.' },
+  { target: 'check-task', title: 'Check model', body: 'Check your current answer here.' },
   { target: 'result-area', title: 'Results', body: 'After checking, this area explains whether the objective is met and what to inspect next.' },
 ]
 
@@ -76,7 +76,7 @@ export function WorkspaceTour({ sandbox, initialStep = 0, onStepChange, onClose,
     <div className="workspace-tour-shield" />
     {spotlightStyle && <div className="workspace-tour-spotlight" data-testid="workspace-tour-highlight" style={spotlightStyle} />}
     <section ref={dialogRef} className="workspace-tour-tooltip" style={tooltipStyle} role="dialog" aria-modal="true" aria-labelledby="workspace-tour-title">
-      <div className="dialog-heading"><div><p className="eyebrow">Workspace tour · {availableIndexes.indexOf(index) + 1} of {availableIndexes.length}</p><h2 id="workspace-tour-title">{step.title}</h2></div><button type="button" className="dialog-close" onClick={onClose} aria-label="Skip workspace tour">×</button></div>
+      <div className="dialog-heading"><div><p className="dialog-context">Workspace tour · {availableIndexes.indexOf(index) + 1} of {availableIndexes.length}</p><h2 id="workspace-tour-title">{step.title}</h2></div><button type="button" className="dialog-close" onClick={onClose} aria-label="Skip workspace tour">×</button></div>
       <p>{step.body}</p>
       <div className="workspace-tour-actions"><button type="button" className="text-button" onClick={onClose}>Skip</button><button type="button" disabled={availableIndexes.indexOf(index) <= 0} onClick={() => move(-1)}>Back</button><button type="button" className="primary-action workspace-tour-next" onClick={() => isLast ? onDone() : move(1)}>{isLast ? 'Done' : 'Next'}</button></div>
     </section>

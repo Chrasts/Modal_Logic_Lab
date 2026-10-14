@@ -15,10 +15,9 @@ const sections: readonly [ReferenceSection, string][] = [
 
 export function ReferenceView({ onOpenLearn, onOpenLab }: { readonly onOpenLearn: () => void; readonly onOpenLab: () => void }) {
   const [section, setSection] = useState<ReferenceSection>('semantics')
-  return <section className="content-screen guide-screen reference-screen" aria-labelledby="reference-title">
-    <div className="screen-hero compact"><div><p className="eyebrow">Visual mathematical lookup</p><h1 id="reference-title" className="clean-display">Modal Logic Reference</h1><p>Compact definitions and examples for finite Kripke semantics. Use Learn for guided teaching.</p></div><div className="guide-actions"><button type="button" onClick={onOpenLearn}>Open Learn</button><button type="button" onClick={onOpenLab}>Try in Lab</button></div></div>
-    <SectionTabs label="Reference sections" sections={sections} value={section} onChange={setSection} />
-    <div className="guide-page-grid reference-grid">
+  return <section className="content-screen reference-screen" aria-labelledby="reference-title">
+    <header className="reference-heading"><div><h1 id="reference-title">Modal Logic Reference</h1><p>Definitions, notation, frame correspondences, and finite-model examples.</p></div><div><button type="button" className="text-button" onClick={onOpenLearn}>Learn</button><button type="button" className="text-button" onClick={onOpenLab}>Open Lab</button></div></header>
+    <div className="reference-layout"><nav className="reference-navigation"><SectionTabs label="Reference sections" sections={sections} value={section} onChange={setSection} /></nav><div className="guide-page-grid reference-grid">
       {section === 'semantics' && <>
         <article><h2>Modal language</h2><p>Formulas use atoms, Boolean connectives, <strong>□</strong> for necessity, and <strong>◇</strong> for possibility.</p></article>
         <article><h2>Kripke frame</h2><p><strong>F = ⟨W,R⟩</strong>, where W is non-empty and <strong>R ⊆ W × W</strong>.</p></article>
@@ -46,6 +45,6 @@ export function ReferenceView({ onOpenLearn, onOpenLab }: { readonly onOpenLearn
       </>}
       {section === 'glossary' && glossary.map(([term, definition]) => <article key={term}><h2>{term}</h2><p>{definition}</p></article>)}
       {section === 'reading' && furtherReading.map((resource) => <article className="reading-card" key={resource.href}><span>External resource</span><h2><a href={resource.href} target="_blank" rel="noreferrer">{resource.title}</a></h2><strong>{resource.source}</strong><p>{resource.description}</p></article>)}
-    </div>
+    </div></div>
   </section>
 }

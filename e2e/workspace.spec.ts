@@ -160,10 +160,10 @@ test('desktop separators resize, persist, and restore their widths after collaps
   await expect(page.getByRole('separator', { name: 'Resize left workspace panel' })).toHaveAttribute('aria-valuenow', '254')
 })
 
-test('primary navigation stays activity-focused while More opens Reference and Help', async ({ page }) => {
-  const primary = page.getByRole('navigation', { name: 'Global navigation' })
-  await expect(primary.getByRole('button')).toHaveText(['Home', 'Learn', 'Campaigns', 'Lab'])
+test('workspace navigation keeps the canvas focused while More retains global destinations', async ({ page }) => {
+  await expect(page.getByRole('navigation', { name: 'Global navigation' })).toHaveCount(0)
   await page.getByRole('button', { name: 'More' }).click()
+  for (const label of ['Home', 'Learn', 'Campaigns', 'Lab']) await expect(page.getByRole('menuitem', { name: label })).toBeVisible()
   await page.getByRole('menuitem', { name: 'Modal Logic Reference' }).click()
   await expect(page.getByRole('heading', { name: 'Modal Logic Reference' })).toBeVisible()
   await page.getByRole('button', { name: 'More' }).click()
@@ -174,11 +174,12 @@ test('primary navigation stays activity-focused while More opens Reference and H
 })
 
 test('the live tour highlights workspace targets without changing the mission', async ({ page }) => {
-  await page.getByRole('button', { name: 'Home', exact: true }).click()
+  await page.getByRole('button', { name: 'More' }).click()
+  await page.getByRole('menuitem', { name: 'Home', exact: true }).click()
   await page.getByRole('button', { name: 'Start or continue Learn Modal Logic' }).click()
   const skip = page.getByRole('button', { name: 'Skip introduction' })
   if (await skip.isVisible().catch(() => false)) await skip.click()
-  const startTask = page.getByRole('button', { name: 'Start task' })
+  const startTask = page.getByRole('button', { name: 'Begin lesson' })
   if (await startTask.isVisible().catch(() => false)) await startTask.click()
   const mission = page.getByRole('region', { name: 'Current lesson' })
   const missionTitle = await mission.locator('strong').first().textContent()
@@ -191,7 +192,7 @@ test('the live tour highlights workspace targets without changing the mission', 
   await page.getByRole('button', { name: 'Next', exact: true }).click()
   await expect(page.getByRole('heading', { name: 'Formula and evaluation' })).toBeVisible()
   await page.getByRole('button', { name: 'Next', exact: true }).click()
-  await expect(page.getByRole('heading', { name: 'Check task' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Check model' })).toBeVisible()
   await page.getByRole('button', { name: 'Skip', exact: true }).click()
   await expect(mission.locator('strong').first()).toHaveText(missionTitle ?? '')
 })

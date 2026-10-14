@@ -18,19 +18,31 @@ const baseProps: Parameters<typeof CampaignsView>[0] = {
 }
 
 describe('CampaignsView', () => {
-  it('switches between Challenge and Practice tabs through its controller callback', () => {
+  it('switches between Campaigns and Practice through its controller callback', () => {
     const onSectionChange = vi.fn()
     render(<CampaignsView {...baseProps} onSectionChange={onSectionChange} />)
-    fireEvent.click(screen.getByRole('tab', { name: 'Practice Library' }))
+    fireEvent.click(screen.getByRole('tab', { name: 'Practice' }))
     expect(onSectionChange).toHaveBeenCalledWith('practice')
   })
 
-  it('renders collection selection and mission list inside Campaigns', () => {
+  it('renders each campaign as an unnumbered launch choice without availability copy', () => {
+    const onStartCampaign = vi.fn()
+    render(<CampaignsView {...baseProps} onStartCampaign={onStartCampaign} />)
+
+    expect(screen.queryByText(`${guidedCampaigns.length} available`)).not.toBeInTheDocument()
+    expect(screen.queryByText('01')).not.toBeInTheDocument()
+    expect(screen.getAllByRole('button', { name: 'Start campaign' })).toHaveLength(guidedCampaigns.length)
+
+    fireEvent.click(screen.getAllByRole('button', { name: 'Start campaign' })[0])
+    expect(onStartCampaign).toHaveBeenCalledWith(0)
+  })
+
+  it('renders campaign selection and mission list inside Practice', () => {
     const onSelectPracticeTrack = vi.fn()
     render(<CampaignsView {...baseProps} section="practice" onSelectPracticeTrack={onSelectPracticeTrack} />)
-    expect(screen.getByLabelText('Practice collection list')).toBeInTheDocument()
+    expect(screen.getByLabelText('Practice campaign list')).toBeInTheDocument()
     expect(screen.getAllByRole('button', { name: 'Practice' }).length).toBeGreaterThan(0)
-    fireEvent.click(screen.getByLabelText('Practice collection list').querySelectorAll('button')[1])
+    fireEvent.click(screen.getByLabelText('Practice campaign list').querySelectorAll('button')[1])
     expect(onSelectPracticeTrack).toHaveBeenCalledWith(1)
   })
 })

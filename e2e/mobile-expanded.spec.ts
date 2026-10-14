@@ -41,7 +41,7 @@ test.describe('expanded phone workflows', () => {
     await toolbar.getByRole('button', { name: 'More model tools' }).click()
     const tools = page.getByRole('dialog', { name: 'Model tools' })
     await expect(tools).toBeVisible()
-    await tools.getByRole('button', { name: /Formula · Evaluate/ }).click()
+    await tools.getByRole('button', { name: 'Evaluate formula' }).click()
     await expect(toolbar.getByRole('button', { name: 'Verify', exact: true })).toBeVisible()
 
     await page.getByRole('tab', { name: 'formula' }).click()
@@ -66,7 +66,7 @@ test.describe('expanded phone workflows', () => {
     await toolbar.getByRole('button', { name: 'More model tools' }).click()
     const tools = page.getByRole('dialog', { name: 'Model tools' })
     await expect(tools).toBeVisible()
-    await tools.getByRole('button', { name: /Formula · Evaluate/ }).click()
+    await tools.getByRole('button', { name: 'Evaluate formula' }).click()
     await page.getByRole('tab', { name: 'formula' }).click()
 
     const input = page.getByLabel('Modal formula')
@@ -124,9 +124,9 @@ test.describe('expanded phone workflows', () => {
     await page.getByRole('button', { name: 'Campaigns', exact: true }).click()
     await expect(page.getByRole('heading', { name: 'Campaigns', exact: true })).toBeVisible()
 
-    await page.getByRole('tab', { name: 'Practice Library' }).click()
-    await expect(page.getByRole('heading', { name: 'Practice Library', exact: true })).toBeVisible()
-    const collections = page.getByRole('complementary', { name: 'Practice collection list' })
+    await page.getByRole('tab', { name: 'Practice' }).click()
+    await expect(page.getByRole('heading', { name: 'Practice', exact: true })).toBeVisible()
+    const collections = page.getByRole('complementary', { name: 'Practice campaign list' })
     await expect(collections).toBeVisible()
     await expect(collections.getByRole('button').first()).toBeVisible()
 

@@ -8,8 +8,8 @@ afterEach(cleanup)
 
 describe('MissionHeader', () => {
   it('groups navigation, primary action, and the closed details disclosure compactly', () => {
-    render(<MissionHeader mode="learn" sectionTitle="Truth at a World" itemTitle="Atomic truth" progressLabel="Lesson 1 of 3" objective="Make p true at w0." actions={<><button type="button">Previous lesson</button><button type="button" className="verify-button">Check task</button><button type="button">Next lesson</button></>} details={<p>One concise hint.</p>} />)
-    const controls = screen.getByRole('button', { name: 'Check task' }).closest<HTMLElement>('.mission-header-controls')!
+    render(<MissionHeader mode="learn" sectionTitle="Truth at a World" itemTitle="Atomic truth" progressLabel="Lesson 1 of 3" objective="Make p true at w0." actions={<><button type="button">Previous lesson</button><button type="button" className="verify-button">Check model</button><button type="button">Next lesson</button></>} details={<p>One concise hint.</p>} />)
+    const controls = screen.getByRole('button', { name: 'Check model' }).closest<HTMLElement>('.mission-header-controls')!
     expect(within(controls).getByRole('button', { name: 'Previous lesson' })).toBeVisible()
     expect(within(controls).getByRole('button', { name: 'Next lesson' })).toBeVisible()
     const disclosure = within(controls).getByText('Details & hints').closest('details')!

@@ -32,7 +32,7 @@ test.describe('Android phone QA regressions', () => {
     const navigation = page.getByRole('navigation', { name: 'Global navigation' })
     const language = page.getByRole('button', { name: 'Interface language' })
     const learnCard = page.getByRole('button', { name: 'Start or continue Learn Modal Logic' })
-    const campaignsCard = page.getByRole('button', { name: /Campaigns: longer challenges/ })
+    const campaignsCard = page.getByRole('button', { name: 'Campaigns: missions and practice' })
     const labCard = page.getByRole('button', { name: /Lab: experiment with models and formulas/ })
     await expect(language).toBeVisible()
     await expect(learnCard).toBeVisible()
@@ -101,14 +101,14 @@ test.describe('Android phone QA regressions', () => {
     const possibilityChapter = page.getByRole('heading', { name: 'Possibility', exact: true }).locator('xpath=ancestor::article')
     await possibilityChapter.getByRole('button', { name: 'Start', exact: true }).click()
     const dialog = page.getByRole('dialog', { name: 'A possible alternative' })
-    await dialog.getByRole('button', { name: 'Start task' }).click()
+    await dialog.getByRole('button', { name: 'Begin lesson' }).click()
 
     await expect(page.getByRole('tab', { name: 'model' })).toHaveCount(0)
     const resultTab = page.getByRole('tab', { name: 'result' })
     const resultBox = await resultTab.boundingBox()
     expect(resultBox?.width).toBeLessThan(120)
 
-    const checkTask = page.getByRole('button', { name: 'Check task', exact: true })
+    const checkTask = page.getByRole('button', { name: 'Check model', exact: true })
     await checkTask.click()
 
     await expect(resultTab).toHaveAttribute('aria-selected', 'true')
@@ -141,7 +141,7 @@ test.describe('Android phone QA regressions', () => {
     const atoms = page.locator('.world-inspector').getByLabel('True atoms')
     await expect(atoms).toBeVisible()
     await atoms.fill('q')
-    await page.getByRole('button', { name: 'Check task', exact: true }).click()
+    await page.getByRole('button', { name: 'Check model', exact: true }).click()
 
     await expect(mission).toHaveClass(/mission-header-completed/)
     await expect(mission).toContainText('Atoms written inside a world are true at that world.')

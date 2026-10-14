@@ -163,7 +163,7 @@ export const tutorialLevels: readonly GameLevel[] = [
     instruction: 'Make w1 the evaluation world.', objectiveKind: 'construction', evaluationWorld: 'w0',
     worlds: [{ id: 'w0', atoms: '', position: { x: 100, y: 130 } }, { id: 'w1', atoms: 'p', position: { x: 390, y: 130 } }],
     edges: [], editable: ['evaluation'], structuralObjective: { requiredEvaluationWorld: 'w1' }, workspacePresentation: { evaluation: true }, tutorialControls: ['evaluation'], atomVocabulary: ['p'],
-    taskSteps: ['Select w1.', 'Set it as the evaluation world.', 'Check task.'],
+    taskSteps: ['Select w1.', 'Set it as the evaluation world.', 'Check model.'],
   },
   {
     id: 'tutorial-v2-valuation', chapter: 'How to Play', title: 'Edit a world valuation', concept: 'Atoms in a world',
@@ -173,7 +173,7 @@ export const tutorialLevels: readonly GameLevel[] = [
     instruction: 'Add q to w0.', objectiveKind: 'construction', evaluationWorld: 'w0',
     worlds: [{ id: 'w0', atoms: '', position: { x: 245, y: 130 } }], edges: [], constraints: { requiredAtoms: { w0: ['q'] } },
     editable: ['valuations'], structuralObjective: {}, workspacePresentation: { valuations: true }, tutorialControls: ['valuations'],
-    taskSteps: ['Select w0.', 'Add q to True atoms.', 'Check task.'],
+    taskSteps: ['Select w0.', 'Add q to True atoms.', 'Check model.'],
   },
   {
     id: 'tutorial-v2-draw-edge', chapter: 'How to Play', title: 'Draw an accessibility relation', concept: 'Directed arrows',
@@ -183,7 +183,7 @@ export const tutorialLevels: readonly GameLevel[] = [
     instruction: 'Draw an arrow from w0 to w1.', objectiveKind: 'construction', evaluationWorld: 'w0',
     worlds: [{ id: 'w0', atoms: '', position: { x: 100, y: 130 } }, { id: 'w1', atoms: '', position: { x: 390, y: 130 } }],
     edges: [], constraints: { requiredEdges: [{ from: 'w0', to: 'w1' }] }, editable: ['edges'], structuralObjective: {}, workspacePresentation: { edges: true }, tutorialControls: ['edges'], atomVocabulary: ['p'],
-    taskSteps: ['Start dragging from any connection point on w0.', 'Release on any connection point on w1.', 'Check task.'],
+    taskSteps: ['Start dragging from any connection point on w0.', 'Release on any connection point on w1.', 'Check model.'],
   },
   {
     id: 'tutorial-v2-correct-edge', chapter: 'How to Play', title: 'Correct a relation', concept: 'Editing arrows',
@@ -194,7 +194,7 @@ export const tutorialLevels: readonly GameLevel[] = [
     worlds: [{ id: 'w0', atoms: '', position: { x: 100, y: 130 } }, { id: 'w1', atoms: '', position: { x: 390, y: 130 } }],
     edges: [{ from: 'w1', to: 'w0' }], constraints: { minimumEdges: 1, maximumEdges: 1, requiredEdges: [{ from: 'w0', to: 'w1' }], forbiddenEdges: [{ from: 'w1', to: 'w0' }] },
     editable: ['edges'], structuralObjective: {}, workspacePresentation: { edges: true }, tutorialControls: ['edges'], atomVocabulary: ['p'],
-    taskSteps: ['Select and delete w1 → w0.', 'Draw w0 → w1.', 'Check task.'],
+    taskSteps: ['Select and delete w1 → w0.', 'Draw w0 → w1.', 'Check model.'],
   },
   {
     id: 'tutorial-v2-add-world', chapter: 'How to Play', title: 'Add a world', concept: 'Extending a model',
@@ -204,7 +204,7 @@ export const tutorialLevels: readonly GameLevel[] = [
     instruction: 'Add one new world and make p true there.', objectiveKind: 'construction', evaluationWorld: 'w0',
     worlds: [{ id: 'w0', atoms: '', position: { x: 245, y: 130 } }], edges: [], constraints: { minimumWorlds: 2, maximumWorlds: 2, requiredAtoms: { w1: ['p'] } },
     editable: ['worlds', 'valuations'], structuralObjective: {}, workspacePresentation: { worlds: true, valuations: true }, tutorialControls: ['worlds', 'valuations'], atomVocabulary: ['p'],
-    taskSteps: ['Add one world.', 'Add p to the new world.', 'Check task.'],
+    taskSteps: ['Add one world.', 'Add p to the new world.', 'Check model.'],
   },
   {
     id: 'tutorial-v2-build-model', chapter: 'How to Play', title: 'Build a small model', concept: 'Worlds, valuations, and relations',
@@ -214,7 +214,7 @@ export const tutorialLevels: readonly GameLevel[] = [
     instruction: 'Create a second world, make p true there, and draw w0 → w1.', objectiveKind: 'construction', evaluationWorld: 'w0',
     worlds: [{ id: 'w0', atoms: '', position: { x: 100, y: 130 } }], edges: [], constraints: { minimumWorlds: 2, requiredAtoms: { w1: ['p'] }, requiredEdges: [{ from: 'w0', to: 'w1' }] },
     editable: ['worlds', 'valuations', 'edges'], structuralObjective: {}, workspacePresentation: { worlds: true, valuations: true, edges: true }, tutorialControls: ['worlds', 'valuations', 'edges', 'history'], atomVocabulary: ['p'],
-    taskSteps: ['Add w1 and make p true there.', 'Draw w0 → w1.', 'Check task.'],
+    taskSteps: ['Add w1 and make p true there.', 'Draw w0 → w1.', 'Check model.'],
   },
 ]
 

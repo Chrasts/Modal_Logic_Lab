@@ -15,7 +15,7 @@ test.describe('guided mobile layout diagnostics', () => {
     await page.getByRole('button', { name: 'Learn', exact: true }).click()
     const possibilityChapter = page.getByRole('heading', { name: 'Possibility', exact: true }).locator('xpath=ancestor::article')
     await possibilityChapter.getByRole('button', { name: 'Start', exact: true }).click()
-    await page.getByRole('dialog', { name: 'A possible alternative' }).getByRole('button', { name: 'Start task' }).click()
+    await page.getByRole('dialog', { name: 'A possible alternative' }).getByRole('button', { name: 'Begin lesson' }).click()
     await page.getByRole('region', { name: 'Current lesson' }).getByText('Details & hints').click()
     await expect(page.getByRole('button', { name: 'Reveal hint 1' })).toBeVisible()
 

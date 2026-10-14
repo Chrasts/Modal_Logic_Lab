@@ -18,8 +18,8 @@ describe('HomeView', () => {
 
     expect(screen.getByText('4/53 complete')).toBeInTheDocument()
     expect(screen.getByText('Next: Necessity')).toBeInTheDocument()
-    expect(screen.getByText('Advanced, specialized missions.')).toBeVisible()
-    expect(screen.getByText('Full sandbox with all modeling and analysis tools.')).toBeVisible()
+    expect(screen.getByText('Missions for countermodels and frame construction.')).toBeVisible()
+    expect(screen.getByText('Your own model, formula, relations, and evaluation trace.')).toBeVisible()
 
     const mainActivities = screen.getByRole('navigation', { name: 'Main activities' })
     expect(within(mainActivities).getAllByRole('button')).toHaveLength(3)
@@ -27,7 +27,7 @@ describe('HomeView', () => {
     await user.click(screen.getByRole('button', { name: 'Start or continue Learn Modal Logic' }))
     expect(onLearn).toHaveBeenCalledOnce()
 
-    await user.click(screen.getByRole('button', { name: 'Campaigns: longer challenges and focused practice' }))
+    await user.click(screen.getByRole('button', { name: 'Campaigns: missions and practice' }))
     expect(onCampaigns).toHaveBeenCalledOnce()
 
     await user.click(screen.getByRole('button', { name: 'Lab: experiment with models and formulas' }))

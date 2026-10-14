@@ -13,7 +13,7 @@ export function MissionAuthorStepper({ currentStep, visitedSteps, errors, onBack
   return <div className="mission-author-stepper">
     <AuthorStepNavigation currentStep={currentStep} visitedSteps={visitedSteps} onSelectStep={onSelectStep} />
     <section className="author-step" aria-labelledby="author-step-title">
-      <p className="eyebrow">Step {currentStep} of {authorSteps.length}</p>
+      <p className="step-progress">Step {currentStep} of {authorSteps.length}</p>
       <h4 id="author-step-title">{authorSteps[currentStep - 1]}</h4>
       {errors.length > 0 && <div className="author-step-errors" role="alert"><strong>Fix before continuing:</strong><ul>{errors.map((error) => <li key={error}>{error}</li>)}</ul></div>}
       {children}

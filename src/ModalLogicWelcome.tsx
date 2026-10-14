@@ -9,7 +9,7 @@ export function ModalLogicWelcome({ onBegin, onSkip, onBack }: {
   const possibility = mode === 'possibility'
   return <section className="content-screen welcome-screen" aria-labelledby="welcome-title">
     <header className="screen-hero compact">
-      <div><p className="eyebrow">Learn Modal Logic · Introduction</p><h1 id="welcome-title">Welcome to Modal Logic</h1><p className="lead">Modal logic studies what is possible and necessary across alternative states. It is a useful foundation for reasoning about systems, information, and time.</p></div>
+      <div><h1 id="welcome-title">Welcome to Modal Logic</h1><p className="lead">Modal logic studies what is possible and necessary across alternative states. It is a useful foundation for reasoning about systems, information, and time.</p></div>
     </header>
     <div className="welcome-grid">
       <article><h2>Possible worlds and accessibility</h2><p>A world is one possible state or situation. A directed accessibility relation says which alternatives are considered from each world.</p></article>
@@ -21,7 +21,7 @@ export function ModalLogicWelcome({ onBegin, onSkip, onBack }: {
         <svg viewBox="0 0 540 210" role="img" aria-label={possibility ? 'w0 accesses a p-world witnessing possibility' : 'w0 accesses two p-worlds satisfying necessity'}><defs><marker id="welcome-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" /></marker></defs><path className="welcome-arrow" d="M140 103 C220 52 295 52 370 75" markerEnd="url(#welcome-arrow)" /><path className="welcome-arrow" d="M140 110 C225 163 294 163 370 140" markerEnd="url(#welcome-arrow)" /><g className="welcome-world selected"><circle cx="105" cy="106" r="38" /><text x="105" y="112">w0</text></g><g className="welcome-world highlight"><circle cx="410" cy="70" r="38" /><text x="410" y="76">w1 · p</text></g><g className={`welcome-world ${!possibility ? 'highlight' : ''}`}><circle cx="410" cy="145" r="38" /><text x="410" y="151">{possibility ? 'w2' : 'w2 · p'}</text></g></svg>
         <p className="welcome-explanation">{possibility ? <><code>◇p</code> is true at w0 because at least one accessible world, w1, satisfies p.</> : <><code>□p</code> is true at w0 because every accessible world satisfies p.</>}</p>
       </article>
-      <article className="welcome-cycle"><h2>What happens next</h2><p>You will first learn the model-building controls, then use the same workspace to learn modal logic step by step. Guided tasks are checked automatically.</p><ol><li>Read the goal.</li><li>Make the requested change.</li><li>Select <strong>Check task</strong>.</li><li>Continue.</li></ol></article>
+      <article className="welcome-cycle"><h2>What happens next</h2><p>You will first learn the model-building controls, then use the same workspace to learn modal logic step by step. Guided missions are checked automatically.</p><ol><li>Read the goal.</li><li>Make the requested change.</li><li>Select <strong>Check model</strong>.</li><li>Continue.</li></ol></article>
     </div>
     <div className="welcome-actions"><button type="button" className="primary-action" onClick={onBegin}>Begin with the controls</button><button type="button" className="secondary-button" onClick={onSkip}>Skip introduction</button><button type="button" className="text-button" onClick={onBack}>Back to Learn</button></div>
   </section>

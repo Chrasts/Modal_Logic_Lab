@@ -23,9 +23,9 @@
   activity actions, and a clearly named Resume action when a session is active.
   Automated desktop checks cover 1280 x 720, 1366 x 768, 1440 x 900, and
   1920 x 1080 without title clipping or horizontal page overflow.
-- Phone-class public use (small viewport plus coarse primary pointer) receives a clear **Desktop required** notice. Responsive workspace and author-preview code remains for future development but is not currently a supported mobile product.
+- Phone-class public use remains available through the responsive shell. Formula and verification content use workspace sheets, while the model stays reachable; authoring and dense Lab flows retain their dedicated narrow-screen layouts.
 
-The Vitest UI suite checks landmark/focus behavior, formula-error focus, table synchronization, result announcements/disclosure, resize separators and allocation, mobile guarding, trace stepping, draft validation, selection deletion, and essential keyboard-operable controls. Playwright additionally exercises focused desktop and phone-class Chromium journeys, including map drag, loose-handle relation creation, Undo, Learn dialogs, progressive hints, persisted resizing, support navigation, and the unsupported notice.
+The Vitest UI suite checks landmark/focus behavior, formula-error focus, table synchronization, result announcements/disclosure, resize separators and allocation, responsive workspace routing, trace stepping, draft validation, selection deletion, and essential keyboard-operable controls. Playwright additionally exercises focused desktop and phone-class Chromium journeys, including map drag, loose-handle relation creation, Undo, Learn dialogs, progressive hints, persisted resizing, support navigation, and mobile workspace sheets.
 
 ## Manual WCAG 2.2 AA pass
 

@@ -10,6 +10,7 @@ interface WorkspaceToolbarProps {
   readonly showWorldPanel: boolean
   readonly showEdgePanel: boolean
   readonly leftPanelOpen: boolean
+  readonly evaluationPanelAvailable?: boolean
   readonly canAddWorld: boolean
   readonly canEditWorlds: boolean
   readonly canEditRelations: boolean
@@ -24,6 +25,8 @@ interface WorkspaceToolbarProps {
   readonly derivedRelationCount: number
   readonly frameRuleCount: number
   readonly flowInstance: ReactFlowInstance | null
+  readonly minimapVisible?: boolean
+  readonly minimapAvailable?: boolean
   readonly onApplyPreset: (preset: 'build' | 'evaluate' | 'frame') => void
   readonly onAddWorld: () => void
   readonly onDeleteRelation: () => void
@@ -35,6 +38,7 @@ interface WorkspaceToolbarProps {
   readonly onToggleDerived: () => void
   readonly onOpenFrameRules: () => void
   readonly onVerify: () => void
+  readonly onToggleMinimap?: () => void
 }
 
 const mobileToolbarMediaQuery = '(max-width: 760px)'
@@ -56,13 +60,13 @@ function useMobileToolbar() {
 
 export function WorkspaceToolbar(props: WorkspaceToolbarProps) {
   const {
-    sandbox, editorMode, rightPanelOpen, showWorldPanel, showEdgePanel, leftPanelOpen,
+    sandbox, editorMode, rightPanelOpen, showWorldPanel, showEdgePanel, leftPanelOpen, evaluationPanelAvailable = true,
     canAddWorld, canEditWorlds, canEditRelations, canUseHistory, canRepositionWorlds,
     selectedRelation, undoAvailable, redoAvailable, worldCount, focusedIntro,
-    showDerivedRelations, derivedRelationCount, frameRuleCount, flowInstance,
+    showDerivedRelations, derivedRelationCount, frameRuleCount, flowInstance, minimapVisible = false, minimapAvailable = false,
     onApplyPreset, onAddWorld, onDeleteRelation, onToggleEvaluationPanel,
     onToggleModelPanel, onUndo, onRedo, onTidy, onToggleDerived,
-    onOpenFrameRules, onVerify,
+    onOpenFrameRules, onVerify, onToggleMinimap,
   } = props
   const mobileToolbar = useMobileToolbar()
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false)
@@ -90,10 +94,10 @@ export function WorkspaceToolbar(props: WorkspaceToolbarProps) {
     : null
 
   const mobileSecondaryControls = <>
-    {sandbox && <div className="workspace-presets" aria-label="Workspace presets"><button type="button" className={editorMode === 'edit' && rightPanelOpen ? 'active' : ''} onClick={() => runSecondary(() => onApplyPreset('build'))}>◇ Model · Build</button><button type="button" className={editorMode === 'evaluate' ? 'active' : ''} onClick={() => runSecondary(() => onApplyPreset('evaluate'))}>φ Formula · Evaluate</button><button type="button" onClick={() => runSecondary(() => onApplyPreset('frame'))}>R Frame rules</button></div>}
+    {sandbox && <div className="workspace-presets" aria-label="Workspace presets"><button type="button" className={editorMode === 'edit' && rightPanelOpen ? 'active' : ''} onClick={() => runSecondary(() => onApplyPreset('build'))}>Build model</button><button type="button" className={editorMode === 'evaluate' ? 'active' : ''} onClick={() => runSecondary(() => onApplyPreset('evaluate'))}>Evaluate formula</button><button type="button" onClick={() => runSecondary(() => onApplyPreset('frame'))}>Frame setup</button></div>}
     <div className="map-toolbar-group" aria-label="Panels and history">
-      <button type="button" className={!leftPanelOpen ? 'panel-toggle active' : 'panel-toggle'} onClick={() => runSecondary(onToggleEvaluationPanel)} aria-label="Toggle Evaluation panel" aria-pressed={leftPanelOpen} title="Toggle Evaluation panel">◧ Evaluation</button>
-      {(showWorldPanel || showEdgePanel) && <button type="button" className={!rightPanelOpen ? 'panel-toggle active' : 'panel-toggle'} onClick={() => runSecondary(onToggleModelPanel)} aria-label="Toggle Model panel" aria-pressed={rightPanelOpen} title="Toggle Model panel">◨ Model</button>}
+      {evaluationPanelAvailable && <button type="button" className={!leftPanelOpen ? 'panel-toggle active' : 'panel-toggle'} onClick={() => runSecondary(onToggleEvaluationPanel)} aria-label="Toggle Evaluation panel" aria-pressed={leftPanelOpen} title="Toggle Evaluation panel">Evaluation</button>}
+      {(showWorldPanel || showEdgePanel) && <button type="button" className={!rightPanelOpen ? 'panel-toggle active' : 'panel-toggle'} onClick={() => runSecondary(onToggleModelPanel)} aria-label="Toggle Model panel" aria-pressed={rightPanelOpen} title="Toggle Model panel">Model</button>}
       {canUseHistory && <button type="button" onClick={() => runSecondary(onRedo)} disabled={!redoAvailable} aria-label="Redo" title="Redo">↷ Redo</button>}
     </div>
     <div className="map-toolbar-group" aria-label="Viewport actions">
@@ -105,6 +109,7 @@ export function WorkspaceToolbar(props: WorkspaceToolbarProps) {
     <div className="map-toolbar-group" aria-label="Analysis actions">
       {!focusedIntro && <button type="button" aria-label={derivedLabel} className={!showDerivedRelations ? 'muted' : ''} onClick={() => runSecondary(onToggleDerived)}>{derivedLabel} ({derivedRelationCount})</button>}
       {!focusedIntro && <button type="button" className="frame-rules-button" onClick={() => runSecondary(onOpenFrameRules)}>Frame rules{frameRuleCount ? ` (${frameRuleCount})` : ''}</button>}
+      {!focusedIntro && minimapAvailable && onToggleMinimap && <button type="button" aria-pressed={minimapVisible} onClick={() => runSecondary(onToggleMinimap)}>{minimapVisible ? 'Hide overview' : 'Show overview'}</button>}
     </div>
   </>
 
@@ -123,14 +128,14 @@ export function WorkspaceToolbar(props: WorkspaceToolbarProps) {
   return <>
     <div className="workspace-toolbar-content" data-tour-target="map-toolbar">
       {!mobileToolbar ? <div className="workspace-toolbar-desktop">
-        {sandbox && <div className="workspace-presets" aria-label="Workspace presets"><button type="button" className={editorMode === 'edit' && rightPanelOpen ? 'active' : ''} onClick={() => onApplyPreset('build')}>◇ Model · Build</button><button type="button" className={editorMode === 'evaluate' ? 'active' : ''} onClick={() => onApplyPreset('evaluate')}>φ Formula · Evaluate</button><button type="button" onClick={() => onApplyPreset('frame')}>R Frame rules</button></div>}
+        {sandbox && <div className="workspace-presets" aria-label="Workspace presets"><button type="button" className={editorMode === 'edit' && rightPanelOpen ? 'active' : ''} onClick={() => onApplyPreset('build')}>Build model</button><button type="button" className={editorMode === 'evaluate' ? 'active' : ''} onClick={() => onApplyPreset('evaluate')}>Evaluate formula</button><button type="button" onClick={() => onApplyPreset('frame')}>Frame setup</button></div>}
         <div className="map-toolbar-group" aria-label="Model actions">
           {canAddWorld && <button type="button" onClick={onAddWorld} disabled={!canEditWorlds}>+ World</button>}
           {selectedRelation && <button type="button" className="delete-edge-button" disabled={!canEditRelations} onClick={onDeleteRelation}>Delete relation</button>}
         </div>
         <div className="map-toolbar-group" aria-label="Panels and history">
-          <button type="button" className={!leftPanelOpen ? 'panel-toggle active' : 'panel-toggle'} onClick={onToggleEvaluationPanel} aria-label="Toggle Evaluation panel" aria-pressed={leftPanelOpen} title="Toggle Evaluation panel">◧ Evaluation</button>
-          {(showWorldPanel || showEdgePanel) && <button type="button" className={!rightPanelOpen ? 'panel-toggle active' : 'panel-toggle'} onClick={onToggleModelPanel} aria-label="Toggle Model panel" aria-pressed={rightPanelOpen} title="Toggle Model panel">◨ Model</button>}
+          {evaluationPanelAvailable && <button type="button" className={!leftPanelOpen ? 'panel-toggle active' : 'panel-toggle'} onClick={onToggleEvaluationPanel} aria-label="Toggle Evaluation panel" aria-pressed={leftPanelOpen} title="Toggle Evaluation panel">Evaluation</button>}
+          {(showWorldPanel || showEdgePanel) && <button type="button" className={!rightPanelOpen ? 'panel-toggle active' : 'panel-toggle'} onClick={onToggleModelPanel} aria-label="Toggle Model panel" aria-pressed={rightPanelOpen} title="Toggle Model panel">Model</button>}
           {canUseHistory && <><button type="button" onClick={onUndo} disabled={!undoAvailable} aria-label="Undo" title="Undo">↶</button><button type="button" onClick={onRedo} disabled={!redoAvailable} aria-label="Redo" title="Redo">↷</button></>}
         </div>
         <div className="map-toolbar-group" aria-label="Viewport actions">
@@ -142,6 +147,7 @@ export function WorkspaceToolbar(props: WorkspaceToolbarProps) {
         <div className="map-toolbar-group" aria-label="Analysis actions">
           {!focusedIntro && <button type="button" aria-label={derivedLabel} className={!showDerivedRelations ? 'muted' : ''} onClick={onToggleDerived}>{derivedLabel} ({derivedRelationCount})</button>}
           {!focusedIntro && <button type="button" className="frame-rules-button" onClick={onOpenFrameRules}>Frame rules{frameRuleCount ? ` (${frameRuleCount})` : ''}</button>}
+          {!focusedIntro && minimapAvailable && onToggleMinimap && <button type="button" aria-pressed={minimapVisible} onClick={onToggleMinimap}>{minimapVisible ? 'Hide overview' : 'Show overview'}</button>}
           {editorMode === 'evaluate' && <button type="button" className="toolbar-verify" onClick={onVerify}>Verify</button>}
         </div>
       </div> : <div className="workspace-toolbar-mobile">

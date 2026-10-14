@@ -20,30 +20,28 @@ export function HomeView({ language = 'en', completed, total, nextTitle, current
   const cs = language === 'cs'
   const copy = cs
     ? {
-        kicker: 'Interaktivní Kripkeho sémantika',
-        intro: 'Vytvářejte konečné Kripkeho modely, sledujte pravdivost formulí a zkoumejte vztah mezi světy, relacemi a modálními principy.',
-        choose: 'Zvolte směr',
+        intro: 'Stavějte konečné Kripkeho modely a sledujte, kdy je formule pravdivá v daném světě, v celém modelu nebo na rámci.',
+        choose: 'Hlavní části aplikace',
         learn: 'Výuka',
-        learnSummary: 'Systematická cesta modální logikou a Kripkeho sémantikou.',
+        learnSummary: 'Kapitoly a lekce od možných světů k práci s formulemi.',
         campaigns: 'Kampaně',
-        campaignsSummary: 'Delší úlohy a cílené procvičování.',
+        campaignsSummary: 'Mise pro konstrukci protipříkladů a zkoumání rámců.',
         lab: 'Laboratoř',
-        labSummary: 'Volná konstrukce a analýza konečných modelů.',
+        labSummary: 'Vlastní model, formule, relace a stopa vyhodnocení.',
         complete: 'splněno',
         next: 'další',
         courseComplete: 'kurz dokončen',
         continue: 'Pokračovat',
       }
     : {
-        kicker: 'Interactive Kripke semantics',
-        intro: 'Build finite Kripke models, trace formula truth, and explore the relation between worlds, accessibility, and modal principles.',
-        choose: 'Choose a path',
+        intro: 'Build finite Kripke models and check a formula at one world, throughout a model, or on a frame.',
+        choose: 'Main parts of the environment',
         learn: 'Learn',
-        learnSummary: 'A structured path through modal logic and Kripke semantics.',
+        learnSummary: 'Chapters and lessons from possible worlds to formula evaluation.',
         campaigns: 'Campaigns',
-        campaignsSummary: 'Advanced, specialized missions.',
+        campaignsSummary: 'Missions for countermodels and frame construction.',
         lab: 'Lab',
-        labSummary: 'Full sandbox with all modeling and analysis tools.',
+        labSummary: 'Your own model, formula, relations, and evaluation trace.',
         complete: 'complete',
         next: 'Next',
         courseComplete: 'course complete',
@@ -54,7 +52,6 @@ export function HomeView({ language = 'en', completed, total, nextTitle, current
   return <section className="content-screen home-screen home-screen--relational" aria-labelledby="home-title">
     <div className="home-layout">
       <header className="home-intro">
-        <p className="eyebrow">{copy.kicker}</p>
         <div className="home-logo-lockup">
           <h1 id="home-title" aria-label="Modal Logic Lab - Interactive Kripke Models"><span>Modal</span><span>Logic</span><span>Lab</span></h1>
         </div>
@@ -85,14 +82,14 @@ export function HomeView({ language = 'en', completed, total, nextTitle, current
             </span>
           </button>
 
-          <button type="button" className="home-destination" aria-label={cs ? "Kampaně: delší výzvy a cílené procvičování" : "Campaigns: longer challenges and focused practice"} onClick={onCampaigns}>
+          <button type="button" className="home-destination home-destination--campaigns" aria-label={cs ? "Kampaně: mise a procvičování" : "Campaigns: missions and practice"} onClick={onCampaigns}>
             <span className="home-destination-copy">
               <strong>{copy.campaigns}</strong>
               <span>{copy.campaignsSummary}</span>
             </span>
           </button>
 
-          <button type="button" className="home-destination" aria-label={cs ? "Laboratoř: experimentování s modely a formulemi" : "Lab: experiment with models and formulas"} onClick={onLab}>
+          <button type="button" className="home-destination home-destination--lab" aria-label={cs ? "Laboratoř: experimentování s modely a formulemi" : "Lab: experiment with models and formulas"} onClick={onLab}>
             <span className="home-destination-copy">
               <strong>{copy.lab}</strong>
               <span>{copy.labSummary}</span>

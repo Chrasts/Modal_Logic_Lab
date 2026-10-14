@@ -14,7 +14,7 @@ export function DataManagerDialog({ backupSource, modelSource, message, onBackup
 }) {
   return <div className="dialog-backdrop" role="presentation" onMouseDown={onClose}>
     <section className="help-dialog data-dialog" role="dialog" aria-modal="true" aria-labelledby="data-title" onMouseDown={(event) => event.stopPropagation()}>
-      <div className="dialog-heading"><div><p className="eyebrow">Local data</p><h2 id="data-title">Data management</h2></div><button type="button" className="dialog-close" onClick={onClose} aria-label="Close data manager">×</button></div>
+      <div className="dialog-heading"><div><h2 id="data-title">Data management</h2></div><button type="button" className="dialog-close" onClick={onClose} aria-label="Close data manager">×</button></div>
       <p className="dialog-intro">Learn and Campaign progress, attempt history, and Model Sandbox are saved in this browser. There is no account or cloud synchronization.</p>
       <div className="data-actions">
         <article><h3>Progress backup</h3><p>The versioned backup includes your guest profile, attempt history, Learn and Campaign progress, assistance state, and saved sandbox model. Device settings, panel layout, and tour state are not included.</p><label><span>Progress backup JSON</span><textarea aria-label="Progress backup JSON" value={backupSource} onChange={(event) => onBackupSourceChange(event.target.value)} spellCheck={false} /></label><div><button type="button" className="secondary-button" onClick={onDownloadBackup}>Download progress backup</button><button type="button" className="primary-action" onClick={onImportBackup}>Import progress backup</button></div></article>

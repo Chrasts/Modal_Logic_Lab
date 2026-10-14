@@ -31,6 +31,7 @@ export function MissionHeader({
   actions,
 }: MissionHeaderProps) {
   const unit = mode === 'learn' ? 'lesson' : 'mission'
+  const completionLabel = mode === 'learn' ? 'Lesson complete' : 'Mission complete'
   const headerRef = useRef<HTMLElement>(null)
   useEffect(() => {
     if (state === 'completed') headerRef.current?.focus()
@@ -52,13 +53,12 @@ export function MissionHeader({
         {previouslyCompleted && <b>Previously completed</b>}
       </div>
       <div className="mission-header-objective">
-        <span>{state === 'completed' ? 'Task complete' : state === 'question' ? '? Question' : 'Objective'}</span>
+        <span>{state === 'completed' ? completionLabel : state === 'question' ? '? Question' : 'Objective'}</span>
         {content ?? <p>{objective}</p>}
-        {taskSteps && taskSteps.length > 0 && <ol aria-label="Action checklist">{taskSteps.map((step) => <li key={step}>{step}</li>)}</ol>}
       </div>
       <div className="mission-header-controls">
         <div className="mission-header-actions" data-tour-target="check-task" onClickCapture={handleActionClick}>{actions}</div>
-        {details && <details className="mission-header-details"><summary>Details &amp; hints</summary><div>{details}</div></details>}
+        {(details || (taskSteps && taskSteps.length > 0)) && <details className="mission-header-details"><summary>Details &amp; hints</summary><div>{taskSteps && taskSteps.length > 0 && <ol className="mission-task-steps" aria-label="Action checklist">{taskSteps.map((step) => <li key={step}>{step}</li>)}</ol>}{details}</div></details>}
       </div>
     </section>
   )
