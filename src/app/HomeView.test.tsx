@@ -41,7 +41,7 @@ describe('HomeView', () => {
 
     expect(screen.getByText(/zkoumejte pravdivost modálních formulí ve vybraném světě/)).toBeVisible()
     expect(screen.getByText('Splněno 4 z 53')).toBeVisible()
-    expect(screen.getByText(/Tematické úlohy s protimodely/)).toBeVisible()
+    expect(screen.getByText(/Tematické úlohy s kontramodely/)).toBeVisible()
     expect(screen.getByRole('navigation', { name: 'Hlavní části aplikace' })).toBeVisible()
     expect(screen.getByRole('button', { name: 'Začít nebo pokračovat ve výuce modální logiky' })).toBeVisible()
   })
