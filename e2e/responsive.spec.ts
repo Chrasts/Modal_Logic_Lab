@@ -19,12 +19,24 @@ for (const viewport of desktopViewports) {
     await expect(page.getByRole('button', { name: 'Start or continue Learn Modal Logic' })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Campaigns: missions and practice' })).toBeVisible()
     await expect(page.getByRole('button', { name: /Lab: experiment with models and formulas/ })).toBeVisible()
-    const dimensions = await page.evaluate(() => ({ viewport: document.documentElement.clientWidth, content: document.documentElement.scrollWidth, height: innerHeight, contentHeight: document.documentElement.scrollHeight }))
+    await page.evaluate(() => document.fonts.ready)
+    const dimensions = await page.evaluate(() => {
+      const home = document.querySelector<HTMLElement>('.home-screen--relational')!
+      const elements = [...home.querySelectorAll<HTMLElement>('.home-logo-lockup, .home-destination')]
+      return {
+        viewport: document.documentElement.clientWidth,
+        content: document.documentElement.scrollWidth,
+        height: innerHeight,
+        contentHeight: document.documentElement.scrollHeight,
+        homeHeight: home.clientHeight,
+        homeContentHeight: home.scrollHeight,
+        lowestElement: Math.max(...elements.map((element) => element.getBoundingClientRect().bottom)),
+      }
+    })
     expect(dimensions.content).toBeLessThanOrEqual(dimensions.viewport)
-    if (dimensions.contentHeight > dimensions.height) {
-      await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight))
-      expect(await page.evaluate(() => scrollY)).toBeGreaterThan(0)
-    }
+    expect(dimensions.contentHeight).toBeLessThanOrEqual(dimensions.height + 1)
+    expect(dimensions.homeContentHeight).toBeLessThanOrEqual(dimensions.homeHeight + 1)
+    expect(dimensions.lowestElement).toBeLessThanOrEqual(dimensions.height + 1)
   })
 }
 
