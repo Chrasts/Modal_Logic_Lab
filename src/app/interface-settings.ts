@@ -1,4 +1,8 @@
 export type InterfaceDensity = 'comfortable' | 'compact'
+// Czech translations remain in the codebase but are not available in the UI yet.
+// Set this to true to restore language selection.
+export const czechInterfaceEnabled = false
+
 export type InterfaceLanguage = 'en' | 'cs'
 
 export interface InterfaceSettings {
@@ -36,7 +40,7 @@ export const loadInterfaceSettings = (): InterfaceSettings => {
       soundEffects: stored.soundEffects === true,
       leftPanelOpen: stored.leftPanelOpen !== false,
       rightPanelOpen: stored.rightPanelOpen !== false,
-      language: stored.language === 'cs' ? 'cs' : 'en',
+      language: czechInterfaceEnabled && stored.language === 'cs' ? 'cs' : 'en',
     } : defaultInterfaceSettings
   } catch {
     return defaultInterfaceSettings
