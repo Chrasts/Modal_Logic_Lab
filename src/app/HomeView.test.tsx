@@ -36,6 +36,16 @@ describe('HomeView', () => {
     expect(screen.queryByRole('button', { name: /profile|settings|data/i })).not.toBeInTheDocument()
   })
 
+  it('uses precise Czech semantic terminology and localized navigation labels', async () => {
+    render(<HomeView language="cs" completed={4} total={53} nextTitle="Necessity" onLearn={vi.fn()} onCampaigns={vi.fn()} onLab={vi.fn()} />)
+
+    expect(screen.getByText(/zkoumejte pravdivost modálních formulí ve vybraném světě/)).toBeVisible()
+    expect(screen.getByText('Splněno 4 z 53')).toBeVisible()
+    expect(screen.getByText(/Tematické úlohy s protimodely/)).toBeVisible()
+    expect(screen.getByRole('navigation', { name: 'Hlavní části aplikace' })).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Začít nebo pokračovat ve výuce modální logiky' })).toBeVisible()
+  })
+
   it('renders the active session as one compact resume action', async () => {
     const onResume = vi.fn()
     render(<HomeView completed={0} total={10} currentSession={{ kind: 'lesson', title: 'Necessity', context: 'Learn' }} onResume={onResume} onLearn={vi.fn()} onCampaigns={vi.fn()} onLab={vi.fn()} />)
