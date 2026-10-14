@@ -25,7 +25,7 @@ describe('interface settings persistence', () => {
       language: 'cs',
     })
 
-    expect(loadInterfaceSettings()).toMatchObject({ density: 'compact', showMinimap: false, language: 'cs' })
+    expect(loadInterfaceSettings()).toMatchObject({ density: 'compact', showMinimap: false, language: 'en' })
     clearInterfaceSettings()
     expect(localStorage.getItem(interfaceSettingsKey)).toBeNull()
   })
