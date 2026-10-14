@@ -1600,7 +1600,7 @@ function AppContent({ initialView = 'home' }: { readonly initialView?: AppView }
     || courseLesson?.hints.length
     || activeLevel.formula
   ))
-  const backLabel = appView !== 'workspace'
+  const backLabelEn = appView !== 'workspace'
     ? appView === 'create' && authorStudioOpen ? 'Back to Create' : 'Back'
     : authorWorkspaceSession
       ? 'Cancel and return to authoring'
@@ -1613,6 +1613,18 @@ function AppContent({ initialView = 'home' }: { readonly initialView?: AppView }
           : gameMode === 'custom'
             ? 'Return to Model Sandbox'
           : 'Back to Lab'
+  const backLabel = interfaceLanguage === 'cs'
+    ? ({
+        'Back to Create': 'Zpět k tvorbě',
+        Back: 'Zpět',
+        'Cancel and return to authoring': 'Zrušit a vrátit se k tvorbě',
+        'Back to Learn': 'Zpět k výuce',
+        'Back to Campaigns': 'Zpět ke kampaním',
+        'Back to Practice': 'Zpět k procvičování',
+        'Return to Model Sandbox': 'Zpět do modelové laboratoře',
+        'Back to Lab': 'Zpět do laboratoře',
+      } as Record<string, string>)[backLabelEn] ?? backLabelEn
+    : backLabelEn
   const ui: AppChromeLabels = interfaceLanguage === 'cs'
     ? { home: 'Domů', learn: 'Výuka', campaigns: 'Kampaně', lab: 'Laboratoř', more: 'Více', create: 'Vytvořit', reference: 'Přehled modální logiky', help: 'Nápověda a ovládání', profile: 'Profil', data: 'Data', settings: 'Nastavení', language: 'Jazyk rozhraní', light: 'Světlý režim', dark: 'Tmavý režim', skip: 'Přeskočit na hlavní obsah' }
     : { home: 'Home', learn: 'Learn', campaigns: 'Campaigns', lab: 'Lab', more: 'More', create: 'Create', reference: 'Modal Logic Reference', help: 'Help & Controls', profile: 'Profile', data: 'Data', settings: 'Settings', language: 'Interface language', light: 'Light mode', dark: 'Dark mode', skip: 'Skip to main content' }
@@ -1622,8 +1634,8 @@ function AppContent({ initialView = 'home' }: { readonly initialView?: AppView }
       <AppChrome
         activeArea={appView === 'home' ? 'home' : appView === 'learn' || appView === 'welcome' || (appView === 'workspace' && (gameMode === 'learn' || gameMode === 'tutorial')) ? 'learn' : appView === 'campaigns' || (appView === 'workspace' && (gameMode === 'guidedCampaign' || gameMode === 'campaign')) ? 'campaigns' : appView === 'lab' || (appView === 'workspace' && gameMode === 'sandbox') ? 'lab' : undefined}
         showBack={appView !== 'home'} backLabel={backLabel} labels={ui} language={interfaceLanguage}
-        showResume={appView !== 'home' && appView !== 'workspace' && isGuidedMode && Boolean(activeLevel)} resumeLabel={`Resume ${gameMode === 'learn' || gameMode === 'tutorial' ? 'lesson' : 'mission'}`}
-        showWorkspaceReset={appView === 'workspace'} workspaceResetLabel={isGuidedMode ? `Restart ${missionNavigationUnit}` : 'Reset model'} showQuickHelp={appView === 'workspace'}
+        showResume={appView !== 'home' && appView !== 'workspace' && isGuidedMode && Boolean(activeLevel)} resumeLabel={interfaceLanguage === 'cs' ? (gameMode === 'learn' || gameMode === 'tutorial' ? 'Pokračovat v lekci' : 'Pokračovat v misi') : `Resume ${gameMode === 'learn' || gameMode === 'tutorial' ? 'lesson' : 'mission'}`}
+        showWorkspaceReset={appView === 'workspace'} workspaceResetLabel={interfaceLanguage === 'cs' ? (isGuidedMode ? (missionNavigationUnit === 'lesson' ? 'Znovu začít lekci' : 'Znovu začít misi') : 'Obnovit výchozí model') : (isGuidedMode ? `Restart ${missionNavigationUnit}` : 'Reset model')} showQuickHelp={appView === 'workspace'}
         fullscreenEnabled={document.fullscreenEnabled} isFullscreen={isFullscreen} showWorkspaceTour={appView === 'workspace'} compactWorkspaceNavigation={appView === 'workspace'}
         onNavigate={setAppView} onBack={goBack} onLanguageChange={setInterfaceLanguage} onResume={() => setAppView('workspace')} onResetWorkspace={resetSandbox} onOpenQuickHelp={() => setShowHelp(true)} onToggleFullscreen={() => void toggleFullscreen()}
         onOpenWorkspaceTour={openWorkspaceTour} onOpenCreate={() => setAppView('create')} onOpenReference={() => setAppView('reference')} onOpenHelp={() => setAppView('help')} onOpenProfile={() => setAppView('profile')} onOpenData={openDataManager} onOpenSettings={() => setAppView('settings')}
