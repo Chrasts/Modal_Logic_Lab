@@ -8,6 +8,13 @@ import { LabView } from './LabView'
 afterEach(cleanup)
 
 describe('LabView', () => {
+  it('describes semantic exploration rather than claiming models prove missions in Czech', () => {
+    render(<LabView language="cs" onOpenModelSandbox={vi.fn()} />)
+    expect(screen.getByText(/bez zadání konkrétní mise/)).toBeVisible()
+    expect(screen.getByRole('heading', { name: 'Modelová laboratoř' })).toBeVisible()
+    expect(screen.getByText('Zkoumání vlastností Kripkeho rámců')).toBeVisible()
+  })
+
   it('presents only the real shared Model Sandbox and delegates opening it', async () => {
     const onOpenModelSandbox = vi.fn()
     const user = userEvent.setup()
