@@ -5,6 +5,7 @@ test.describe('expanded phone workflows', () => {
 
   test.beforeEach(async ({ page }) => {
     await page.addInitScript(() => localStorage.setItem('logic-game:workspace-tour:v1', 'seen'))
+    await page.addInitScript(() => sessionStorage.setItem('logic-game:mobile-preview-access', 'accepted'))
   })
 
   test('declares edge-to-edge and keyboard-aware viewport behavior', async ({ page }) => {

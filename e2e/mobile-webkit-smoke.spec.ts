@@ -3,6 +3,7 @@ import { expect, test } from '@playwright/test'
 test.describe('mobile WebKit smoke', () => {
   test.beforeEach(async ({ page }) => {
     await page.addInitScript(() => localStorage.setItem('logic-game:workspace-tour:v1', 'seen'))
+    await page.addInitScript(() => sessionStorage.setItem('logic-game:mobile-preview-access', 'accepted'))
   })
 
   test('keeps the public shell and utility menu usable on an iPhone-class WebKit viewport', async ({ page }) => {

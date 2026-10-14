@@ -2117,3 +2117,72 @@
     width: 100%;
   }
 }
+
+/* Phone visitors see a standalone preview notice. The application does not
+   mount underneath until they explicitly choose to test the mobile UI. */
+.mobile-preview-gate {
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: max(2rem, env(safe-area-inset-top))
+    max(1.25rem, env(safe-area-inset-right))
+    max(2rem, env(safe-area-inset-bottom))
+    max(1.25rem, env(safe-area-inset-left));
+  overflow-y: auto;
+  background: var(--surface-page);
+  color: var(--text-main);
+}
+
+.mobile-preview-content {
+  box-sizing: border-box;
+  display: grid;
+  justify-items: start;
+  gap: 1.05rem;
+  width: min(100%, 26rem);
+  border-top: 1px solid var(--rule-strong);
+  padding: clamp(1.4rem, 5vw, 2.2rem) .15rem;
+}
+
+.mobile-preview-eyebrow {
+  color: var(--petrol-dark);
+  font: 600 .7rem "IBM Plex Mono", ui-monospace, monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.mobile-preview-content h1 {
+  margin: 0;
+  color: var(--text-main);
+  font: 600 clamp(1.7rem, 6vw, 2.4rem)/1.1 "Source Serif 4", Georgia, serif;
+}
+
+.mobile-preview-content p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: .95rem;
+  line-height: 1.6;
+}
+
+.mobile-preview-enter {
+  min-height: 48px;
+  margin-top: 1.2rem;
+  border: 1px solid var(--petrol-dark);
+  border-radius: 0;
+  background: var(--petrol);
+  color: white;
+  padding: .85rem 1.05rem;
+  font: 700 .8rem "IBM Plex Mono", ui-monospace, monospace;
+  cursor: pointer;
+}
+
+.mobile-preview-enter:is(:hover, :focus-visible) {
+  background: var(--petrol-dark);
+}
+
+.mobile-preview-content small {
+  color: var(--text-muted);
+  font-size: .72rem;
+}

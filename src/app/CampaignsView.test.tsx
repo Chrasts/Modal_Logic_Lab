@@ -40,14 +40,24 @@ describe('CampaignsView', () => {
     expect(onStartCampaign).toHaveBeenCalledWith(0)
   })
 
-  it('renders campaign selection and mission list inside Practice', () => {
+  it('shows only playable Practice tracks and clickable mission circles, without a summary circle', () => {
     const onSelectPracticeTrack = vi.fn()
-    render(<CampaignsView {...baseProps} section="practice" onSelectPracticeTrack={onSelectPracticeTrack} />)
-    expect(screen.getByLabelText('Practice campaign list')).toBeInTheDocument()
-    expect(screen.queryByText('Choose a sequence, then open any mission without leaving Campaigns.')).not.toBeInTheDocument()
+    const onStartPractice = vi.fn()
+    const practiceTracks = [...campaignTracks, { ...campaignTracks[0], id: 'future', title: 'Future placeholder', levels: [] }]
+    render(<CampaignsView {...baseProps} section="practice" practiceTracks={practiceTracks} onSelectPracticeTrack={onSelectPracticeTrack} onStartPractice={onStartPractice} />)
+    const trackList = screen.getByLabelText('Practice campaign list')
+    expect(trackList.querySelectorAll('button.practice-track-choice')).toHaveLength(campaignTracks.length)
+    expect(screen.queryByText('Future placeholder')).not.toBeInTheDocument()
+    expect(document.querySelector('.track-detail > .track-heading')).toBeNull()
+    expect(document.querySelector('.practice-track-summary')).toBeInTheDocument()
     expect(document.querySelector('.campaign-browser .sequence-orb')).toBeNull()
-    expect(screen.getAllByRole('button', { name: 'Practice' }).length).toBeGreaterThan(0)
-    fireEvent.click(screen.getByLabelText('Practice campaign list').querySelectorAll('button')[1])
+
+    const firstMission = screen.getByRole('button', { name: 'Necessary, not actual: Practice' })
+    expect(firstMission).toHaveClass('practice-mission-choice')
+    fireEvent.click(firstMission)
+    expect(onStartPractice).toHaveBeenCalledWith(0, 0)
+
+    fireEvent.click(trackList.querySelectorAll('button')[1])
     expect(onSelectPracticeTrack).toHaveBeenCalledWith(1)
   })
 })

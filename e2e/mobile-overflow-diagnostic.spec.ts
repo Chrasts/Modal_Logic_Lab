@@ -6,6 +6,7 @@ test.describe('guided mobile layout diagnostics', () => {
   test('keeps the guided workspace inside the document viewport', async ({ page }) => {
     await page.addInitScript(() => {
       localStorage.setItem('logic-game:workspace-tour:v1', 'seen')
+      sessionStorage.setItem('logic-game:mobile-preview-access', 'accepted')
       localStorage.setItem('logic-game:campaign-progress:v2', JSON.stringify(['tutorial-v2-evaluation-world', 'tutorial-v2-valuation', 'tutorial-v2-draw-edge', 'tutorial-v2-correct-edge', 'tutorial-v2-add-world', 'tutorial-v2-build-model']))
       localStorage.setItem('logic-game:campaign-content-revision:v1', '2')
       localStorage.setItem('logic-game:learn-progress:v1', JSON.stringify({ version: 1, contentRevision: 3, welcomeViewed: true, completedLessonIds: [], completedChapterIds: [], highestStageByLesson: {}, attemptsByLesson: {}, successfulAttemptsByLesson: {}, predictionAnswers: {}, predictionCorrectness: {}, hintsUsed: {}, transferCompletedLessonIds: [], completedAt: {} }))

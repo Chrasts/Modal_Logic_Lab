@@ -54,7 +54,7 @@ export function CampaignsView({ section, guidedCampaigns, practiceTracks, select
         const completed = campaign.levels.filter((level) => completedLevelIds.has(level.id)).length
         return <article className={`campaign-choice ${completed === campaign.levels.length ? 'complete' : ''}`} key={campaign.id}>
           <div><h3>{campaign.title}</h3><p>{campaign.description}</p><small>{completed}/{campaign.levels.length} missions complete</small></div>
-          <button type="button" className="campaign-launch" onClick={() => onStartCampaign(index)}>{completed === campaign.levels.length ? 'Replay campaign' : completed ? 'Continue campaign' : 'Start campaign'}</button>
+          <button type="button" className="campaign-launch" onClick={() => onStartCampaign(index)}><span className="chapter-diamond-label">{completed === campaign.levels.length ? 'Replay campaign' : completed ? 'Continue campaign' : 'Start campaign'}</span></button>
         </article>
       })}</div>
     </section>}
@@ -72,14 +72,19 @@ export function CampaignsView({ section, guidedCampaigns, practiceTracks, select
           </button>
         })}</aside>
         <div className="track-detail">
-          <div className="track-heading">
+          <header className="practice-track-summary">
             <div><h3>{selectedTrack.title}</h3><p>{selectedTrack.description}</p></div>
             <button type="button" className="primary-action" onClick={() => onStartPractice(nextLevelIndex < 0 ? 0 : nextLevelIndex, selectedTrackIndex)}>{selectedCompleted === 0 ? 'Start practice' : selectedCompleted === selectedTrack.levels.length ? 'Replay sequence' : 'Continue practice'}</button>
-          </div>
-          <div className="level-browser">{selectedTrack.levels.map((level, index) => <article className={`practice-mission-choice ${completedLevelIds.has(level.id) ? 'complete' : ''}`} key={level.id}>
-            <div><h4>{level.title}</h4><p>{level.concept}</p></div>
-            <button type="button" className="mission-launch" onClick={() => practiceSessionActive && activePracticeTrackIndex === selectedTrackIndex && activePracticeLevelIndex === index ? onResumePractice() : onStartPractice(index, selectedTrackIndex)}>{practiceSessionActive && activePracticeTrackIndex === selectedTrackIndex && activePracticeLevelIndex === index ? 'Resume' : completedLevelIds.has(level.id) ? 'Replay' : 'Practice'}</button>
-          </article>)}</div>
+          </header>
+          <div className="level-browser" aria-label={`Missions in ${selectedTrack.title}`}>{selectedTrack.levels.map((level, index) => {
+            const action = practiceSessionActive && activePracticeTrackIndex === selectedTrackIndex && activePracticeLevelIndex === index ? 'Resume' : completedLevelIds.has(level.id) ? 'Replay' : 'Practice'
+            return <button type="button" className={`practice-mission-choice ${completedLevelIds.has(level.id) ? 'complete' : ''}`} key={level.id}
+              aria-label={`${level.title}: ${action}`}
+              onClick={() => practiceSessionActive && activePracticeTrackIndex === selectedTrackIndex && activePracticeLevelIndex === index ? onResumePractice() : onStartPractice(index, selectedTrackIndex)}>
+              <span className="practice-mission-copy"><strong>{level.title}</strong><span>{level.concept}</span></span>
+              <span className="mission-launch" aria-hidden="true"><span className="chapter-diamond-label">{action}</span></span>
+            </button>
+          })}</div>
         </div>
       </div>
     </section>}

@@ -5,6 +5,7 @@ test.describe('Android phone QA regressions', () => {
 
   test.beforeEach(async ({ page }) => {
     await page.addInitScript(() => localStorage.setItem('logic-game:workspace-tour:v1', 'seen'))
+    await page.addInitScript(() => sessionStorage.setItem('logic-game:mobile-preview-access', 'accepted'))
   })
 
   test('locks the browser page to the viewport and keeps language as a setup control', async ({ page }) => {
