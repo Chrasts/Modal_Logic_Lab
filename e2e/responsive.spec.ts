@@ -3,6 +3,8 @@ import { expect, test } from '@playwright/test'
 const desktopViewports = [
   { width: 1366, height: 768 },
   { width: 1280, height: 720 },
+  { width: 1092, height: 614 }, // Approximately 1366 x 768 with 125% display scaling
+  { width: 1024, height: 600 },
   { width: 1440, height: 900 },
   { width: 1920, height: 1080 },
 ]
