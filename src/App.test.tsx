@@ -34,14 +34,21 @@ describe('sandbox user interface', () => {
     expect(screen.queryByLabelText('Model overview')).not.toBeInTheDocument()
   })
 
-  it('persists the global interface language without exposing a color-theme switch', async () => {
+  it('uses English even if Czech was saved, with language selection hidden everywhere', async () => {
+    localStorage.setItem('logic-game:interface-settings:v1', JSON.stringify({ language: 'cs' }))
     const user = userEvent.setup()
     render(<App />)
+
+    expect(document.documentElement).toHaveAttribute('lang', 'en')
+    expect(screen.queryByRole('button', { name: 'Interface language' })).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /dark mode|tmavý režim/i })).not.toBeInTheDocument()
-    await user.click(screen.getByRole('button', { name: 'Interface language' }))
-    await user.click(screen.getByRole('menuitemradio', { name: 'CZ Čeština' }))
-    expect(document.documentElement).toHaveAttribute('lang', 'cs')
-    await waitFor(() => expect(JSON.parse(localStorage.getItem('logic-game:interface-settings:v1') ?? '{}')).toMatchObject({ language: 'cs' }))
+    expect(screen.getByRole('button', { name: 'Start or continue Learn Modal Logic' })).toBeVisible()
+
+    await user.click(screen.getByRole('button', { name: 'More' }))
+    await user.click(screen.getByRole('menuitem', { name: 'Settings' }))
+    expect(screen.queryByRole('button', { name: 'Čeština' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: 'Language' })).not.toBeInTheDocument()
+    await waitFor(() => expect(JSON.parse(localStorage.getItem('logic-game:interface-settings:v1') ?? '{}')).toMatchObject({ language: 'en' }))
   })
 
   it('provides a keyboard skip link and a focusable main landmark', () => {
