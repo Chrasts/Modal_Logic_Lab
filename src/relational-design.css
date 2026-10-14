@@ -4158,125 +4158,69 @@ textarea:focus {
 .campaign-screen .campaign-choice::before,
 .campaign-screen .campaign-choice::after { content: none !important; display: none !important; }
 
-/* Practice categories and missions are non-sequential. */
-.campaign-screen .campaign-browser {
-  grid-template-columns: minmax(13rem, 17rem) minmax(0, 1fr);
-  gap: clamp(1.5rem, 4vw, 3rem);
-  align-items: start;
-}
-.campaign-screen .track-list {
-  grid-template-columns: minmax(0, 1fr);
-  justify-items: stretch;
-  gap: 0;
-  border-top: 1px solid var(--rule);
-}
-.campaign-screen .track-list button {
-  box-sizing: border-box;
-  display: grid;
-  grid-template-columns: 1fr;
-  align-content: start;
-  justify-items: start;
-  gap: .35rem;
-  width: 100%;
-  min-height: 0;
-  aspect-ratio: auto;
+/* Keep Learn's chapter entry diamonds visible before hover.
+   A soft petrol fill and a thin frame replace transparent buttons. */
+.learn-course-screen .chapter-row:not(:first-child) .chapter-actions :is(.primary-action, .secondary-button) {
+  position: relative;
+  isolation: isolate;
+  width: clamp(5.4rem, 7vw, 7.05rem);
+  min-width: 5.4rem;
+  aspect-ratio: 1;
   border: 0;
-  border-bottom: 1px solid var(--rule-soft);
   border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-  padding: .95rem .85rem;
-  text-align: left;
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  background: color-mix(in srgb, var(--petrol) 55%, var(--surface-page));
+  color: var(--petrol-dark);
+  padding: .2rem;
+  font-size: clamp(.56rem, .67vw, .64rem);
+  font-weight: 750;
+  line-height: 1.15;
+  scale: 1;
+  transition: background-color var(--motion-fast) var(--ease-ui),
+    scale var(--motion-fast) var(--ease-ui);
 }
-.campaign-screen .track-list button.active {
-  border: 0;
-  border-bottom: 1px solid var(--rule-soft);
-  border-left: 3px solid var(--petrol);
-  background: var(--surface-active-subtle);
-  padding: .95rem .85rem .95rem calc(.85rem - 3px);
+
+.learn-course-screen .chapter-row:not(:first-child) .chapter-actions :is(.primary-action, .secondary-button)::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  z-index: 0;
+  pointer-events: none;
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  background: color-mix(in srgb, var(--petrol) 27%, var(--surface-page));
+  transition: background-color var(--motion-fast) var(--ease-ui);
 }
-.campaign-screen .track-list button strong { font-size: 1rem; text-align: left; }
-.campaign-screen .track-list button span { max-width: none; text-align: left; text-wrap: pretty; }
-.campaign-screen .track-detail { gap: 1.25rem; }
-.campaign-screen .track-detail > .track-heading {
-  box-sizing: border-box;
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  min-height: 0;
-  aspect-ratio: auto;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  border: 0;
-  border-bottom: 1px solid var(--rule);
-  border-radius: 0;
-  background: transparent;
-  padding: 0 0 1rem;
-  text-align: left;
+
+.learn-course-screen .chapter-row:not(:first-child) .chapter-actions .chapter-diamond-label {
+  position: relative;
+  z-index: 1;
+  display: block;
+  max-width: 69%;
+  color: var(--petrol-dark);
+  text-align: center;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  pointer-events: none;
 }
-.campaign-screen .track-detail > .track-heading > div { justify-items: start; text-align: left; }
-.campaign-screen .track-detail > .track-heading p { max-width: 55ch; text-align: left; text-wrap: pretty; }
-.campaign-screen .track-detail > .track-heading .primary-action {
-  place-self: auto;
-  width: auto;
-  min-width: 8rem;
-  min-height: 2.6rem;
-  aspect-ratio: auto;
-  border-radius: 0;
-  clip-path: none;
-  padding: .65rem 1rem;
-  font-size: .7rem;
+
+.learn-course-screen .chapter-row:not(:first-child) .chapter-actions :is(.primary-action, .secondary-button):is(:hover, :focus-visible) {
+  background: var(--brown);
+  color: var(--petrol-dark);
+  scale: 1.04;
 }
-.campaign-screen .level-browser {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: stretch;
-  gap: .8rem;
+
+.learn-course-screen .chapter-row:not(:first-child) .chapter-actions :is(.primary-action, .secondary-button):is(:hover, :focus-visible)::before {
+  background: color-mix(in srgb, var(--petrol) 35%, var(--surface-page));
 }
-.campaign-screen .level-browser article {
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: space-between;
-  gap: 1rem;
-  width: 100%;
-  min-width: 0;
-  min-height: 10rem;
-  aspect-ratio: auto;
-  border: 1px solid var(--rule);
-  border-radius: 0;
-  background: var(--surface-page);
-  padding: 1.1rem 1.2rem;
-  text-align: left;
+
+/* Practice keeps the original circular catalogue, without direction markers.
+   The browser already filters out truly empty tracks. */
+.campaign-screen .campaign-browser :is(.track-list, .level-browser) > .sequence-orb {
+  grid-column: auto !important;
 }
-.campaign-screen .level-browser article > div { justify-items: start; text-align: left; }
-.campaign-screen .level-browser article h4,
-.campaign-screen .level-browser article p { max-width: none; text-align: left; text-wrap: pretty; }
-.campaign-screen .level-browser .mission-launch {
-  place-self: start;
-  align-self: end;
-  width: auto;
-  min-width: 6rem;
-  min-height: 2.5rem;
-  aspect-ratio: auto;
-  border-radius: 0;
-  clip-path: none;
-  padding: .6rem .9rem;
-  font-size: .7rem;
-}
-.campaign-screen .campaign-browser .practice-track-choice::before,
-.campaign-screen .campaign-browser .practice-track-choice::after,
-.campaign-screen .campaign-browser .practice-mission-choice::before,
-.campaign-screen .campaign-browser .practice-mission-choice::after {
+
+.campaign-screen .campaign-browser :is(.track-list, .level-browser) > .sequence-orb::before,
+.campaign-screen .campaign-browser :is(.track-list, .level-browser) > .sequence-orb::after {
   content: none !important;
   display: none !important;
-}
-@media (max-width: 900px) {
-  .campaign-screen .campaign-browser { grid-template-columns: minmax(0, 1fr); }
-  .campaign-screen .track-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (max-width: 620px) {
-  .campaign-screen .track-list,
-  .campaign-screen .level-browser { grid-template-columns: minmax(0, 1fr); }
 }
