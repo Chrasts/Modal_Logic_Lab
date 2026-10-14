@@ -20,14 +20,14 @@ export function HomeView({ language = 'en', completed, total, nextTitle, current
   const cs = language === 'cs'
   const copy = cs
     ? {
-        intro: 'Stavějte konečné Kripkeho modely a sledujte, kdy je formule pravdivá v daném světě, v celém modelu nebo na rámci.',
+        intro: 'Sestavujte konečné Kripkeho modely a zkoumejte pravdivost modálních formulí ve vybraném světě, v celém modelu i jejich platnost na daném rámci.',
         choose: 'Hlavní části aplikace',
         learn: 'Výuka',
-        learnSummary: 'Kapitoly a lekce od možných světů k práci s formulemi.',
+        learnSummary: 'Postupná výuka od sémantiky možných světů po vlastnosti rámců a protimodely.',
         campaigns: 'Kampaně',
-        campaignsSummary: 'Mise pro konstrukci protipříkladů a zkoumání rámců.',
+        campaignsSummary: 'Tematické úlohy s protimodely, formulemi a vlastnostmi rámců.',
         lab: 'Laboratoř',
-        labSummary: 'Vlastní model, formule, relace a stopa vyhodnocení.',
+        labSummary: 'Volné experimentování s modely, formulemi a jejich vyhodnocováním.',
         complete: 'splněno',
         next: 'další',
         courseComplete: 'kurz dokončen',
@@ -53,15 +53,15 @@ export function HomeView({ language = 'en', completed, total, nextTitle, current
     <div className="home-layout">
       <header className="home-intro">
         <div className="home-logo-lockup">
-          <h1 id="home-title" aria-label="Modal Logic Lab - Interactive Kripke Models"><span>Modal</span><span>Logic</span><span>Lab</span></h1>
+          <h1 id="home-title" aria-label={cs ? 'Modal Logic Lab – interaktivní Kripkeho modely' : 'Modal Logic Lab - Interactive Kripke Models'}><span>Modal</span><span>Logic</span><span>Lab</span></h1>
         </div>
         <p className="home-deck">{copy.intro}</p>
 
-        {currentSession && onResume && <aside className="home-resume-region" aria-label="Continue current session">
+        {currentSession && onResume && <aside className="home-resume-region" aria-label={cs ? 'Pokračovat v rozpracované úloze' : 'Continue current session'}>
           <button
             type="button"
             className="home-resume-link"
-            aria-label={(cs ? copy.continue : 'Resume') + ' ' + currentSession.kind + ': ' + currentSession.title}
+            aria-label={(cs ? 'Pokračovat v ' + (currentSession.kind === 'lesson' ? 'lekci' : 'misi') : 'Resume ' + currentSession.kind) + ': ' + currentSession.title}
             onClick={onResume}
           >
             <span>{copy.continue}</span>
@@ -73,12 +73,12 @@ export function HomeView({ language = 'en', completed, total, nextTitle, current
       </header>
 
       <div className="home-frame" aria-label={copy.choose}>
-        <nav className="home-destinations" aria-label="Main activities">
+        <nav className="home-destinations" aria-label={cs ? 'Hlavní části aplikace' : 'Main activities'}>
           <button type="button" className="home-destination home-destination--learn" aria-label={cs ? "Začít nebo pokračovat ve výuce modální logiky" : "Start or continue Learn Modal Logic"} onClick={onLearn}>
             <span className="home-destination-copy">
               <strong>{copy.learn}</strong>
               <span>{copy.learnSummary}</span>
-              <small className="home-learn-progress"><b>{completed}/{total} {copy.complete}</b><span>{completed === total ? copy.courseComplete : copy.next + ': ' + (nextTitle ?? copy.learn)}</span></small>
+              <small className="home-learn-progress"><b>{cs ? `Splněno ${completed} z ${total}` : `${completed}/${total} ${copy.complete}`}</b><span>{completed === total ? copy.courseComplete : copy.next + ': ' + (nextTitle ?? copy.learn)}</span></small>
             </span>
           </button>
 
