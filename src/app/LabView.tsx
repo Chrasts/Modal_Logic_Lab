@@ -29,12 +29,12 @@ export function LabView({ language = 'en', onOpenModelSandbox }: { readonly lang
         <h2>{cs ? 'Modelová laboratoř' : 'Model Sandbox'}</h2>
         <p>{cs ? 'V jednom prostředí můžete sestavovat modely, zkoumat jejich sémantiku a testovat vlastnosti rámců.' : 'Build models, investigate their semantics, and test frame properties in one workspace.'}</p>
       </div>
-      <ul className="lab-capabilities">
-        {sandboxCapabilities[language].map(({ title, description }) => <li key={title}><strong>{title}</strong><span>{description}</span></li>)}
-      </ul>
       <button type="button" className="lab-open-action" aria-label={cs ? 'Otevřít modelovou laboratoř' : 'Open Model Sandbox'} onClick={onOpenModelSandbox}>
         <span className="chapter-diamond-label">{cs ? 'Otevřít' : 'Open Sandbox'}</span>
       </button>
+      <ul className="lab-capabilities">
+        {sandboxCapabilities[language].map(({ title, description }) => <li key={title}><strong>{title}</strong><span>{description}</span></li>)}
+      </ul>
     </section>
   </section>
 }
