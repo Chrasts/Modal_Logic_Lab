@@ -474,6 +474,8 @@
   grid-area: action;
   align-self: start;
   justify-self: end;
+  margin-block-start: -1.5rem;
+  margin-inline-end: clamp(3rem, 7vw, 7rem);
   display: grid;
   place-items: center;
   text-align: center;
@@ -610,11 +612,11 @@
   }
 
   .lab-instrument {
-    grid-template-areas: "node" "copy" "capabilities" "action";
+    grid-template-areas: "copy" "action" "capabilities";
   }
 
-  .lab-instrument-node {
-    justify-items: start;
+  .lab-open-action {
+    margin: 0;
   }
 
   .campaign-challenge-list article {
@@ -4146,13 +4148,6 @@ textarea:focus {
 
 /* Keep the Lab launch action beside the section introduction. */
 .lab-instrument-copy { align-self: start; }
-
-@media (max-width: 560px) {
-  .lab-instrument {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: "copy" "action" "capabilities";
-  }
-}
 
 /* Campaign entries are independent, without graph-style arrows. */
 .campaign-screen .campaign-choice::before,
