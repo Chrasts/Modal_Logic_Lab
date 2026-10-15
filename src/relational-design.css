@@ -481,6 +481,8 @@
 .lab-open-action {
   align-self: center;
   justify-self: end;
+  margin-block-start: 1.25rem;
+  margin-inline-end: 2rem;
   display: grid;
   place-items: center;
   text-align: center;
@@ -4152,7 +4154,7 @@ textarea:focus {
 
 @media (max-width: 620px) {
   .lab-heading { grid-template-columns: minmax(0, 1fr); }
-  .lab-open-action { justify-self: start; }
+  .lab-open-action { justify-self: start; margin: 0; }
 }
 
 /* Campaign entries are independent, without graph-style arrows. */
