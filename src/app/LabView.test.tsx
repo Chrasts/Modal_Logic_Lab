@@ -33,6 +33,8 @@ describe('LabView', () => {
     expect(screen.queryByText(/coming soon/i)).not.toBeInTheDocument()
     const openButton = screen.getByRole('button', { name: 'Open Model Sandbox' })
     expect(openButton).toHaveClass('lab-open-action')
+    expect(openButton.closest('.lab-heading')).not.toBeNull()
+    expect(document.querySelector('.lab-instrument .lab-open-action')).toBeNull()
     expect(openButton.querySelector('.chapter-diamond-label')).toHaveTextContent('Open Sandbox')
     await user.click(openButton)
     expect(onOpenModelSandbox).toHaveBeenCalledOnce()
