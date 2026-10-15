@@ -411,8 +411,8 @@
 /* Lab is an entry to a model-building instrument, not a feature panel. */
 .lab-instrument {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  grid-template-areas: "copy action" "capabilities capabilities";
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "copy" "capabilities";
   align-items: start;
   gap: var(--space-5);
   padding: 0;
@@ -466,16 +466,21 @@
   line-height: 1.55;
 }
 
-.lab-heading { width: min(760px, 100%); margin-bottom: clamp(1.5rem, 4vw, 3rem); }
+.lab-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  width: min(900px, 100%);
+  margin-bottom: clamp(1.5rem, 4vw, 3rem);
+}
+.lab-heading-copy { min-width: 0; }
 .lab-heading h1 { margin: 0; color: var(--petrol-dark); font: 600 clamp(2.5rem, 5vw, 4.5rem)/.95 "Source Serif 4", Georgia, serif; letter-spacing: -.045em; }
 .lab-heading p { max-width: 55ch; margin: 1rem 0 0; color: var(--text-muted); line-height: 1.65; }
 
 .lab-open-action {
-  grid-area: action;
-  align-self: start;
+  align-self: center;
   justify-self: end;
-  margin-block-start: -1.5rem;
-  margin-inline-end: clamp(3rem, 7vw, 7rem);
   display: grid;
   place-items: center;
   text-align: center;
@@ -612,11 +617,7 @@
   }
 
   .lab-instrument {
-    grid-template-areas: "copy" "action" "capabilities";
-  }
-
-  .lab-open-action {
-    margin: 0;
+    grid-template-areas: "copy" "capabilities";
   }
 
   .campaign-challenge-list article {
@@ -4146,8 +4147,13 @@ textarea:focus {
   }
 }
 
-/* Keep the Lab launch action beside the section introduction. */
+/* The Lab launch sits in its heading, independently of the Sandbox details. */
 .lab-instrument-copy { align-self: start; }
+
+@media (max-width: 620px) {
+  .lab-heading { grid-template-columns: minmax(0, 1fr); }
+  .lab-open-action { justify-self: start; }
+}
 
 /* Campaign entries are independent, without graph-style arrows. */
 .campaign-screen .campaign-choice::before,
