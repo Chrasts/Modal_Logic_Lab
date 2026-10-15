@@ -411,11 +411,9 @@
 /* Lab is an entry to a model-building instrument, not a feature panel. */
 .lab-instrument {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(240px, .7fr);
-  grid-template-areas:
-    "copy capabilities"
-    "action capabilities";
-  gap: var(--space-4) var(--space-8);
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "copy" "capabilities" "action";
+  gap: var(--space-5);
   padding: 0;
 }
 
@@ -439,29 +437,32 @@
 
 .lab-capabilities {
   grid-area: capabilities;
-  align-self: stretch;
   display: grid;
-  align-content: center;
-  gap: 0;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  gap: clamp(1rem, 2vw, 1.5rem) clamp(1.5rem, 4vw, 3.5rem);
   margin: 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid var(--rule-soft);
 }
 
 .lab-capabilities li {
   display: grid;
-  grid-template-columns: 32px 1fr;
-  gap: .5rem;
-  border-bottom: 1px solid var(--rule-soft);
-  padding: .55rem 0;
-  color: var(--text-muted);
-  font-size: .7rem;
+  align-content: start;
+  gap: .25rem;
+  min-width: 0;
+}
+
+.lab-capabilities li strong {
+  color: var(--petrol-dark);
+  font-size: .88rem;
+  font-weight: 700;
 }
 
 .lab-capabilities li span {
-  color: var(--petrol);
-  font: 500 .56rem "IBM Plex Mono", ui-monospace, monospace;
+  max-width: 50ch;
+  color: var(--text-muted);
+  font-size: .78rem;
+  line-height: 1.55;
 }
 
 .lab-heading { width: min(760px, 100%); margin-bottom: clamp(1.5rem, 4vw, 3rem); }
@@ -4143,7 +4144,7 @@ textarea:focus {
 }
 
 /* The Lab entry has no numbered feature list. */
-.lab-instrument { grid-template-columns: minmax(0, 1fr); grid-template-areas: "copy" "action"; gap: var(--space-5); }
+.lab-instrument { grid-template-columns: minmax(0, 1fr); grid-template-areas: "copy" "capabilities" "action"; gap: var(--space-5); }
 .lab-instrument-copy { align-self: start; }
 .lab-open-action { justify-self: start; }
 
