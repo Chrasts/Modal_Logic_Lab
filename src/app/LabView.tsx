@@ -21,17 +21,19 @@ export function LabView({ language = 'en', onOpenModelSandbox }: { readonly lang
   const cs = language === 'cs'
   return <section className="content-screen lab-screen editorial-screen" aria-labelledby="lab-title">
     <header className="lab-heading">
-      <h1 id="lab-title">{cs ? 'Laboratoř' : 'Lab'}</h1>
-      <p>{cs ? 'Volné experimentování s konečnými Kripkeho modely bez omezení konkrétní misí.' : 'Explore finite Kripke models freely, without mission constraints.'}</p>
+      <div className="lab-heading-copy">
+        <h1 id="lab-title">{cs ? 'Laboratoř' : 'Lab'}</h1>
+        <p>{cs ? 'Volné experimentování s konečnými Kripkeho modely bez omezení konkrétní misí.' : 'Explore finite Kripke models freely, without mission constraints.'}</p>
+      </div>
+      <button type="button" className="lab-open-action" aria-label={cs ? 'Otevřít modelovou laboratoř' : 'Open Model Sandbox'} onClick={onOpenModelSandbox}>
+        <span className="chapter-diamond-label">{cs ? 'Otevřít' : 'Open Sandbox'}</span>
+      </button>
     </header>
     <section className="lab-instrument" aria-label={cs ? 'Dostupné nástroje laboratoře' : 'Available Lab tools'}>
       <div className="lab-instrument-copy">
         <h2>{cs ? 'Modelová laboratoř' : 'Model Sandbox'}</h2>
         <p>{cs ? 'V jednom prostředí můžete sestavovat modely, zkoumat jejich sémantiku a testovat vlastnosti rámců.' : 'Build models, investigate their semantics, and test frame properties in one workspace.'}</p>
       </div>
-      <button type="button" className="lab-open-action" aria-label={cs ? 'Otevřít modelovou laboratoř' : 'Open Model Sandbox'} onClick={onOpenModelSandbox}>
-        <span className="chapter-diamond-label">{cs ? 'Otevřít' : 'Open Sandbox'}</span>
-      </button>
       <ul className="lab-capabilities">
         {sandboxCapabilities[language].map(({ title, description }) => <li key={title}><strong>{title}</strong><span>{description}</span></li>)}
       </ul>
