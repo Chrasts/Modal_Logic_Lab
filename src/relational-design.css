@@ -411,8 +411,9 @@
 /* Lab is an entry to a model-building instrument, not a feature panel. */
 .lab-instrument {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-areas: "copy" "capabilities" "action";
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "copy action" "capabilities capabilities";
+  align-items: start;
   gap: var(--space-5);
   padding: 0;
 }
@@ -472,6 +473,7 @@
 .lab-open-action {
   grid-area: action;
   align-self: start;
+  justify-self: end;
   display: grid;
   place-items: center;
   text-align: center;
@@ -958,7 +960,6 @@
   .reference-navigation .guide-tabs,
   .help-sections .guide-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-4); }
   .help-content dl > div { grid-template-columns: 1fr; gap: .2rem; }
-  .lab-instrument { grid-template-columns: 1fr; grid-template-areas: "copy" "capabilities" "action"; }
 }
 
 /* Profile metrics and history become a compact ledger. */
@@ -4143,10 +4144,15 @@ textarea:focus {
   }
 }
 
-/* The Lab entry has no numbered feature list. */
-.lab-instrument { grid-template-columns: minmax(0, 1fr); grid-template-areas: "copy" "capabilities" "action"; gap: var(--space-5); }
+/* Keep the Lab launch action beside the section introduction. */
 .lab-instrument-copy { align-self: start; }
-.lab-open-action { justify-self: start; }
+
+@media (max-width: 560px) {
+  .lab-instrument {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "copy" "action" "capabilities";
+  }
+}
 
 /* Campaign entries are independent, without graph-style arrows. */
 .campaign-screen .campaign-choice::before,
