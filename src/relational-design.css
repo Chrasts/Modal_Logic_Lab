@@ -16,7 +16,6 @@
   align-items: end;
   gap: var(--space-8);
   margin: 0 0 clamp(2rem, 5vw, 4rem);
-  border-bottom: 1px solid var(--rule);
   padding: 0 0 var(--space-6);
 }
 
@@ -115,14 +114,9 @@
   gap: var(--space-4);
   min-height: 112px;
   border: 0;
-  border-bottom: 1px solid var(--rule-soft);
   border-radius: 0;
   background: transparent;
   padding: var(--space-6) 0;
-}
-
-.learn-course-screen .learn-chapter-list article.chapter-row:first-child {
-  border-top: 1px solid var(--rule-soft);
 }
 
 .learn-course-screen .learn-chapter-list article.chapter-row.complete,
@@ -355,7 +349,6 @@
 
 .track-list {
   gap: 0;
-  border-top: 1px solid var(--rule);
 }
 
 .track-list button {
@@ -363,7 +356,6 @@
   grid-template-columns: 38px minmax(0, 1fr);
   gap: .15rem .6rem;
   border: 0;
-  border-bottom: 1px solid var(--rule-soft);
   border-radius: 0;
   background: transparent;
   padding: .75rem 0;
@@ -424,9 +416,7 @@
     "copy capabilities"
     "action capabilities";
   gap: var(--space-4) var(--space-8);
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-  padding: clamp(1.5rem, 4vw, 3rem) 0;
+  padding: 0;
 }
 
 .lab-instrument-copy {
@@ -474,13 +464,18 @@
   font: 500 .56rem "IBM Plex Mono", ui-monospace, monospace;
 }
 
-.lab-heading { width: min(760px, 100%); margin-bottom: clamp(2rem, 6vw, 5rem); }
+.lab-heading { width: min(760px, 100%); margin-bottom: clamp(1.5rem, 4vw, 3rem); }
 .lab-heading h1 { margin: 0; color: var(--petrol-dark); font: 600 clamp(2.5rem, 5vw, 4.5rem)/.95 "Source Serif 4", Georgia, serif; letter-spacing: -.045em; }
 .lab-heading p { max-width: 55ch; margin: 1rem 0 0; color: var(--text-muted); line-height: 1.65; }
 
 .lab-open-action {
   grid-area: action;
   align-self: start;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  text-wrap: balance;
+  cursor: pointer;
 }
 
 /* Create: workflow rail instead of three promotional cards. */
@@ -488,7 +483,6 @@
   position: relative;
   display: grid;
   gap: 0;
-  border-top: 1px solid var(--rule);
 }
 
 .create-workflow {
@@ -496,7 +490,6 @@
   grid-template-columns: 46px minmax(0, 1fr) minmax(190px, auto);
   align-items: center;
   gap: var(--space-4);
-  border-bottom: 1px solid var(--rule-soft);
   padding: 1.4rem 0;
 }
 
@@ -4160,7 +4153,8 @@ textarea:focus {
 
 /* Keep Learn's chapter entry diamonds visible before hover.
    A soft petrol fill and a thin frame replace transparent buttons. */
-.learn-course-screen .chapter-row:not(:first-child) .chapter-actions :is(.primary-action, .secondary-button) {
+.learn-course-screen .chapter-row:not(:first-child) .chapter-actions :is(.primary-action, .secondary-button),
+.lab-open-action {
   position: relative;
   isolation: isolate;
   width: clamp(5.4rem, 7vw, 7.05rem);
@@ -4180,7 +4174,8 @@ textarea:focus {
     scale var(--motion-fast) var(--ease-ui);
 }
 
-.learn-course-screen .chapter-row:not(:first-child) .chapter-actions :is(.primary-action, .secondary-button)::before {
+.learn-course-screen .chapter-row:not(:first-child) .chapter-actions :is(.primary-action, .secondary-button)::before,
+.lab-open-action::before {
   content: "";
   position: absolute;
   inset: 2px;
@@ -4191,7 +4186,8 @@ textarea:focus {
   transition: background-color var(--motion-fast) var(--ease-ui);
 }
 
-.learn-course-screen .chapter-row:not(:first-child) .chapter-actions .chapter-diamond-label {
+.learn-course-screen .chapter-row:not(:first-child) .chapter-actions .chapter-diamond-label,
+.lab-open-action > .chapter-diamond-label {
   position: relative;
   z-index: 1;
   display: block;
@@ -4203,13 +4199,15 @@ textarea:focus {
   pointer-events: none;
 }
 
-.learn-course-screen .chapter-row:not(:first-child) .chapter-actions :is(.primary-action, .secondary-button):is(:hover, :focus-visible) {
+.learn-course-screen .chapter-row:not(:first-child) .chapter-actions :is(.primary-action, .secondary-button):is(:hover, :focus-visible),
+.lab-open-action:is(:hover, :focus-visible) {
   background: var(--brown);
   color: var(--petrol-dark);
   scale: 1.04;
 }
 
-.learn-course-screen .chapter-row:not(:first-child) .chapter-actions :is(.primary-action, .secondary-button):is(:hover, :focus-visible)::before {
+.learn-course-screen .chapter-row:not(:first-child) .chapter-actions :is(.primary-action, .secondary-button):is(:hover, :focus-visible)::before,
+.lab-open-action:is(:hover, :focus-visible)::before {
   background: color-mix(in srgb, var(--petrol) 35%, var(--surface-page));
 }
 
@@ -4255,7 +4253,6 @@ textarea:focus {
   align-items: center;
   justify-content: space-between;
   gap: .85rem 1.5rem;
-  border-bottom: 1px solid var(--rule);
   padding: .15rem 0 1rem;
 }
 
